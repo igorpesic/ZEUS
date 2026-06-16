@@ -1,0 +1,244 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 1340" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1E2128" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#B7AE9C"/>
+    </marker>
+    <marker id="arrGold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#C9A24B"/>
+    </marker>
+    <marker id="arrGsolid" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8A020"/>
+    </marker>
+    <marker id="arrGdash" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8A6D24"/>
+    </marker>
+    <marker id="arrGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9A9180"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1520" height="1340" fill="#F4F2ED"/>
+
+  <!-- TITLE -->
+  <text x="48" y="62" font-size="40" font-weight="700" fill="#1E2128" letter-spacing="3">ZEUS</text>
+  <rect x="49" y="74" width="150" height="3" fill="#C9A24B"/>
+  <text x="49" y="98" font-size="13" fill="#8A6D24" letter-spacing="5">CALCULATION ENGINE — PLAN-AGNOSTIC MODEL</text>
+  <text x="1472" y="42" text-anchor="end" font-size="12" fill="#9A9180">v0.2 · predlog · 2026-06-07</text>
+  <text x="1472" y="62" text-anchor="end" font-size="13" fill="#6B6256">Za: Čedu (arhitektura) · Philip (God Mode tok)</text>
+  <text x="1472" y="82" text-anchor="end" font-size="11.5" fill="#9A9180" font-style="italic">Zepter International — ZEUS platform</text>
+
+  <!-- LEGEND -->
+  <rect x="49" y="108" width="800" height="36" rx="8" fill="#FFFFFF" stroke="#E2DDD2"/>
+  <line x1="68" y1="126" x2="112" y2="126" stroke="#E8A020" stroke-width="2.5"/>
+  <text x="120" y="130" font-size="11" fill="#1E2128" font-weight="600">Direktan upis</text>
+  <line x1="216" y1="126" x2="260" y2="126" stroke="#8A6D24" stroke-width="1.8" stroke-dasharray="5,3"/>
+  <text x="268" y="130" font-size="11" fill="#1E2128" font-weight="600">Propagacija (downstream)</text>
+  <line x1="436" y1="126" x2="480" y2="126" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="490" y="130" font-size="11" fill="#1E2128" font-weight="600">Tok podataka</text>
+  <line x1="590" y1="126" x2="634" y2="126" stroke="#9A9180" stroke-width="1.6" stroke-dasharray="2,3"/>
+  <text x="642" y="130" font-size="11" fill="#1E2128" font-weight="600">Simulacija (dry-run)</text>
+
+  <!-- ══════════ BAND 0 — GOD MODE ══════════ -->
+  <rect x="40" y="156" width="1392" height="160" rx="14" fill="#1E2128" stroke="#C9A24B" stroke-width="2"/>
+  <rect x="40" y="156" width="1392" height="5" rx="3" fill="#C9A24B"/>
+  <text x="75" y="188" font-size="12" font-weight="700" fill="#C9A24B" letter-spacing="4">GOD MODE — OWNER CONTROL PLANE · PHILIP, SA TELEFONA</text>
+
+  <g filter="url(#sh)">
+    <rect x="56" y="206" width="300" height="76" rx="10" fill="#2C2518" stroke="#C9A24B" stroke-width="1.5"/>
+    <rect x="396" y="206" width="330" height="76" rx="10" fill="#2C2518" stroke="#C9A24B" stroke-width="2.5"/>
+    <rect x="766" y="206" width="300" height="76" rx="10" fill="#2C2518" stroke="#C9A24B" stroke-width="1.5"/>
+    <rect x="1106" y="206" width="290" height="76" rx="10" fill="#2C2518" stroke="#C9A24B" stroke-width="1.5"/>
+  </g>
+  <text x="72" y="230" font-size="14" font-weight="700" fill="#C9A24B">1 · EDIT</text>
+  <text x="72" y="248" font-size="11.5" fill="#B7AE9C">menja stopu / prag / pravilo</text>
+  <text x="72" y="264" font-size="11.5" fill="#B7AE9C">uvek u DRAFT kopiji plana</text>
+
+  <text x="412" y="230" font-size="14" font-weight="700" fill="#C9A24B">2 · SIMULACIJA (obavezna)</text>
+  <text x="412" y="248" font-size="11.5" fill="#B7AE9C">pogođeni članovi · Δ isplata / mes</text>
+  <text x="412" y="264" font-size="11.5" fill="#B7AE9C">top dobitnici / gubitnici · pre / posle</text>
+
+  <text x="782" y="230" font-size="14" font-weight="700" fill="#C9A24B">3 · PUBLISH &lt; 2s</text>
+  <text x="782" y="248" font-size="11.5" fill="#B7AE9C">append-only upis + change_set</text>
+  <text x="782" y="264" font-size="11.5" fill="#B7AE9C">ko/kada/šta/zašto → ConfigChanged</text>
+
+  <text x="1122" y="230" font-size="14" font-weight="700" fill="#C9A24B">4 · ROLLBACK</text>
+  <text x="1122" y="248" font-size="11.5" fill="#B7AE9C">jedan tap iz istorije promena</text>
+  <text x="1122" y="264" font-size="11.5" fill="#B7AE9C">promena unapred — ništa se ne briše</text>
+
+  <line x1="356" y1="244" x2="392" y2="244" stroke="#C9A24B" stroke-width="1.6" marker-end="url(#arrGold)"/>
+  <line x1="726" y1="244" x2="762" y2="244" stroke="#C9A24B" stroke-width="1.6" marker-end="url(#arrGold)"/>
+  <line x1="1066" y1="244" x2="1102" y2="244" stroke="#C9A24B" stroke-width="1.6" marker-end="url(#arrGold)"/>
+  <text x="75" y="302" font-size="11" fill="#9A9180" font-style="italic">rizične promene (stopa ±X pp ili &gt;N članova) → dvostruka potvrda</text>
+
+  <!-- ══════════ BAND A — PLAN DEFINITION ══════════ -->
+  <rect x="40" y="346" width="1392" height="184" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="362" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="371" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">PLAN DEFINITION — PLAN JE PODATAK, NE KOD</text>
+  <text x="1416" y="371" text-anchor="end" font-size="11" fill="#9A9180" font-style="italic">append-only · nema UPDATE · istorijat i rollback ugrađeni</text>
+
+  <g filter="url(#sh)">
+    <rect x="56" y="390" width="340" height="116" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="416" y="390" width="300" height="116" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="736" y="390" width="400" height="116" rx="10" fill="#FFF9EC" stroke="#C9A24B" stroke-width="2"/>
+    <rect x="1156" y="390" width="240" height="116" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="72" y="414" font-size="13" font-weight="700" fill="#1E2128">plan · plan_activation</text>
+  <text x="72" y="433" font-size="11" fill="#6B6256">verzije: P11-2019 · LIVE100-2020 · ZEUS-V1</text>
+  <text x="72" y="449" font-size="11" fill="#6B6256">status: draft → published → retired</text>
+  <text x="72" y="465" font-size="11" fill="#6B6256">aktivacija po zemlji ('*' = globalni default)</text>
+  <text x="72" y="481" font-size="11" fill="#6B6256">zemlja-specifično pobeđuje globalno</text>
+
+  <text x="432" y="414" font-size="13" font-weight="700" fill="#1E2128">rank_ladder</text>
+  <text x="432" y="433" font-size="11" fill="#6B6256">rangovi kao config po planu, ne šifarnik</text>
+  <text x="432" y="449" font-size="11" fill="#6B6256">5 (Live 100) ili 6 (P11) — engine-u svejedno</text>
+  <text x="432" y="465" font-size="11" fill="#6B6256">kvalifikacioni uslovi: JSONB</text>
+
+  <text x="752" y="414" font-size="13" font-weight="700" fill="#8A6D24">earning_rule — SRCE SISTEMA</text>
+  <text x="752" y="433" font-size="11" fill="#6B6256">pravilo = primitiv + osnovica + stopa/tabela + uslovi</text>
+  <text x="752" y="449" font-size="11" fill="#6B6256">rate_table: {CC:20% · TM:25% · SM:30% · DM:35% · RM:40%}</text>
+  <text x="752" y="465" font-size="11" fill="#6B6256">scope: zemlja / rang / nivo · valid_from–to · version</text>
+  <text x="752" y="481" font-size="11" fill="#6B6256">svaka izmena = novi red (change_set_id, created_by)</text>
+
+  <text x="1172" y="414" font-size="13" font-weight="700" fill="#1E2128">gates / uslovi</text>
+  <text x="1172" y="433" font-size="11" fill="#6B6256">aktivnost &gt; €500/mes</text>
+  <text x="1172" y="449" font-size="11" fill="#6B6256">upiši 2 → 20% · upiši 10 → trajno</text>
+  <text x="1172" y="465" font-size="11" fill="#6B6256">stimulacija III–V → svi 30%</text>
+
+  <!-- ══════════ BAND B — RUNTIME ULAZI ══════════ -->
+  <rect x="40" y="560" width="1392" height="118" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="576" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="585" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">RUNTIME ULAZI</text>
+
+  <g filter="url(#sh)">
+    <rect x="56" y="602" width="400" height="58" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="536" y="602" width="400" height="58" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="1016" y="602" width="380" height="58" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="72" y="626" font-size="13" font-weight="700" fill="#1E2128">Transakcije</text>
+  <text x="72" y="644" font-size="11" fill="#6B6256">kupovine / prodaje · settled · sve kategorije (product → real estate)</text>
+  <text x="552" y="626" font-size="13" font-weight="700" fill="#1E2128">Member graf</text>
+  <text x="552" y="644" font-size="11" fill="#6B6256">downline (closure table) · cross-border · trajna veza regruter↔regrut</text>
+  <text x="1032" y="626" font-size="13" font-weight="700" fill="#1E2128">PSV / aktivnost</text>
+  <text x="1032" y="644" font-size="11" fill="#6B6256">mesečni lični volumen · status · broj upisanih</text>
+
+  <!-- ══════════ BAND C — CALCULATION ENGINE ══════════ -->
+  <rect x="40" y="708" width="1392" height="312" rx="14" fill="#FFFFFF" stroke="#C9A24B" stroke-width="2"/>
+  <rect x="56" y="724" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="733" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">CALCULATION ENGINE — 5 PRIMITIVA (ČISTE FUNKCIJE)</text>
+  <text x="1416" y="733" text-anchor="end" font-size="11" fill="#9A9180" font-style="italic">deterministički: isti ulaz + isti plan snapshot → isti izlaz</text>
+
+  <g filter="url(#sh)">
+    <rect x="56" y="752" width="310" height="130" rx="10" fill="#FBFAF7" stroke="#E2DDD2"/>
+  </g>
+  <text x="72" y="776" font-size="13" font-weight="700" fill="#1E2128">RULE RESOLVER</text>
+  <text x="72" y="795" font-size="11" fill="#6B6256">aktivan plan za zemlju (plan_activation)</text>
+  <text x="72" y="811" font-size="11" fill="#6B6256">match: rang · nivo · vreme</text>
+  <text x="72" y="827" font-size="11" fill="#6B6256">primeni GATE uslove</text>
+  <text x="72" y="843" font-size="11" fill="#6B6256">keš pravila — invalidira ConfigChanged</text>
+
+  <g filter="url(#sh)">
+    <rect x="396" y="752" width="290" height="56" rx="9" fill="#FFF9EC" stroke="#C9A24B" stroke-width="1.5"/>
+    <rect x="706" y="752" width="290" height="56" rx="9" fill="#FFF9EC" stroke="#C9A24B" stroke-width="1.5"/>
+    <rect x="396" y="820" width="290" height="56" rx="9" fill="#FFF9EC" stroke="#C9A24B" stroke-width="1.5"/>
+    <rect x="706" y="820" width="290" height="56" rx="9" fill="#FFF9EC" stroke="#C9A24B" stroke-width="1.5"/>
+    <rect x="396" y="888" width="600" height="50" rx="9" fill="#FFF9EC" stroke="#C9A24B" stroke-width="1.5"/>
+  </g>
+  <text x="412" y="772" font-size="12.5" font-weight="700" fill="#8A6D24">1 · PERSONAL_RATE</text>
+  <text x="412" y="789" font-size="10.5" fill="#6B6256">% na svoju kupovinu/prodaju · popust, prodajna provizija</text>
+  <text x="722" y="772" font-size="12.5" font-weight="700" fill="#8A6D24">2 · EVENT_BONUS</text>
+  <text x="722" y="789" font-size="10.5" fill="#6B6256">jednokratni okidač · regrutna premija (prva kupovina)</text>
+  <text x="412" y="840" font-size="12.5" font-weight="700" fill="#8A6D24">3 · LEVEL_RATE</text>
+  <text x="412" y="857" font-size="10.5" fill="#6B6256">% na volumen nivoa L · L1 (Live 100) / L1–L10 (P11)</text>
+  <text x="722" y="840" font-size="12.5" font-weight="700" fill="#8A6D24">4 · DIFFERENTIAL</text>
+  <text x="722" y="857" font-size="10.5" fill="#6B6256">moja − njegova stopa · diferencijalna / DSC</text>
+  <text x="412" y="908" font-size="12.5" font-weight="700" fill="#8A6D24">5 · GATE / MODIFIER</text>
+  <text x="412" y="925" font-size="10.5" fill="#6B6256">uslovi: uključi / isključi / override · aktivnost, stimulacioni meseci, broj upisanih</text>
+
+  <g filter="url(#sh)">
+    <rect x="1026" y="752" width="370" height="130" rx="10" fill="#FBFAF7" stroke="#E2DDD2"/>
+  </g>
+  <text x="1042" y="776" font-size="13" font-weight="700" fill="#1E2128">AGGREGATOR</text>
+  <text x="1042" y="795" font-size="11" fill="#6B6256">kombinovanje: 8% + 20% = 28%</text>
+  <text x="1042" y="811" font-size="11" fill="#6B6256">capovi · zaokruživanje · valuta</text>
+  <text x="1042" y="827" font-size="11" fill="#6B6256">izlaz: stavke sa rule_id + verzijom</text>
+
+  <rect x="1026" y="896" width="370" height="104" rx="10" fill="#FFFFFF" stroke="#9A9180" stroke-width="1.6" stroke-dasharray="4,3"/>
+  <text x="1042" y="920" font-size="13" font-weight="700" fill="#6B6256">SIMULATOR — dry_run = true</text>
+  <text x="1042" y="939" font-size="11" fill="#6B6256">isti kalkulatori · snapshot produkcije</text>
+  <text x="1042" y="955" font-size="11" fill="#6B6256">bez upisa u ledger</text>
+  <text x="1042" y="971" font-size="11" fill="#6B6256">izveštaj pre/posle → God Mode korak 2</text>
+
+  <!-- engine internal arrows -->
+  <line x1="366" y1="817" x2="392" y2="817" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="996" y1="817" x2="1022" y2="817" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- ══════════ BAND D — IZLAZI ══════════ -->
+  <rect x="40" y="1050" width="1392" height="190" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="1066" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="1075" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">IZLAZI</text>
+
+  <g filter="url(#sh)">
+    <rect x="56" y="1094" width="430" height="120" rx="10" fill="#FFF9EC" stroke="#C9A24B" stroke-width="2"/>
+    <rect x="516" y="1094" width="270" height="120" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="816" y="1094" width="280" height="120" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="1126" y="1094" width="270" height="120" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="72" y="1118" font-size="13" font-weight="700" fill="#8A6D24">COMMISSION LEDGER (append-only)</text>
+  <text x="72" y="1137" font-size="11" fill="#6B6256">svaki red: rule_id + verzija + plan → pun audit do centa</text>
+  <text x="72" y="1153" font-size="11" fill="#6B6256">recompute: stari redovi → superseded</text>
+  <text x="72" y="1169" font-size="11" fill="#6B6256">isplaćeno se ne prepisuje — koriguje se sledećim obračunom</text>
+
+  <text x="532" y="1118" font-size="13" font-weight="700" fill="#1E2128">Payout</text>
+  <text x="532" y="1137" font-size="11" fill="#6B6256">isplate — faza 3</text>
+  <text x="532" y="1153" font-size="11" fill="#6B6256">valuta / FX otvoreno</text>
+
+  <text x="832" y="1118" font-size="13" font-weight="700" fill="#1E2128">Član — dashboard</text>
+  <text x="832" y="1137" font-size="11" fill="#6B6256">čita ledger · sveža zarada</text>
+  <text x="832" y="1153" font-size="11" fill="#6B6256">i cene po rangu, odmah</text>
+
+  <text x="1142" y="1118" font-size="13" font-weight="700" fill="#1E2128">Notifikacije</text>
+  <text x="1142" y="1137" font-size="11" fill="#6B6256">"uslovi ažurirani" → pogođeni članovi</text>
+  <text x="1142" y="1153" font-size="11" fill="#6B6256">izveštaj Philipu kad recompute završi</text>
+
+  <line x1="486" y1="1154" x2="512" y2="1154" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- ══════════ FLOW ARROWS BETWEEN BANDS ══════════ -->
+  <!-- Plan rules → engine (through gap in band B) -->
+  <path d="M976 530 V704" fill="none" stroke="#B7AE9C" stroke-width="1.6" marker-end="url(#arr)"/>
+  <text x="984" y="590" font-size="10.5" fill="#9A9180" font-style="italic">pravila (config)</text>
+
+  <!-- inputs → engine -->
+  <line x1="256" y1="660" x2="256" y2="704" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="736" y1="660" x2="736" y2="704" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="1206" y1="660" x2="1206" y2="704" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- engine → ledger -->
+  <line x1="271" y1="1020" x2="271" y2="1090" stroke="#B7AE9C" stroke-width="1.6" marker-end="url(#arr)"/>
+  <text x="280" y="1042" font-size="10.5" fill="#9A9180" font-style="italic">obračun</text>
+
+  <!-- ══════════ RIGHT RAIL — GOD MODE ══════════ -->
+  <!-- solid: Philip → Plan Definition (ONLY direct write) -->
+  <path d="M1432 244 H1460 V438" fill="none" stroke="#E8A020" stroke-width="3"/>
+  <circle cx="1460" cy="244" r="5" fill="#E8A020"/>
+  <line x1="1460" y1="438" x2="1436" y2="438" stroke="#E8A020" stroke-width="3" marker-end="url(#arrGsolid)"/>
+  <text transform="translate(1496,360) rotate(-90)" text-anchor="middle" font-size="10" font-weight="700" fill="#E8A020" letter-spacing="1">DIRECT WRITE — JEDINA TAČKA</text>
+
+  <!-- dashed: propagation Plan → Engine recompute → Notifications -->
+  <path d="M1460 438 V1154" fill="none" stroke="#8A6D24" stroke-width="2" stroke-dasharray="6,3"/>
+  <line x1="1460" y1="864" x2="1436" y2="864" stroke="#8A6D24" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrGdash)"/>
+  <text x="1466" y="852" font-size="9.5" font-weight="700" fill="#8A6D24">ConfigChanged</text>
+  <text x="1466" y="864" font-size="9.5" fill="#8A6D24">→ recompute</text>
+  <line x1="1460" y1="1154" x2="1400" y2="1154" stroke="#8A6D24" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrGdash)"/>
+  <text transform="translate(1496,1010) rotate(-90)" text-anchor="middle" font-size="10" font-weight="700" fill="#8A6D24" letter-spacing="1">PROPAGACIJA</text>
+
+  <!-- ══════════ LEFT RAIL — SIMULATION LOOP ══════════ -->
+  <path d="M396 258 H24 V948 H1022" fill="none" stroke="#9A9180" stroke-width="1.6" stroke-dasharray="2,3" marker-end="url(#arrGray)" marker-start="url(#arrGray)"/>
+  <text transform="translate(14,640) rotate(-90)" text-anchor="middle" font-size="10" font-weight="700" fill="#9A9180" letter-spacing="1">SIMULACIJA — DRY-RUN KRUG (PRE PUBLISH-A)</text>
+
+  <!-- FOOTER -->
+  <text x="48" y="1282" font-size="13" fill="#6B6256" font-style="italic">Isti primitivi izražavaju P11 (2019) i Live 100 (2020) — promena plana je izmena redova u bazi, ne deploy.</text>
+  <text x="48" y="1304" font-size="11.5" fill="#9A9180">Otvoreno za Čedu: closure table vs materijalizovana putanja · outbox vs Kafka · GATE override mehanika — spec §9.  Semantika linija = v0.4 dijagram.</text>
+</svg>

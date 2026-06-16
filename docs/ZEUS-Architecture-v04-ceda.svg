@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 1460" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1E2128" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#B7AE9C"/>
+    </marker>
+    <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#C9A24B"/>
+    </marker>
+    <marker id="arrGsolid" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8A020"/>
+    </marker>
+    <marker id="arrGdash" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8A6D24"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1520" height="1460" fill="#F4F2ED"/>
+
+  <!-- TITLE -->
+  <text x="48" y="62" font-size="40" font-weight="700" fill="#1E2128" letter-spacing="3">ZEUS</text>
+  <rect x="49" y="74" width="150" height="3" fill="#C9A24B"/>
+  <text x="49" y="98" font-size="13" fill="#8A6D24" letter-spacing="5">PLATFORM ARCHITECTURE — ENGINEERING VIEW</text>
+  <text x="1472" y="42" text-anchor="end" font-size="12" fill="#9A9180">v0.4 · engineering · 2026-06-05</text>
+  <text x="1472" y="62" text-anchor="end" font-size="13" fill="#6B6256">For: Ceda (Cedomir) — Software Architect</text>
+  <text x="1472" y="82" text-anchor="end" font-size="11.5" fill="#9A9180" font-style="italic">Zepter International — ZEUS platform</text>
+
+  <!-- LEGEND BOX -->
+  <rect x="49" y="108" width="580" height="36" rx="8" fill="#FFFFFF" stroke="#E2DDD2"/>
+  <line x1="68" y1="126" x2="118" y2="126" stroke="#E8A020" stroke-width="2.5"/>
+  <circle cx="118" cy="126" r="3" fill="#E8A020"/>
+  <text x="128" y="130" font-size="11" fill="#1E2128" font-weight="600">Direct write / entry point</text>
+  <line x1="240" y1="126" x2="290" y2="126" stroke="#8A6D24" stroke-width="1.8" stroke-dasharray="5,3"/>
+  <circle cx="290" cy="126" r="3" fill="#8A6D24"/>
+  <text x="300" y="130" font-size="11" fill="#1E2128" font-weight="600">Propagated effect (downstream)</text>
+  <line x1="440" y1="126" x2="490" y2="126" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <text x="500" y="130" font-size="11" fill="#1E2128" font-weight="600">Standard data flow</text>
+
+  <!-- BAND 0 PHILIP GOD MODE -->
+  <rect x="40" y="156" width="1392" height="106" rx="14" fill="#1E2128" stroke="#C9A24B" stroke-width="2"/>
+  <rect x="40" y="156" width="1392" height="5" rx="3" fill="#C9A24B"/>
+  <text x="75" y="188" font-size="12" font-weight="700" fill="#C9A24B" letter-spacing="4">GOD MODE — OWNER CONTROL PLANE</text>
+  <g filter="url(#sh)">
+    <rect x="440" y="194" width="560" height="54" rx="10" fill="#2C2518" stroke="#C9A24B" stroke-width="2"/>
+  </g>
+  <circle cx="476" cy="221" r="8" fill="#C9A24B"/>
+  <text x="498" y="216" font-size="17" font-weight="700" fill="#C9A24B">Philip Zepter — Owner</text>
+  <text x="498" y="236" font-size="12.5" fill="#B7AE9C">one tap on mobile → writes to Config/God Mode Service → triggers recompute cascade</text>
+
+  <!-- GOD MODE RAIL — right side -->
+  <!-- Solid line from Philip to Config Service = direct write entry point -->
+  <path d="M1432 230 H1460 V588" fill="none" stroke="#E8A020" stroke-width="3"/>
+  <circle cx="1460" cy="230" r="5" fill="#E8A020"/>
+  <!-- Solid arrow INTO Config Service band (direct write) -->
+  <line x1="1460" y1="748" x2="1432" y2="748" stroke="#E8A020" stroke-width="3" marker-end="url(#arrGsolid)"/>
+  <text x="1464" y="596" font-size="10" font-weight="700" fill="#E8A020">DIRECT</text>
+  <text x="1464" y="608" font-size="10" font-weight="700" fill="#E8A020">WRITE</text>
+
+  <!-- Dashed from Config down = propagation to other layers -->
+  <path d="M1460 588 V1130" fill="none" stroke="#8A6D24" stroke-width="2" stroke-dasharray="6,3"/>
+  <!-- Dashed arrows = propagated effects -->
+  <line x1="1460" y1="363" x2="1432" y2="363" stroke="#8A6D24" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrGdash)"/>
+  <line x1="1460" y1="524" x2="1432" y2="524" stroke="#8A6D24" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrGdash)"/>
+  <line x1="1460" y1="974" x2="1432" y2="974" stroke="#8A6D24" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrGdash)"/>
+  <line x1="1460" y1="1130" x2="1432" y2="1130" stroke="#8A6D24" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrGdash)"/>
+
+  <!-- Rail labels -->
+  <text transform="translate(1496,500) rotate(-90)" text-anchor="middle" font-size="10" font-weight="700" fill="#E8A020" letter-spacing="1">DIRECT WRITE</text>
+  <text transform="translate(1496,900) rotate(-90)" text-anchor="middle" font-size="10" font-weight="700" fill="#8A6D24" letter-spacing="1">PROPAGATED EFFECT</text>
+
+  <!-- BAND A ACTORS -->
+  <rect x="40" y="302" width="1392" height="122" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="318" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="327" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">ACTORS</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="340" width="560" height="68" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="832" y="340" width="504" height="68" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="78" y="370" font-size="17" font-weight="600" fill="#1E2128">Members</text>
+  <text x="78" y="390" font-size="12.5" fill="#6B6256">2M+ globally · ranks: CM · LC · TM · SM · DM · RM · buy · recruit · earn</text>
+  <text x="854" y="368" font-size="17" font-weight="600" fill="#1E2128">External Partner Brands</text>
+  <text x="854" y="388" font-size="12.5" fill="#6B6256">Philip-approved · "ZEUS-worthy" gate · list products/services · pay platform fee</text>
+  <line x1="336" y1="408" x2="336" y2="448" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="1084" y1="408" x2="1084" y2="448" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- BAND B EXPERIENCE -->
+  <rect x="40" y="452" width="1392" height="152" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="468" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="477" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">EXPERIENCE LAYER</text>
+  <text x="200" y="477" font-size="11" fill="#9A9180" font-style="italic">— reads from Core Services; God Mode effect arrives via Notification Service</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="490" width="306" height="98" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="378" y="490" width="306" height="98" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="700" y="490" width="306" height="98" rx="10" fill="#FBF4E2" stroke="#C9A24B" stroke-width="2"/>
+    <rect x="1022" y="490" width="314" height="98" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="76" y="522" font-size="15.5" font-weight="600" fill="#1E2128">Member Dashboard</text>
+  <text x="76" y="545" font-size="12" fill="#6B6256">earnings · commissions · downline tree</text>
+  <text x="76" y="562" font-size="12" fill="#6B6256">rank-based prices · notifications</text>
+  <text x="398" y="522" font-size="15.5" font-weight="600" fill="#1E2128">Marketplace Storefront</text>
+  <text x="398" y="545" font-size="12" fill="#6B6256">browse all categories</text>
+  <text x="398" y="562" font-size="12" fill="#6B6256">price = Pricing Service (rank lookup)</text>
+  <text x="720" y="522" font-size="15.5" font-weight="700" fill="#8A6D24">God Mode Panel</text>
+  <text x="720" y="545" font-size="12" fill="#6B6256">mobile UI · single-field input</text>
+  <text x="720" y="562" font-size="12" fill="#6B6256">writes to Config/God Mode Service</text>
+  <text x="720" y="579" font-size="11" fill="#C9A24B" font-weight="600">→ entry point into system</text>
+  <text x="1042" y="522" font-size="15.5" font-weight="600" fill="#1E2128">Partner Portal</text>
+  <text x="1042" y="545" font-size="12" fill="#6B6256">manage listings · inventory</text>
+  <text x="1042" y="562" font-size="12" fill="#6B6256">sales + payout reporting</text>
+  <line x1="209" y1="588" x2="209" y2="628" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="531" y1="588" x2="531" y2="628" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <!-- God Mode Panel solid arrow down = direct write to Config Service -->
+  <line x1="853" y1="588" x2="853" y2="628" stroke="#E8A020" stroke-width="2.5" marker-end="url(#arrGsolid)"/>
+  <line x1="1179" y1="588" x2="1179" y2="628" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- BAND C CORE SERVICES -->
+  <rect x="40" y="632" width="1392" height="268" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="648" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="657" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">CORE SERVICES</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="670" width="306" height="92" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="378" y="670" width="306" height="92" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="700" y="670" width="306" height="92" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="1022" y="670" width="314" height="92" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="76" y="700" font-size="15" font-weight="600" fill="#1E2128">Identity &amp; Rank Service</text>
+  <text x="76" y="722" font-size="12" fill="#6B6256">member state · KYC · rank calc</text>
+  <text x="76" y="739" font-size="12" fill="#6B6256">CM to RM progression logic</text>
+  <text x="398" y="700" font-size="15" font-weight="600" fill="#1E2128">Marketplace Service</text>
+  <text x="398" y="722" font-size="12" fill="#6B6256">Zepter Own + External listings</text>
+  <text x="398" y="739" font-size="12" fill="#6B6256">"ZEUS-worthy" approval workflow</text>
+  <text x="720" y="700" font-size="15" font-weight="600" fill="#1E2128">Pricing Service</text>
+  <text x="720" y="722" font-size="12" fill="#6B6256">rank lookup → price resolve</text>
+  <text x="720" y="739" font-size="12" fill="#6B6256">reads Config Store on every call</text>
+  <text x="1042" y="700" font-size="15" font-weight="600" fill="#1E2128">Notification Service</text>
+  <text x="1042" y="722" font-size="12" fill="#6B6256">push/ws to affected members</text>
+  <text x="1042" y="739" font-size="12" fill="#6B6256">triggered by Config change event</text>
+
+  <!-- Row 2 signature services -->
+  <g filter="url(#sh)">
+    <rect x="56" y="780" width="424" height="100" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="496" y="780" width="424" height="100" rx="10" fill="#FBF4E2" stroke="#C9A24B" stroke-width="2"/>
+    <!-- Config / God Mode Service — highlighted as direct write target -->
+    <rect x="936" y="780" width="400" height="100" rx="10" fill="#2C2518" stroke="#E8A020" stroke-width="2.5"/>
+  </g>
+  <text x="78" y="810" font-size="15.5" font-weight="600" fill="#1E2128">Earning Network · MLM</text>
+  <text x="78" y="833" font-size="12" fill="#6B6256">downline tree (L1-L10) · recruiting</text>
+  <text x="78" y="851" font-size="12" fill="#6B6256">cross-border: earns across all countries</text>
+  <text x="78" y="869" font-size="11" fill="#9A9180" font-style="italic">reads Commission Engine output</text>
+  <circle cx="520" cy="806" r="6" fill="#C9A24B"/>
+  <text x="538" y="811" font-size="16.5" font-weight="700" fill="#8A6D24">Commission Engine</text>
+  <text x="518" y="834" font-size="12" fill="#6B6256">config-driven · reads Config Store</text>
+  <text x="518" y="852" font-size="12" fill="#6B6256">computes: SC · MSC · RMC · MC · DSC</text>
+  <text x="518" y="870" font-size="11" fill="#9A9180" font-style="italic">recompute triggered on Config change</text>
+  <!-- Config/God Mode Service — DIRECT WRITE TARGET -->
+  <circle cx="960" cy="806" r="7" fill="#E8A020"/>
+  <text x="980" y="811" font-size="15.5" font-weight="700" fill="#E8A020">Config / God Mode Service</text>
+  <text x="958" y="834" font-size="12" fill="#B7AE9C">DIRECT WRITE TARGET from God Mode Panel</text>
+  <text x="958" y="852" font-size="12" fill="#B7AE9C">per-country rule sets · versioned + audit trail</text>
+  <text x="958" y="870" font-size="11" fill="#C9A24B" font-style="italic">on write: emits ConfigChanged event → cascade</text>
+
+  <line x1="268" y1="880" x2="268" y2="916" stroke="#C9A24B" stroke-width="1.6" marker-end="url(#arrG)"/>
+  <line x1="708" y1="880" x2="708" y2="916" stroke="#C9A24B" stroke-width="1.6" marker-end="url(#arrG)"/>
+  <!-- Config Store write — solid gold -->
+  <line x1="1136" y1="880" x2="1136" y2="916" stroke="#E8A020" stroke-width="2.5" marker-end="url(#arrGsolid)"/>
+
+  <!-- BAND D DATA LAYER -->
+  <rect x="40" y="920" width="1392" height="148" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="936" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="945" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">DATA LAYER</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="958" width="306" height="96" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="378" y="958" width="306" height="96" rx="10" fill="#FFF8EC" stroke="#E8A020" stroke-width="2"/>
+    <rect x="700" y="958" width="306" height="96" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="1022" y="958" width="314" height="96" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="76" y="988" font-size="14.5" font-weight="600" fill="#1E2128">Member &amp; Downline Graph</text>
+  <text x="76" y="1010" font-size="12" fill="#6B6256">global network relationships</text>
+  <text x="76" y="1027" font-size="12" fill="#6B6256">cross-border edges · graph DB</text>
+  <!-- Commission Config Store highlighted = written by God Mode -->
+  <text x="398" y="988" font-size="14.5" font-weight="600" fill="#8A6D24">Commission Config Store</text>
+  <text x="398" y="1010" font-size="12" fill="#6B6256">thresholds · %s · rates · per country</text>
+  <text x="398" y="1027" font-size="12" fill="#6B6256">versioned rows · effective_from ts</text>
+  <text x="398" y="1044" font-size="11" fill="#E8A020" font-weight="600">written by God Mode Service</text>
+  <text x="720" y="988" font-size="14.5" font-weight="600" fill="#1E2128">Catalog &amp; Listings</text>
+  <text x="720" y="1010" font-size="12" fill="#6B6256">Zepter Own + Partner items</text>
+  <text x="720" y="1027" font-size="12" fill="#6B6256">prices per rank tier</text>
+  <text x="1042" y="988" font-size="14.5" font-weight="600" fill="#1E2128">Orders &amp; Transactions</text>
+  <text x="1042" y="1010" font-size="12" fill="#6B6256">purchases · PSV records</text>
+  <text x="1042" y="1027" font-size="12" fill="#6B6256">commission payouts ledger</text>
+  <line x1="716" y1="1054" x2="716" y2="1090" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- BAND E ASSET CATEGORIES -->
+  <rect x="40" y="1094" width="1392" height="120" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="1110" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="1119" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">ASSET CATEGORIES</text>
+  <text x="232" y="1119" font-size="11.5" fill="#9A9180" font-style="italic">— inventory domains; each has own listing type in Catalog but unified commission + pricing logic</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="1132" width="248" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="320" y="1132" width="248" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="584" y="1132" width="248" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="848" y="1132" width="248" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="1112" y="1132" width="224" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="180" y="1168" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Products</text>
+  <text x="180" y="1187" text-anchor="middle" font-size="11" fill="#6B6256">cookware · medical · cosmetics</text>
+  <text x="444" y="1168" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Zepter Hotels</text>
+  <text x="444" y="1187" text-anchor="middle" font-size="11" fill="#6B6256">own hotel network</text>
+  <text x="708" y="1168" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Yachts</text>
+  <text x="708" y="1187" text-anchor="middle" font-size="11" fill="#6B6256">Philip Zepter fleet</text>
+  <text x="972" y="1168" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Private Plane</text>
+  <text x="972" y="1187" text-anchor="middle" font-size="11" fill="#6B6256">own aviation</text>
+  <text x="1224" y="1168" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Real Estate</text>
+  <text x="1224" y="1187" text-anchor="middle" font-size="11" fill="#6B6256">&gt; 1.5M m2 owned</text>
+
+  <!-- KEY FLOWS / ENGINEERING NOTES -->
+  <rect x="40" y="1234" width="1392" height="200" rx="14" fill="#1E2128"/>
+  <rect x="40" y="1234" width="1392" height="5" rx="3" fill="#E8A020"/>
+  <rect x="56" y="1250" width="9" height="9" fill="#E8A020"/>
+  <text x="75" y="1259" font-size="12" font-weight="700" fill="#E8A020" letter-spacing="3">ENGINEERING NOTES — GOD MODE CASCADE</text>
+
+  <text x="56" y="1292" font-size="12.5" fill="#EDEAE2"><tspan fill="#E8A020" font-weight="700">Write path (solid):  </tspan>Philip → God Mode Panel → Config/God Mode Service → Commission Config Store (INSERT new row, effective_from = NOW())</text>
+  <text x="56" y="1318" font-size="12.5" fill="#EDEAE2"><tspan fill="#8A6D24" font-weight="700">Propagation (dashed):  </tspan>Config change emits ConfigChanged event → Commission Engine recomputes affected members → Notification Service pushes to members</text>
+  <text x="56" y="1344" font-size="12.5" fill="#EDEAE2"><tspan fill="#C9A24B" font-weight="700">Pricing Service:  </tspan>reads Config Store on every pricing call — no cache without TTL. Rank price is always fresh from DB record.</text>
+  <text x="56" y="1370" font-size="11" fill="#9A9180" font-style="italic">Design constraint: old config rows are NEVER deleted — full audit trail. effective_from timestamp determines which row is active per country per moment.</text>
+  <text x="56" y="1392" font-size="11" fill="#6B6256" font-style="italic">Ground-zero · subject to revision · Marketing Plan P11 from 2019 · Ceda to validate service boundaries and event architecture.</text>
+  <text x="56" y="1412" font-size="11" fill="#9A9180" font-style="italic">Open question: does God Mode also write directly to Pricing Service overrides, or only via Config Store? Ceda to decide.</text>
+</svg>

@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 1380" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1E2128" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#B7AE9C"/>
+    </marker>
+    <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#C9A24B"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1520" height="1380" fill="#F4F2ED"/>
+
+  <!-- TITLE -->
+  <text x="48" y="62" font-size="40" font-weight="700" fill="#1E2128" letter-spacing="3">ZEUS</text>
+  <rect x="49" y="74" width="150" height="3" fill="#C9A24B"/>
+  <text x="49" y="98" font-size="13" fill="#8A6D24" letter-spacing="5">PLATFORM ARCHITECTURE</text>
+  <text x="1392" y="56" text-anchor="end" font-size="12" fill="#9A9180">v0.3 · ground-zero · 2026-06-05</text>
+  <text x="1392" y="78" text-anchor="end" font-size="13" fill="#6B6256">Luxury Members Club · Global Marketplace · MLM Earning Network</text>
+  <text x="1392" y="98" text-anchor="end" font-size="11.5" fill="#9A9180" font-style="italic">Zepter International</text>
+
+  <!-- BAND 0 · PHILIP — GOD MODE OWNER CONTROL PLANE (above everything) -->
+  <rect x="40" y="120" width="1352" height="106" rx="14" fill="#1E2128" stroke="#C9A24B" stroke-width="2"/>
+  <rect x="40" y="120" width="1352" height="5" rx="3" fill="#C9A24B"/>
+  <text x="75" y="152" font-size="12" font-weight="700" fill="#C9A24B" letter-spacing="4">GOD MODE — OWNER CONTROL PLANE</text>
+  <g filter="url(#sh)">
+    <rect x="440" y="158" width="560" height="54" rx="10" fill="#2C2518" stroke="#C9A24B" stroke-width="2"/>
+  </g>
+  <circle cx="476" cy="185" r="8" fill="#C9A24B"/>
+  <text x="498" y="180" font-size="17" font-weight="700" fill="#C9A24B">Philip Zepter — Owner</text>
+  <text x="498" y="200" font-size="12.5" fill="#B7AE9C">one tap on his phone → changes any rule in any country → real-time global effect</text>
+
+  <!-- GOD MODE CONTROL RAIL · reaches every layer -->
+  <path d="M1392 200 H1416 V1094" fill="none" stroke="#C9A24B" stroke-width="2" stroke-dasharray="6,3"/>
+  <circle cx="1416" cy="200" r="4" fill="#C9A24B"/>
+  <line x1="1416" y1="327" x2="1392" y2="327" stroke="#C9A24B" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrG)"/>
+  <line x1="1416" y1="488" x2="1392" y2="488" stroke="#C9A24B" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrG)"/>
+  <line x1="1416" y1="714" x2="1392" y2="714" stroke="#C9A24B" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrG)"/>
+  <line x1="1416" y1="938" x2="1392" y2="938" stroke="#C9A24B" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrG)"/>
+  <line x1="1416" y1="1094" x2="1392" y2="1094" stroke="#C9A24B" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrG)"/>
+  <text transform="translate(1456,640) rotate(-90)" text-anchor="middle" font-size="11" font-weight="700" fill="#8A6D24" letter-spacing="2">GOD MODE REACH · EVERY LAYER · EVERY COUNTRY · REAL-TIME</text>
+
+  <!-- BAND A · ACTORS -->
+  <rect x="40" y="266" width="1352" height="122" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="282" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="291" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">ACTORS</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="304" width="560" height="68" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="832" y="304" width="504" height="68" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="78" y="334" font-size="17" font-weight="600" fill="#1E2128">Members</text>
+  <text x="78" y="354" font-size="12.5" fill="#6B6256">2M+ globally · ranks: CM · LC · TM · SM · DM · RM · buy · recruit · earn across the network</text>
+  <text x="854" y="332" font-size="17" font-weight="600" fill="#1E2128">External Partner Brands</text>
+  <text x="854" y="352" font-size="12.5" fill="#6B6256">luxury brands personally approved by Philip</text>
+  <text x="854" y="368" font-size="12.5" fill="#6B6256">"ZEUS-worthy" quality gate · pay platform fee</text>
+  <line x1="336" y1="372" x2="336" y2="408" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="1084" y1="372" x2="1084" y2="408" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- BAND B · EXPERIENCE -->
+  <rect x="40" y="412" width="1352" height="152" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="428" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="437" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">EXPERIENCE LAYER</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="450" width="306" height="98" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="378" y="450" width="306" height="98" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="700" y="450" width="306" height="98" rx="10" fill="#FBF4E2" stroke="#C9A24B" stroke-width="2"/>
+    <rect x="1022" y="450" width="314" height="98" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="76" y="482" font-size="15.5" font-weight="600" fill="#1E2128">Member Dashboard</text>
+  <text x="76" y="505" font-size="12" fill="#6B6256">earnings &amp; commissions</text>
+  <text x="76" y="522" font-size="12" fill="#6B6256">downline tree · rank-based prices</text>
+  <text x="76" y="539" font-size="12" fill="#6B6256">real-time rule notifications</text>
+  <text x="398" y="482" font-size="15.5" font-weight="600" fill="#1E2128">Marketplace Storefront</text>
+  <text x="398" y="505" font-size="12" fill="#6B6256">browse &amp; buy all categories</text>
+  <text x="398" y="522" font-size="12" fill="#6B6256">price shown = viewer's rank price</text>
+  <text x="398" y="539" font-size="12" fill="#6B6256">Zepter Own + Partner listings</text>
+  <text x="720" y="482" font-size="15.5" font-weight="700" fill="#8A6D24">God Mode Panel</text>
+  <text x="720" y="505" font-size="12" fill="#6B6256">mobile · single-input control</text>
+  <text x="720" y="522" font-size="12" fill="#6B6256">change plan terms per country</text>
+  <text x="720" y="539" font-size="12" fill="#6B6256">applies in real time globally</text>
+  <text x="1042" y="482" font-size="15.5" font-weight="600" fill="#1E2128">Partner Portal</text>
+  <text x="1042" y="505" font-size="12" fill="#6B6256">manage listings &amp; inventory</text>
+  <text x="1042" y="522" font-size="12" fill="#6B6256">sales &amp; payout reporting</text>
+  <line x1="209" y1="548" x2="209" y2="584" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="531" y1="548" x2="531" y2="584" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="853" y1="548" x2="853" y2="584" stroke="#C9A24B" stroke-width="1.6" marker-end="url(#arrG)"/>
+  <line x1="1179" y1="548" x2="1179" y2="584" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- BAND C · CORE SERVICES -->
+  <rect x="40" y="588" width="1352" height="252" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="604" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="613" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">CORE SERVICES</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="626" width="306" height="84" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="378" y="626" width="306" height="84" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="700" y="626" width="306" height="84" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="1022" y="626" width="314" height="84" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="76" y="656" font-size="15" font-weight="600" fill="#1E2128">Identity &amp; Rank Service</text>
+  <text x="76" y="678" font-size="12" fill="#6B6256">members, KYC, rank state</text>
+  <text x="76" y="695" font-size="12" fill="#6B6256">CM to RM progression</text>
+  <text x="398" y="656" font-size="15" font-weight="600" fill="#1E2128">Marketplace Service</text>
+  <text x="398" y="678" font-size="12" fill="#6B6256">Zepter Own + External listings</text>
+  <text x="398" y="695" font-size="12" fill="#6B6256">"ZEUS-worthy" approval workflow</text>
+  <text x="720" y="656" font-size="15" font-weight="600" fill="#1E2128">Pricing Service</text>
+  <text x="720" y="678" font-size="12" fill="#6B6256">rank-based pricing engine</text>
+  <text x="720" y="695" font-size="12" fill="#6B6256">applies to ALL categories</text>
+  <text x="1042" y="656" font-size="15" font-weight="600" fill="#1E2128">Notification Service</text>
+  <text x="1042" y="678" font-size="12" fill="#6B6256">real-time member alerts</text>
+  <text x="1042" y="695" font-size="12" fill="#6B6256">triggered by rule changes</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="732" width="424" height="92" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="496" y="732" width="424" height="92" rx="10" fill="#FBF4E2" stroke="#C9A24B" stroke-width="2"/>
+    <rect x="936" y="732" width="400" height="92" rx="10" fill="#FBF4E2" stroke="#C9A24B" stroke-width="1.5"/>
+  </g>
+  <text x="78" y="762" font-size="15.5" font-weight="600" fill="#1E2128">Earning Network · MLM</text>
+  <text x="78" y="785" font-size="12" fill="#6B6256">downline tree (L1-L10) · recruiting</text>
+  <text x="78" y="803" font-size="12" fill="#6B6256">cross-border: earn across all countries</text>
+  <circle cx="520" cy="758" r="6" fill="#C9A24B"/>
+  <text x="538" y="763" font-size="16.5" font-weight="700" fill="#8A6D24">Commission Engine</text>
+  <text x="518" y="786" font-size="12" fill="#6B6256">config-driven — every threshold, % and rate is a DB record</text>
+  <text x="518" y="804" font-size="12" fill="#6B6256">computes: SC · MSC · RMC · MC · DSC</text>
+  <circle cx="960" cy="758" r="6" fill="#C9A24B"/>
+  <text x="978" y="763" font-size="15.5" font-weight="700" fill="#8A6D24">Config / God Mode Service</text>
+  <text x="958" y="786" font-size="12" fill="#6B6256">per-country rule sets, versioned</text>
+  <text x="958" y="804" font-size="12" fill="#6B6256">real-time apply + recompute trigger</text>
+  <line x1="268" y1="824" x2="268" y2="860" stroke="#C9A24B" stroke-width="1.6" marker-end="url(#arrG)"/>
+  <line x1="708" y1="824" x2="708" y2="860" stroke="#C9A24B" stroke-width="1.6" marker-end="url(#arrG)"/>
+  <line x1="1136" y1="824" x2="1136" y2="860" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- BAND D · DATA LAYER -->
+  <rect x="40" y="864" width="1352" height="148" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="880" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="889" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">DATA LAYER</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="902" width="306" height="92" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="378" y="902" width="306" height="92" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="700" y="902" width="306" height="92" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="1022" y="902" width="314" height="92" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="76" y="932" font-size="14.5" font-weight="600" fill="#1E2128">Member &amp; Downline Graph</text>
+  <text x="76" y="954" font-size="12" fill="#6B6256">global network relationships</text>
+  <text x="76" y="971" font-size="12" fill="#6B6256">cross-border edges</text>
+  <text x="398" y="932" font-size="14.5" font-weight="600" fill="#8A6D24">Commission Config Store</text>
+  <text x="398" y="954" font-size="12" fill="#6B6256">thresholds · %s · rates</text>
+  <text x="398" y="971" font-size="12" fill="#6B6256">per country · versioned (God Mode)</text>
+  <text x="720" y="932" font-size="14.5" font-weight="600" fill="#1E2128">Catalog &amp; Listings</text>
+  <text x="720" y="954" font-size="12" fill="#6B6256">Zepter Own + Partner items</text>
+  <text x="720" y="971" font-size="12" fill="#6B6256">prices per rank tier</text>
+  <text x="1042" y="932" font-size="14.5" font-weight="600" fill="#1E2128">Orders &amp; Transactions</text>
+  <text x="1042" y="954" font-size="12" fill="#6B6256">purchases · PSV records</text>
+  <text x="1042" y="971" font-size="12" fill="#6B6256">commission payouts ledger</text>
+  <line x1="716" y1="994" x2="716" y2="1030" stroke="#B7AE9C" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- BAND E · ASSET CATEGORIES -->
+  <rect x="40" y="1034" width="1352" height="120" rx="14" fill="#FBFAF7" stroke="#E6E1D6"/>
+  <rect x="56" y="1050" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="1059" font-size="12" font-weight="700" fill="#8A6D24" letter-spacing="3">ASSET CATEGORIES</text>
+  <text x="232" y="1059" font-size="11.5" fill="#9A9180" font-style="italic">— rank-based pricing and commission apply to every category</text>
+  <g filter="url(#sh)">
+    <rect x="56" y="1072" width="248" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="320" y="1072" width="248" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="584" y="1072" width="248" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="848" y="1072" width="248" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+    <rect x="1112" y="1072" width="224" height="66" rx="10" fill="#FFFFFF" stroke="#E2DDD2"/>
+  </g>
+  <text x="180" y="1108" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Products</text>
+  <text x="180" y="1127" text-anchor="middle" font-size="11" fill="#6B6256">cookware · medical · cosmetics</text>
+  <text x="444" y="1108" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Zepter Hotels</text>
+  <text x="444" y="1127" text-anchor="middle" font-size="11" fill="#6B6256">own hotel network</text>
+  <text x="708" y="1108" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Yachts</text>
+  <text x="708" y="1127" text-anchor="middle" font-size="11" fill="#6B6256">Philip Zepter fleet</text>
+  <text x="972" y="1108" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Private Plane</text>
+  <text x="972" y="1127" text-anchor="middle" font-size="11" fill="#6B6256">own aviation</text>
+  <text x="1224" y="1108" text-anchor="middle" font-size="14" font-weight="600" fill="#1E2128">Real Estate</text>
+  <text x="1224" y="1127" text-anchor="middle" font-size="11" fill="#6B6256">&gt; 1.5M m2 owned</text>
+
+  <!-- KEY FLOWS -->
+  <rect x="40" y="1174" width="1352" height="180" rx="14" fill="#1E2128"/>
+  <rect x="40" y="1174" width="1352" height="5" rx="3" fill="#C9A24B"/>
+  <rect x="56" y="1190" width="9" height="9" fill="#C9A24B"/>
+  <text x="75" y="1199" font-size="12" font-weight="700" fill="#C9A24B" letter-spacing="3">KEY FLOWS</text>
+  <text x="56" y="1232" font-size="12.5" fill="#EDEAE2"><tspan fill="#C9A24B" font-weight="700">1 · Purchase and commission  </tspan>Member → Storefront → Pricing (rank price) → Order → Commission Engine → Earning Network → upline payouts</text>
+  <text x="56" y="1262" font-size="12.5" fill="#EDEAE2"><tspan fill="#C9A24B" font-weight="700">2 · God Mode (real-time)  </tspan>Philip (above all layers) → God Mode Panel → Config Service → Commission Config Store → Engine recompute → Notification → affected members</text>
+  <text x="56" y="1292" font-size="12.5" fill="#EDEAE2"><tspan fill="#C9A24B" font-weight="700">3 · Cross-border recruiting  </tspan>Member recruits abroad → Earning Network → Downline Graph (global edges) → commissions flow across borders</text>
+  <text x="56" y="1322" font-size="11" fill="#9A9180" font-style="italic">Design principle: no business rule is hardcoded — every threshold, percentage and rate lives in the Commission Config Store as data.</text>
+  <text x="56" y="1348" font-size="11" fill="#6B6256" font-style="italic">Ground-zero document — data based on team recollection, subject to revision. Marketing Plan P11 dates from 2019.</text>
+</svg>

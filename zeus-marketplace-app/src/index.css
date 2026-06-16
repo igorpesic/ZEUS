@@ -139,6 +139,20 @@ img, video { max-width: 100%; }
   /* header: nudge wishlist/cart inward so the cart badge lands 8px from edge */
   .z-hd { padding-right: 16px !important; }
 
+  /* search becomes an icon → full-screen page (input bar hidden on phones) */
+  .z-hd-search { display: none !important; }
+  .z-hd-searchbtn { display: flex !important; }
+  .z-hd { flex-wrap: nowrap !important; }
+
+  /* slightly smaller logo on phones so it fits the tight header row */
+  .z-hd-logo { height: 50px !important; }
+
+  /* BizzClub strip: center the copy when it stacks on phones */
+  .z-bizz-strip-txt { text-align: center !important; width: 100% !important; }
+
+  /* BizzClub home strip: push "Saznajte više" to the right edge */
+  .z-bizz-cta-row { justify-content: space-between !important; width: 100% !important; }
+
   /* non-product grids: benefits / swatches / rank cards stay 2-up */
   .z-grid-4, .z-grid-3 { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
 

@@ -986,7 +986,10 @@ export default function App() {
 
       {/* FOOTER */}
       <footer style={css("background:#0B1F3A;color:#fff;padding:48px 24px 28px;")}>
-        <div style={css("max-width:1280px;margin:0 auto;")}>
+        <div style={css("max-width:1280px;margin:0 auto;position:relative;")}>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Nazad na vrh" style={css("position:absolute;top:-76px;right:0;border:none;background:none;padding:0;cursor:pointer;")}>
+            <img src="/arrow-up.svg" alt="Nazad na vrh" style={css("width:56px;height:56px;display:block;")} />
+          </button>
           <div style={css("display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;margin-bottom:36px;")}>
             <div>
               <div style={css("margin-bottom:16px;")}><img src="/zeus-logo-white.svg" alt="ZEUS by Zepter" style={css("height:52px;width:auto;display:block;")} /></div>

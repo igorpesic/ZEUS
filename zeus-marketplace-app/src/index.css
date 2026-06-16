@@ -55,3 +55,140 @@ body {
 
 .z-card-flat { transition: box-shadow .18s; }
 .z-card-flat:hover { box-shadow: 0 16px 36px -22px rgba(14,77,164,0.4); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — mobile / tablet overrides
+   The desktop layout lives in inline style="" strings and is left untouched.
+   These rules only apply below the breakpoints, so desktop renders 1:1.
+   !important is required to override the design's inline declarations here.
+   ════════════════════════════════════════════════════════════════════════ */
+
+img, video { max-width: 100%; }
+
+/* ───────────────────── TABLET & BELOW (≤ 1024px) ───────────────────── */
+@media (max-width: 1024px) {
+  /* page gutters */
+  .z-shell { padding-left: 18px !important; padding-right: 18px !important; }
+
+  /* ── HEADER ── */
+  .z-hd { flex-wrap: wrap !important; gap: 12px !important; padding: 12px 16px !important; }
+  .z-hd-loc { display: none !important; }
+  .z-hd-search { order: 9 !important; flex-basis: 100% !important; max-width: 100% !important; }
+  .z-hd-account { display: none !important; }
+  .z-hd-acct { gap: 16px !important; margin-left: auto !important; }
+  .z-hd-txt { display: none !important; }
+  .z-hd-nav { padding: 8px 16px !important; gap: 10px !important; }
+  .z-hd-links { justify-content: flex-start !important; flex-wrap: nowrap !important; overflow-x: auto !important; }
+  .z-hd-links > button { flex: none !important; padding: 8px 10px !important; }
+
+  /* ── HOME hero mosaic → single column, panels get real heights ── */
+  .z-hero { grid-template-columns: 1fr !important; height: auto !important; gap: 14px !important; }
+  .z-hero-tall { height: 340px !important; flex: none !important; }
+  .z-hero-duo  { height: 200px !important; flex: none !important; }
+  .z-hero-video { height: 300px !important; }
+  .z-hero-bizz { height: auto !important; flex-direction: column !important; gap: 14px !important; }
+  .z-hero-bizz-txt  { max-width: 100% !important; gap: 14px !important; }
+  .z-hero-bizz-logo { display: none !important; }
+
+  /* ── content band → stacked ── */
+  .z-content-band { grid-template-columns: 1fr !important; height: auto !important; }
+  .z-cb-tall { height: 260px !important; }
+  .z-cb-half { height: 190px !important; flex: none !important; }
+
+  /* "Priprema hrane": show the whole pots (contain), shifted right onto a
+     soft-gray panel so the heading can sit centered on the left */
+  .z-cb-cook { background: #F1F1EF !important; align-items: center !important; }
+  .z-cb-cook-img { object-fit: contain !important; object-position: 96% 50% !important; }
+
+  /* ── generic grids ── */
+  .z-grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .z-grid-3 { grid-template-columns: repeat(2, 1fr) !important; }
+  .z-grid-2 { grid-template-columns: 1fr !important; }
+  .z-cats   { grid-template-columns: repeat(4, 1fr) !important; }
+  .z-promo-grid  { grid-template-columns: 1fr 1fr !important; }
+  .z-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
+
+  /* ── PDP / cart / checkout 2-col → stacked ── */
+  .z-pdp-main { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .z-pdp-stage { min-height: 320px !important; padding: 22px !important; }
+  .z-two-col  { grid-template-columns: 1fr !important; }
+  .z-sticky   { position: static !important; top: auto !important; }
+
+  /* ── full-bleed section heroes ── */
+  .z-outlet-hero { padding: 32px 16px !important; }
+  .z-bizz-hero   { padding: 44px 18px !important; }
+
+  /* ── "Sve kategorije" → icon only ── */
+  .z-allcat-txt { display: none !important; }
+  .z-allcat { padding: 9px 11px !important; gap: 0 !important; }
+
+  /* ── BizzClub home strip: shrink copy so the CTA stays inside the box ── */
+  .z-hero-bizz-txt p { font-size: 16px !important; line-height: 1.25 !important; }
+  .z-hero-bizz-txt > div { flex-wrap: wrap !important; gap: 10px !important; }
+}
+
+/* ───────────────────── PHONE (≤ 600px) ───────────────────── */
+@media (max-width: 600px) {
+  /* 8px gutter applied consistently across the whole mobile design */
+  .z-shell,
+  .z-hd,
+  .z-hd-nav,
+  .z-outlet-hero,
+  .z-bizz-hero { padding-left: 8px !important; padding-right: 8px !important; }
+
+  /* header: nudge wishlist/cart inward so the cart badge lands 8px from edge */
+  .z-hd { padding-right: 16px !important; }
+
+  /* non-product grids: benefits / swatches / rank cards stay 2-up */
+  .z-grid-4, .z-grid-3 { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+
+  /* categories → horizontal scroller, 12px between items */
+  .z-cats {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 12px !important;
+    margin-left: -8px !important;
+    margin-right: -8px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .z-cats > button { flex: 0 0 auto !important; width: 100px !important; }
+  .z-cats::-webkit-scrollbar { display: none; }
+
+  /* product rows → horizontal scroller, card ≈ 80% so the next one peeks */
+  .z-carousel {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px !important;
+    scroll-padding-left: 8px;
+    /* bleed to the screen edges, then re-inset so the first card lines up
+       with the 8px gutter and the scroller can run full-width */
+    margin-left: -8px !important;
+    margin-right: -8px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .z-carousel > * {
+    flex: 0 0 80% !important;
+    scroll-snap-align: start;
+  }
+  .z-carousel::-webkit-scrollbar { display: none; }
+  .z-cat-circle { width: 72px !important; height: 72px !important; }
+  .z-footer-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* headings scale down so they don't wrap awkwardly */
+  .z-h1 { font-size: 24px !important; }
+  .z-bizz-h1 { font-size: 28px !important; }
+  .z-hero-tall { height: 300px !important; }
+
+  /* cart row reflows: image + info on row 1, controls on row 2 */
+  .z-cart-row { flex-wrap: wrap !important; }
+  .z-cart-info { flex-basis: calc(100% - 104px) !important; }
+  .z-cart-price { margin-left: auto !important; min-width: 0 !important; }
+}

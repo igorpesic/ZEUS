@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 
 // ──────────────────────────────────────────────────────────────────────────
 // ZEUS — Marketplace
@@ -72,8 +72,11 @@ export default function App() {
     qty: 1,
     acc: "dim",
     outletFilter: "all",
+    searchQ: "",
+    searchFrom: "home",
   });
   const patch = (p) => setState((s) => ({ ...s, ...(typeof p === "function" ? p(s) : p) }));
+  const searchInputRef = useRef(null);
 
   const setScreen = (screen) => { patch({ screen }); window.scrollTo(0, 0); };
   const setRank = (rankIdx) => patch({ rankIdx });
@@ -120,6 +123,10 @@ export default function App() {
   // ── derived values (mirrors the design's renderVals) ──
   const ri = state.rankIdx, ci = state.curIdx;
   const rank = RANKS[ri], cur = CURR[ci], scr = state.screen;
+
+  useEffect(() => {
+    if (scr === "search") { const t = setTimeout(() => searchInputRef.current?.focus(), 60); return () => clearTimeout(t); }
+  }, [scr]);
 
   const screens = SCREENMETA.map((s) => ({
     label: s.label,
@@ -238,6 +245,8 @@ export default function App() {
   const featured = ["bioptron", "hyper", "myionz"].map((id) => dispProduct(byId(id)));
   const promoProducts = ["aqeena", "edel"].map((id) => dispProduct(byId(id)));
   const allProducts = PRODUCTS.map((p) => dispProduct(p));
+  const searchQ = state.searchQ.trim().toLowerCase();
+  const searchResults = searchQ ? allProducts.filter((p) => (p.name + " " + p.cat + " " + (p.brand || "")).toLowerCase().includes(searchQ)) : [];
   const wishCount = Object.values(state.wishlist).filter(Boolean).length;
   const cartCount = state.cart.reduce((a, c) => a + c.qty, 0);
 
@@ -248,6 +257,8 @@ export default function App() {
   const goBizz = () => setScreen("bizz");
   const goOutlet = () => setScreen("outlet");
   const goSearch = () => setScreen("plp");
+  const openSearch = () => { patch((s) => ({ screen: "search", searchFrom: s.screen })); window.scrollTo(0, 0); };
+  const closeSearch = () => setScreen(state.searchFrom || "home");
   const goWish = () => setScreen("plp");
 
   const heart = (fill, stroke, w = 22) => (
@@ -311,10 +322,10 @@ export default function App() {
     <div style={css("font-family:Inter,system-ui,sans-serif;background:#FBFCFE;color:#15202B;min-height:100vh;-webkit-font-smoothing:antialiased;letter-spacing:-0.01em;")}>
 
       {/* SITE HEADER */}
-      <header style={css("background:#fff;border-bottom:1px solid rgba(0,0,0,0.06);position:relative;z-index:60;")}>
+      <header style={{ ...css("background:#fff;border-bottom:1px solid rgba(0,0,0,0.06);position:sticky;top:0;z-index:60;"), display: scr === "search" ? "none" : "block" }}>
         <div className="z-hd" style={css("max-width:1232px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;gap:24px;")}>
           <button onClick={goHome} style={css("border:none;background:none;cursor:pointer;padding:0;display:flex;align-items:center;flex:none;")}>
-            <img src="/zeus-logo.svg" alt="ZEUS by Zepter" style={css("height:48px;width:auto;display:block;")} />
+            <img src="/zeus-logo.svg" alt="ZEUS by Zepter" className="z-hd-logo" style={css("height:60px;width:auto;display:block;")} />
           </button>
           <button className="z-op z-hd-loc" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:7px;flex:none;padding:0;")}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E4DA4" strokeWidth="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
@@ -329,6 +340,9 @@ export default function App() {
             </button>
           </div>
           <div className="z-hd-acct" style={css("display:flex;align-items:center;gap:20px;flex:none;")}>
+            <button onClick={openSearch} aria-label="Pretraga" className="z-op z-hd-searchbtn" style={css("display:none;border:none;background:none;cursor:pointer;align-items:center;padding:0;")}>
+              <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#15202B" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+            </button>
             <button onClick={goWish} className="z-op" style={css("position:relative;border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0;")}>
               {heart("none", "#15202B")}
               <span className="z-hd-txt" style={css("text-align:left;font:400 12px Inter;color:#5B6573;line-height:1.25;")}>Vaša<br /><b style={css("font-weight:600;color:#15202B;")}>lista želja</b></span>
@@ -420,7 +434,7 @@ export default function App() {
                 </svg>
                 <div className="z-hero-bizz-txt" style={css("position:relative;z-index:2;max-width:70%;display:flex;flex-direction:column;justify-content:space-between;")}>
                   <p style={css("font:300 20px Poppins,Inter;color:#002D62;margin:0;line-height:1.15;")}>Postanite <b style={css("font-weight:700;")}>ZEUS BizzClub</b> partner i ostvarite trajno višestruke pogodnosti!</p>
-                  <div style={css("display:flex;align-items:center;gap:18px;")}>
+                  <div className="z-bizz-cta-row" style={css("display:flex;align-items:center;gap:18px;")}>
                     <button onClick={goBizz} style={css("background:#fff;border:none;border-radius:4px;padding:7px 18px;font:600 14px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.18);")}>Želim da se učlanim</button>
                     <button onClick={goBizz} style={css("background:none;border:none;color:#002D62;font:600 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
                   </div>
@@ -447,9 +461,9 @@ export default function App() {
           </div>
 
           {/* IZDVAJAMO */}
-          <div style={css("display:flex;align-items:center;gap:14px;margin-bottom:18px;")}>
+          <div style={css("display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;")}>
             <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Izdvajamo iz ponude</h2>
-            <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+            <button onClick={goPlp} style={css("flex:none;background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
           </div>
           <div className="z-grid-4 z-carousel" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px;")}>
             {featured.map((p) => <ProductCard key={p.id} p={p} />)}
@@ -525,7 +539,7 @@ export default function App() {
 
           {/* BIZZCLUB STRIP */}
           <div style={css("background:#EAF6FF;border-radius:8px;padding:14px 28px;display:flex;align-items:center;justify-content:center;gap:28px;margin-bottom:48px;flex-wrap:wrap;")}>
-            <span style={css("font:300 20px Poppins,Inter;color:#002D62;")}>Učlanite se u <b style={css("font-weight:600;")}>ZEUS BizzClub</b> i već danas možete da ostvarite privilegovanu cenu</span>
+            <span className="z-bizz-strip-txt" style={css("font:300 20px Poppins,Inter;color:#002D62;")}>Učlanite se u <b style={css("font-weight:600;")}>ZEUS BizzClub</b> i već danas možete da ostvarite privilegovanu cenu</span>
             <button onClick={goBizz} className="z-white" style={css("background:none;border:1.5px solid #002D62;border-radius:4px;padding:8px 18px;font:600 14px Inter;color:#002D62;cursor:pointer;flex:none;")}>Želim da se učlanim</button>
           </div>
 
@@ -551,6 +565,78 @@ export default function App() {
           </div>
         </div>
       </>)}
+
+      {/* ============ PRETRAGA (full-screen, mobile) ============ */}
+      {scr === "search" && (
+        <main className="z-search" style={css("max-width:760px;margin:0 auto;padding:0 0 80px;min-height:70vh;")}>
+          {/* search bar */}
+          <div style={css("position:sticky;top:0;z-index:10;background:#fff;display:flex;align-items:center;gap:10px;padding:14px 12px;border-bottom:1px solid rgba(0,0,0,0.06);")}>
+            <button onClick={closeSearch} aria-label="Nazad" className="z-op" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;padding:4px;flex:none;")}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#15202B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="M12 19l-7-7 7-7" /></svg>
+            </button>
+            <div style={css("flex:1;display:flex;align-items:center;gap:8px;border:1.5px solid #F5B72E;border-radius:12px;padding:9px 12px;background:#fff;")}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6573" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+              <input ref={searchInputRef} value={state.searchQ} onChange={(e) => patch({ searchQ: e.target.value })}
+                placeholder="Pretražite proizvode" enterKeyHint="search"
+                style={css("flex:1;border:none;background:none;outline:none;padding:0;font:500 16px Inter;color:#15202B;min-width:0;")} />
+              {state.searchQ && (
+                <button onClick={() => { patch({ searchQ: "" }); searchInputRef.current?.focus(); }} aria-label="Obriši" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;padding:0;flex:none;")}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6573" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18" /><path d="M6 6l12 12" /></svg>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* empty state — recent + popular */}
+          {!searchQ && (
+            <div style={css("padding:18px 14px;")}>
+              <div style={css("font:600 11px Inter;color:#5B6573;letter-spacing:0.4px;margin-bottom:11px;")}>NEDAVNE PRETRAGE</div>
+              <div style={css("display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;")}>
+                {["bioptron", "naočare", "prečišćivač vazduha"].map((t) => (
+                  <button key={t} onClick={() => patch({ searchQ: t })} style={css("display:flex;align-items:center;gap:6px;border:none;cursor:pointer;font:500 13px Inter;color:#15202B;background:#F1F4F8;padding:8px 13px;border-radius:18px;")}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6573" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>{t}
+                  </button>
+                ))}
+              </div>
+              <div style={css("font:600 11px Inter;color:#5B6573;letter-spacing:0.4px;margin-bottom:4px;")}>POPULARNO</div>
+              <div>
+                {["Svetlosna terapija", "Prečišćivači vazduha", "Posuđe", "Pametne naočare"].map((t, i, a) => (
+                  <button key={t} onClick={() => patch({ searchQ: t })} className="z-op" style={{ ...css("width:100%;display:flex;align-items:center;gap:11px;border:none;background:none;cursor:pointer;text-align:left;padding:13px 2px;font:500 14px Inter;color:#15202B;"), borderBottom: i < a.length - 1 ? "1px solid rgba(0,0,0,0.05)" : "none" }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E4DA4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17l6-6 4 4 8-8" /><path d="M21 7h-5" /><path d="M21 7v5" /></svg>{t}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* results */}
+          {searchQ && (
+            <div style={css("padding:14px;")}>
+              <div style={css("font:500 13px Inter;color:#5B6573;margin-bottom:14px;")}>{searchResults.length} {searchResults.length === 1 ? "rezultat" : "rezultata"} za „{state.searchQ.trim()}"</div>
+              {searchResults.length === 0 && (
+                <div style={css("text-align:center;padding:48px 16px;color:#5B6573;")}>
+                  <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#C2CAD4" strokeWidth="1.8" strokeLinecap="round" style={css("margin-bottom:14px;")}><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+                  <div style={css("font:600 15px Inter;color:#15202B;margin-bottom:5px;")}>Nema rezultata</div>
+                  <div style={css("font:500 13px Inter;color:#5B6573;")}>Pokušajte sa drugim pojmom.</div>
+                </div>
+              )}
+              {searchResults.map((p) => (
+                <button key={p.id} onClick={p.open} className="z-op" style={css("width:100%;display:flex;align-items:center;gap:14px;border:none;background:none;cursor:pointer;text-align:left;padding:12px 2px;border-bottom:1px solid rgba(0,0,0,0.05);")}>
+                  <div style={css("width:56px;height:56px;flex:none;border-radius:10px;background:#F6F8FB;display:flex;align-items:center;justify-content:center;overflow:hidden;")}>
+                    {p.hasImg && <img src={p.img} alt={p.name} style={css("max-width:48px;max-height:48px;object-fit:contain;")} />}
+                  </div>
+                  <div style={css("flex:1;min-width:0;")}>
+                    <div style={css("font:600 11px Inter;color:#0E4DA4;margin-bottom:3px;")}>{p.cat}</div>
+                    <div style={css("font:600 14px Inter;color:#15202B;line-height:1.3;margin-bottom:4px;")}>{p.name}</div>
+                    <div style={css("font:700 14px Inter;color:#1769C0;")}>{p.showRank ? p.rankStr : p.mpStr}</div>
+                  </div>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C2CAD4" strokeWidth="2" strokeLinecap="round" style={css("flex:none;")}><path d="M9 6l6 6-6 6" /></svg>
+                </button>
+              ))}
+            </div>
+          )}
+        </main>
+      )}
 
       {/* ============ KATALOG / PLP ============ */}
       {scr === "plp" && (
@@ -991,7 +1077,7 @@ export default function App() {
       )}
 
       {/* FOOTER */}
-      <footer className="z-shell" style={css("background:#0B1F3A;color:#fff;padding:48px 24px 28px;")}>
+      <footer className="z-shell" style={{ ...css("background:#0B1F3A;color:#fff;padding:48px 24px 28px;"), display: scr === "search" ? "none" : "block" }}>
         <div style={css("max-width:1280px;margin:0 auto;position:relative;")}>
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Nazad na vrh" style={css("position:absolute;top:-76px;right:0;border:none;background:none;padding:0;cursor:pointer;")}>
             <img src="/arrow-up.svg" alt="Nazad na vrh" style={css("width:56px;height:56px;display:block;")} />

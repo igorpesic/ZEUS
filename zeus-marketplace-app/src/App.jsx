@@ -989,7 +989,7 @@ export default function App() {
         <div style={css("max-width:1280px;margin:0 auto;")}>
           <div style={css("display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;margin-bottom:36px;")}>
             <div>
-              <div style={css("display:flex;align-items:baseline;gap:8px;margin-bottom:14px;")}><span style={css("font-weight:800;font-size:22px;color:#fff;")}>ZEUS</span><span style={css("font-size:11px;opacity:.55;")}>by Zepter</span></div>
+              <div style={css("margin-bottom:16px;")}><img src="/zeus-logo-white.svg" alt="ZEUS by Zepter" style={css("height:52px;width:auto;display:block;")} /></div>
               <p style={css("font:400 13px Inter;opacity:.6;line-height:1.6;margin:0;max-width:260px;")}>Luksuzni members-club i globalni marketplace. Privilegovane cene za sve članove BizzClub strukture.</p>
             </div>
             <div><div style={css("font:700 13px Inter;margin-bottom:14px;")}>Kupovina</div><div style={css("display:flex;flex-direction:column;gap:9px;font:400 13px Inter;opacity:.6;")}><span>Marketplace</span><span>Outlet aukcije</span><span>BizzClub</span><span>Brendovi</span></div></div>

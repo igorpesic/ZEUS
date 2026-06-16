@@ -312,7 +312,7 @@ export default function App() {
 
       {/* SITE HEADER */}
       <header style={css("background:#fff;border-bottom:1px solid rgba(0,0,0,0.06);position:relative;z-index:60;")}>
-        <div style={css("max-width:1280px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;gap:24px;")}>
+        <div style={css("max-width:1232px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;gap:24px;")}>
           <button onClick={goHome} style={css("border:none;background:none;cursor:pointer;padding:0;display:flex;align-items:center;flex:none;")}>
             <img src="/zeus-logo.svg" alt="ZEUS by Zepter" style={css("height:48px;width:auto;display:block;")} />
           </button>
@@ -393,14 +393,14 @@ export default function App() {
             </div>
             {/* CENTER */}
             <div style={css("display:flex;flex-direction:column;gap:16px;")}>
-              <div style={css("height:325px;border-radius:8px;position:relative;overflow:hidden;background:radial-gradient(120% 140% at 75% 30%,#2b3036,#0c0e10);display:flex;align-items:center;flex:none;")}>
+              <div style={css("height:325px;border-radius:8px;position:relative;overflow:hidden;background:#0c0e10;display:flex;align-items:center;flex:none;")}>
+                <video src={A("assets/znew/bioptron.mp4")} autoPlay loop muted playsInline style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
+                <div style={css("position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,12,0.88) 28%,rgba(8,10,12,0.35) 60%,rgba(8,10,12,0) 80%);")} />
                 <div style={css("position:relative;z-index:2;padding:32px;color:#fff;max-width:58%;")}>
                   <h3 style={css("font:700 32px Inter;margin:0 0 10px;line-height:1.05;")}>Bioptron light therapy</h3>
                   <p style={css("font:400 18px Inter;opacity:.9;line-height:1.35;margin:0 0 16px;")}>Siguran i efikasan medicinski tretman za vaše zdravlje, lepotu i dobrobit.</p>
                   <button onClick={goPlp} style={css("background:none;border:none;color:#fff;font:600 14px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
                 </div>
-                <div style={css("position:absolute;right:-6%;top:50%;transform:translateY(-50%);width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(120,180,255,0.35),transparent 65%);")} />
-                <img src={A("assets/products/bioptron.png")} alt="Bioptron" style={css("position:absolute;right:24px;bottom:0;height:96%;object-fit:contain;filter:drop-shadow(0 16px 30px rgba(0,0,0,0.5));")} />
               </div>
               <div style={css("display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;")}>
                 <div style={css("border-radius:8px;position:relative;overflow:hidden;")}>

@@ -312,35 +312,35 @@ export default function App() {
 
       {/* SITE HEADER */}
       <header style={css("background:#fff;border-bottom:1px solid rgba(0,0,0,0.06);position:relative;z-index:60;")}>
-        <div style={css("max-width:1232px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;gap:24px;")}>
+        <div className="z-hd" style={css("max-width:1232px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;gap:24px;")}>
           <button onClick={goHome} style={css("border:none;background:none;cursor:pointer;padding:0;display:flex;align-items:center;flex:none;")}>
             <img src="/zeus-logo.svg" alt="ZEUS by Zepter" style={css("height:48px;width:auto;display:block;")} />
           </button>
-          <button className="z-op" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:7px;flex:none;padding:0;")}>
+          <button className="z-op z-hd-loc" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:7px;flex:none;padding:0;")}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E4DA4" strokeWidth="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
             <span style={css("font:600 14px Inter;color:#15202B;")}>{cur.loc}</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5B6573" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
           </button>
-          <div style={css("flex:1;display:flex;align-items:center;max-width:520px;border:1.5px solid rgba(0,0,0,0.08);border-radius:14px;overflow:hidden;background:#FBFCFE;")}>
+          <div className="z-hd-search" style={css("flex:1;display:flex;align-items:center;max-width:520px;border:1.5px solid rgba(0,0,0,0.08);border-radius:14px;overflow:hidden;background:#FBFCFE;")}>
             <input placeholder="Pretražite sve na Zepteru online i u prodavnici" style={css("flex:1;border:none;background:none;outline:none;padding:13px 16px;font:500 14px Inter;color:#15202B;")} />
             <button onClick={goSearch} className="z-amber" style={css("border:none;cursor:pointer;background:#F5B72E;color:#13315C;font:700 14px Inter;padding:13px 22px;display:flex;align-items:center;gap:8px;")}>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#13315C" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
               Pretraga
             </button>
           </div>
-          <div style={css("display:flex;align-items:center;gap:20px;flex:none;")}>
+          <div className="z-hd-acct" style={css("display:flex;align-items:center;gap:20px;flex:none;")}>
             <button onClick={goWish} className="z-op" style={css("position:relative;border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0;")}>
               {heart("none", "#15202B")}
-              <span style={css("text-align:left;font:400 12px Inter;color:#5B6573;line-height:1.25;")}>Vaša<br /><b style={css("font-weight:600;color:#15202B;")}>lista želja</b></span>
+              <span className="z-hd-txt" style={css("text-align:left;font:400 12px Inter;color:#5B6573;line-height:1.25;")}>Vaša<br /><b style={css("font-weight:600;color:#15202B;")}>lista želja</b></span>
               <span style={css("position:absolute;top:-6px;left:14px;background:#0E4DA4;color:#fff;font:700 9px Inter;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;")}>{wishCount}</span>
             </button>
-            <button className="z-op" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0;")}>
+            <button className="z-op z-hd-account" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0;")}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15202B" strokeWidth="1.8"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" /></svg>
               <span style={css("text-align:left;font:400 12px Inter;color:#5B6573;line-height:1.25;")}>Prijavite se na<br /><b style={css("font-weight:600;color:#15202B;")}>moj nalog</b></span>
             </button>
             <button onClick={goCart} className="z-op" style={css("position:relative;border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0;")}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#15202B" strokeWidth="1.8" strokeLinecap="round"><path d="M3 4h2l2.4 12.4a1 1 0 001 .8h9.2a1 1 0 001-.8L21 8H6" /><circle cx="9" cy="20" r="1.3" /><circle cx="18" cy="20" r="1.3" /></svg>
-              <span style={css("font:600 13px Inter;color:#15202B;")}>{fmt(rankTotal)}</span>
+              <span className="z-hd-txt" style={css("font:600 13px Inter;color:#15202B;")}>{fmt(rankTotal)}</span>
               <span style={css("position:absolute;top:-6px;left:16px;background:#F5B72E;color:#13315C;font:700 9px Inter;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;")}>{cartCount}</span>
             </button>
           </div>
@@ -348,12 +348,12 @@ export default function App() {
 
         {/* CATEGORY NAV */}
         <div style={css("background:#fff;border-top:1px solid rgba(0,0,0,0.05);box-shadow:0 1px 4px rgba(0,0,0,0.04);")}>
-          <div style={css("max-width:1232px;margin:0 auto;padding:8px 24px;display:flex;align-items:center;gap:18px;")}>
+          <div className="z-hd-nav" style={css("max-width:1232px;margin:0 auto;padding:8px 24px;display:flex;align-items:center;gap:18px;")}>
             <button onClick={goPlp} className="z-allcat" style={css("display:flex;align-items:center;gap:10px;border:none;background:#002D62;color:#fff;font:600 13.5px Inter;padding:10px 18px;border-radius:6px;cursor:pointer;flex:none;")}>
-              Sve kategorije
+              <span className="z-allcat-txt">Sve kategorije</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>
             </button>
-            <div style={css("flex:1;display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap;")}>
+            <div className="z-hd-links" style={css("flex:1;display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap;")}>
               <button onClick={goHome} className="z-link" style={css("border:none;background:none;color:#15202B;font:600 14px Inter;padding:8px 14px;cursor:pointer;")}>Početna</button>
               <button onClick={goPlp} className="z-link" style={css("border:none;background:none;color:#15202B;font:500 14px Inter;padding:8px 14px;cursor:pointer;")}>Promocije</button>
               <button onClick={goPlp} className="z-link" style={css("border:none;background:none;color:#15202B;font:500 14px Inter;padding:8px 14px;cursor:pointer;")}>Zepter Svet</button>
@@ -367,9 +367,9 @@ export default function App() {
 
       {/* ============ HOME ============ */}
       {scr === "home" && (<>
-        <main style={css("max-width:1232px;margin:0 auto;padding:24px 24px 0;")}>
+        <main className="z-shell" style={css("max-width:1232px;margin:0 auto;padding:24px 24px 0;")}>
           {/* HERO MOSAIC */}
-          <div style={css("display:grid;grid-template-columns:288px 1fr 288px;gap:16px;height:780px;margin-bottom:40px;")}>
+          <div className="z-hero" style={css("display:grid;grid-template-columns:288px 1fr 288px;gap:16px;height:780px;margin-bottom:40px;")}>
             {/* LEFT */}
             <div style={css("display:flex;flex-direction:column;gap:16px;")}>
               <div style={css("height:200px;border-radius:8px;position:relative;overflow:hidden;flex:none;")}>
@@ -377,7 +377,7 @@ export default function App() {
                 <div style={{ ...css("position:absolute;top:16px;right:16px;text-align:right;font:700 13px Inter;color:#15202B;line-height:1.25;"), whiteSpace: "pre-line" }}>{"VacSy\nČuvar tvoje\nhrane!"}</div>
                 <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
               </div>
-              <div style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-end;")}>
+              <div className="z-hero-tall" style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-end;")}>
                 <img src={A("assets/home/hyperlight.png")} alt="Hyperlight Eyewear" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;")} />
                 <div style={css("position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.78) 8%,rgba(0,0,0,0) 55%);")} />
                 <div style={css("position:relative;z-index:2;padding:20px;color:#fff;")}>
@@ -393,7 +393,7 @@ export default function App() {
             </div>
             {/* CENTER */}
             <div style={css("display:flex;flex-direction:column;gap:16px;")}>
-              <div style={css("height:325px;border-radius:8px;position:relative;overflow:hidden;background:#0c0e10;display:flex;align-items:center;flex:none;")}>
+              <div className="z-hero-video" style={css("height:325px;border-radius:8px;position:relative;overflow:hidden;background:#0c0e10;display:flex;align-items:center;flex:none;")}>
                 <video src={A("assets/znew/bioptron.mp4")} autoPlay loop muted playsInline style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
                 <div style={css("position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,12,0.88) 28%,rgba(8,10,12,0.35) 60%,rgba(8,10,12,0) 80%);")} />
                 <div style={css("position:relative;z-index:2;padding:32px;color:#fff;max-width:58%;")}>
@@ -402,7 +402,7 @@ export default function App() {
                   <button onClick={goPlp} style={css("background:none;border:none;color:#fff;font:600 14px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
                 </div>
               </div>
-              <div style={css("display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;")}>
+              <div className="z-hero-duo" style={css("display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;")}>
                 <div style={css("border-radius:8px;position:relative;overflow:hidden;")}>
                   <img src={A("assets/znew/myionz-air.png")} alt="Therapy Air" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right;")} />
                   <button onClick={goPlp} style={css("position:absolute;bottom:16px;left:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
@@ -412,20 +412,20 @@ export default function App() {
                   <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
                 </div>
               </div>
-              <div style={css("height:130px;border-radius:8px;background:#EEFAFF;position:relative;overflow:hidden;padding:16px 20px;flex:none;display:flex;")}>
+              <div className="z-hero-bizz" style={css("height:130px;border-radius:8px;background:#EEFAFF;position:relative;overflow:hidden;padding:16px 20px;flex:none;display:flex;")}>
                 <svg viewBox="0 0 624 130" preserveAspectRatio="xMaxYMid slice" style={css("position:absolute;inset:0;width:100%;height:100%;")} xmlns="http://www.w3.org/2000/svg">
                   <path opacity="0.6" d="M288 99.7794L624.476 18.8347L624.476 180.724L288 99.7794Z" fill="#0273BC" fillOpacity="0.5"/>
                   <path opacity="0.6" d="M367.358 10.899L624.476 -50.9999L624.476 72.7979L367.358 10.899Z" fill="#0071BD" fillOpacity="0.25"/>
                   <path opacity="0.6" d="M449.889 61.6879L624.476 18.8349L624.476 104.541L449.889 61.6879Z" fill="#0071BD" fillOpacity="0.75"/>
                 </svg>
-                <div style={css("position:relative;z-index:2;max-width:70%;display:flex;flex-direction:column;justify-content:space-between;")}>
+                <div className="z-hero-bizz-txt" style={css("position:relative;z-index:2;max-width:70%;display:flex;flex-direction:column;justify-content:space-between;")}>
                   <p style={css("font:300 20px Poppins,Inter;color:#002D62;margin:0;line-height:1.15;")}>Postanite <b style={css("font-weight:700;")}>ZEUS BizzClub</b> partner i ostvarite trajno višestruke pogodnosti!</p>
                   <div style={css("display:flex;align-items:center;gap:18px;")}>
                     <button onClick={goBizz} style={css("background:#fff;border:none;border-radius:4px;padding:7px 18px;font:600 14px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.18);")}>Želim da se učlanim</button>
                     <button onClick={goBizz} style={css("background:none;border:none;color:#002D62;font:600 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
                   </div>
                 </div>
-                <img src="/zeus-logo.svg" alt="ZEUS by Zepter" style={css("position:absolute;right:28px;top:50%;transform:translateY(-50%);height:66px;width:auto;z-index:2;")} />
+                <img src="/zeus-logo.svg" alt="ZEUS by Zepter" className="z-hero-bizz-logo" style={css("position:absolute;right:28px;top:50%;transform:translateY(-50%);height:66px;width:auto;z-index:2;")} />
               </div>
             </div>
             {/* RIGHT */}
@@ -439,7 +439,7 @@ export default function App() {
                 <div style={{ ...css("position:absolute;top:16px;left:16px;font:700 13px Inter;color:#15202B;line-height:1.25;"), whiteSpace: "pre-line" }}>{"Jedinstveno\ni superiorno posuđe"}</div>
                 <button onClick={goPlp} style={css("position:absolute;bottom:14px;right:14px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
               </div>
-              <div style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;")}>
+              <div className="z-hero-tall" style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;")}>
                 <img src={A("assets/znew/woman-bag.png")} alt="Luksuz i stil" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 15%;")} />
                 <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
               </div>
@@ -451,7 +451,7 @@ export default function App() {
             <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Izdvajamo iz ponude</h2>
             <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
           </div>
-          <div style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px;")}>
+          <div className="z-grid-4 z-carousel" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px;")}>
             {featured.map((p) => <ProductCard key={p.id} p={p} />)}
             {/* gold ad tile */}
             <div style={css("border-radius:12px;overflow:hidden;position:relative;background:#000;display:flex;align-items:flex-end;")}>
@@ -467,8 +467,8 @@ export default function App() {
           </div>
 
           {/* CONTENT BAND */}
-          <div style={css("display:grid;grid-template-columns:1.62fr 1fr 1fr;gap:16px;margin-bottom:52px;height:420px;")}>
-            <div style={css("border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-end;")}>
+          <div className="z-content-band" style={css("display:grid;grid-template-columns:1.62fr 1fr 1fr;gap:16px;margin-bottom:52px;height:420px;")}>
+            <div className="z-cb-tall" style={css("border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-end;")}>
               <img src={A("assets/znew/bioptron-eye.png")} alt="Bioptron svetlosna terapija" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
               <div style={css("position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,0.92) 24%,rgba(255,255,255,0) 60%);")} />
               <div style={css("position:relative;z-index:2;padding:24px;")}>
@@ -478,7 +478,7 @@ export default function App() {
               </div>
             </div>
             <div style={css("display:flex;flex-direction:column;gap:16px;")}>
-              <div style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;background:#fff;padding:22px;display:flex;flex-direction:column;")}>
+              <div className="z-cb-half" style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;background:#fff;padding:22px;display:flex;flex-direction:column;")}>
                 <img src={A("assets/znew/preciscena-voda.png")} alt="Prečišćena voda" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;")} />
                 <div style={css("position:relative;z-index:2;")}>
                   <h3 style={css("font:700 20px Inter;margin:0 0 8px;color:#002D62;")}>Prečišćena voda</h3>
@@ -486,7 +486,7 @@ export default function App() {
                   <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:600 13px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
                 </div>
               </div>
-              <div style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-start;justify-content:flex-end;")}>
+              <div className="z-cb-half" style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-start;justify-content:flex-end;")}>
                 <img src={A("assets/znew/lepota-flowers.jpg")} alt="Prirodna lepota" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
                 <div style={css("position:relative;z-index:2;padding:16px;text-align:right;")}>
                   <h3 style={css("font:700 18px Inter;margin:0 0 6px;color:#fff;")}>Prirodna lepota</h3>
@@ -494,8 +494,8 @@ export default function App() {
                 </div>
               </div>
             </div>
-            <div style={css("border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-start;")}>
-              <img src={A("assets/znew/u2.jpg")} alt="Priprema hrane" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
+            <div className="z-cb-tall z-cb-cook" style={css("border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-start;")}>
+              <img src={A("assets/znew/u2.jpg")} alt="Priprema hrane" className="z-cb-cook-img" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
               <div style={css("position:relative;z-index:2;padding:18px;")}>
                 <h3 style={css("font:700 19px Inter;margin:0 0 6px;color:#15202B;max-width:160px;line-height:1.2;")}>Priprema hrane na zdrav način</h3>
                 <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:600 13px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
@@ -509,10 +509,10 @@ export default function App() {
               <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Kategorije proizvoda</h2>
               <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
             </div>
-            <div style={css("display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:40px;")}>
+            <div className="z-cats" style={css("display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:40px;")}>
               {catCircles.map((c, i) => (
                 <button key={i} onClick={c.go} style={css("border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;padding:4px;")}>
-                  <div className="z-scale" style={css("width:104px;height:104px;border-radius:50%;background:#D7ECFB;display:flex;align-items:center;justify-content:center;overflow:hidden;")}>
+                  <div className="z-scale z-cat-circle" style={css("width:104px;height:104px;border-radius:50%;background:#D7ECFB;display:flex;align-items:center;justify-content:center;overflow:hidden;")}>
                     {c.hasImg
                       ? <img src={c.img} alt={c.name} style={{ ...css("object-fit:contain;"), width: c.size + "px", height: c.size + "px" }} />
                       : <div style={css("width:56px;height:56px;border-radius:50%;background:repeating-linear-gradient(135deg,#bcd9f2,#bcd9f2 7px,#cfe5f7 7px,#cfe5f7 14px);")} />}
@@ -534,7 +534,7 @@ export default function App() {
             <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Promocije</h2>
             <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
           </div>
-          <div style={css("display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;")}>
+          <div className="z-promo-grid z-carousel" style={css("display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;")}>
             <div style={css("border-radius:8px;overflow:hidden;position:relative;")}>
               <img src={A("assets/znew/promo-voda.png")} alt="Čista i zdrava voda" style={css("display:block;width:100%;height:100%;object-fit:cover;")} />
             </div>
@@ -554,7 +554,7 @@ export default function App() {
 
       {/* ============ KATALOG / PLP ============ */}
       {scr === "plp" && (
-        <main style={css("max-width:1280px;margin:0 auto;padding:22px 24px 80px;")}>
+        <main className="z-shell" style={css("max-width:1280px;margin:0 auto;padding:22px 24px 80px;")}>
           <div style={css("font:500 12.5px Inter;color:#5B6573;margin-bottom:18px;")}>Početna&nbsp;&nbsp;/&nbsp;&nbsp;Marketplace&nbsp;&nbsp;/&nbsp;&nbsp;<span style={css("color:#15202B;font-weight:600;")}>Svi proizvodi</span></div>
           <div style={css("display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;margin-bottom:22px;")}>
             {catChips.map((c, i) => (
@@ -564,13 +564,13 @@ export default function App() {
             ))}
           </div>
           <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;")}>
-            <h1 style={css("font:800 28px Inter;margin:0;color:#15202B;")}>Svi proizvodi <span style={css("font:500 16px Inter;color:#94a0ae;")}>({PRODUCTS.length})</span></h1>
+            <h1 className="z-h1" style={css("font:800 28px Inter;margin:0;color:#15202B;")}>Svi proizvodi <span style={css("font:500 16px Inter;color:#94a0ae;")}>({PRODUCTS.length})</span></h1>
             <div style={css("display:flex;align-items:center;gap:10px;")}>
               <span style={css("font:500 13px Inter;color:#5B6573;")}>Sortiraj:</span>
               <select style={css("border:1px solid rgba(0,0,0,0.1);background:#fff;border-radius:10px;padding:9px 12px;font:600 13px Inter;color:#15202B;cursor:pointer;")}><option>Popularnost</option><option>Cena: rastuće</option><option>Cena: opadajuće</option><option>Novo</option></select>
             </div>
           </div>
-          <div style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:18px;")}>
+          <div className="z-grid-4 z-carousel" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:18px;")}>
             {allProducts.map((p) => (
               <div key={p.id} className="z-card" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;")}>
                 <div style={css("position:relative;padding:18px;")}>
@@ -617,9 +617,9 @@ export default function App() {
 
       {/* ============ PDP ============ */}
       {scr === "pdp" && (
-        <main style={css("max-width:1280px;margin:0 auto;padding:22px 24px 80px;")}>
+        <main className="z-shell" style={css("max-width:1280px;margin:0 auto;padding:22px 24px 80px;")}>
           <div style={css("font:500 12.5px Inter;color:#5B6573;margin-bottom:22px;")}>Početna&nbsp;&nbsp;/&nbsp;&nbsp;{pdp.cat}&nbsp;&nbsp;/&nbsp;&nbsp;<span style={css("color:#15202B;font-weight:600;")}>{pdp.name}</span></div>
-          <div style={css("display:grid;grid-template-columns:1.15fr 1fr;gap:40px;margin-bottom:44px;")}>
+          <div className="z-pdp-main" style={css("display:grid;grid-template-columns:1.15fr 1fr;gap:40px;margin-bottom:44px;")}>
             {/* gallery */}
             <div style={css("display:flex;gap:16px;")}>
               <div style={css("display:flex;flex-direction:column;gap:12px;flex:none;")}>
@@ -629,7 +629,7 @@ export default function App() {
                   </button>
                 ))}
               </div>
-              <div style={css("flex:1;background:#F7F9FC;border:1px solid rgba(0,0,0,0.06);border-radius:20px;display:flex;align-items:center;justify-content:center;padding:36px;min-height:440px;position:relative;")}>
+              <div className="z-pdp-stage" style={css("flex:1;background:#F7F9FC;border:1px solid rgba(0,0,0,0.06);border-radius:20px;display:flex;align-items:center;justify-content:center;padding:36px;min-height:440px;position:relative;")}>
                 {pdp.promoOn && <span style={css("position:absolute;top:20px;left:20px;")}><PromoHex label={"−" + pdp.promo + "%"} h={66} /></span>}
                 {pdp.hasImg
                   ? <img src={pdp.img} alt={pdp.name} style={css("max-height:380px;max-width:100%;object-fit:contain;")} />
@@ -639,7 +639,7 @@ export default function App() {
             {/* buy card */}
             <div>
               <div style={css("display:inline-block;background:#EAF2FC;color:#0E4DA4;font:600 12px Inter;padding:5px 11px;border-radius:8px;margin-bottom:14px;")}>{pdp.cat}</div>
-              <h1 style={css("font:800 30px Inter;margin:0 0 10px;line-height:1.15;color:#15202B;")}>{pdp.name}</h1>
+              <h1 className="z-h1" style={css("font:800 30px Inter;margin:0 0 10px;line-height:1.15;color:#15202B;")}>{pdp.name}</h1>
               <div style={css("display:flex;align-items:center;gap:14px;margin-bottom:22px;")}>
                 <div style={css("display:flex;align-items:center;gap:4px;")}><span style={css("color:#F5B72E;font-size:16px;letter-spacing:1px;")}>★★★★★</span><span style={css("font:600 13px Inter;color:#15202B;")}>{pdp.rating}</span></div>
                 <span style={css("font:500 13px Inter;color:#94a0ae;")}>{pdp.reviews} recenzija</span>
@@ -709,7 +709,7 @@ export default function App() {
 
           {/* similar */}
           <h2 style={css("font:800 24px Inter;margin:0 0 20px;color:#15202B;")}>Slični proizvodi</h2>
-          <div style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:18px;")}>
+          <div className="z-grid-4 z-carousel" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:18px;")}>
             {similar.map((p) => (
               <div key={p.id} className="z-card-flat" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;")}>
                 <button onClick={p.open} style={css("border:none;background:none;cursor:pointer;padding:18px;")}>
@@ -732,8 +732,8 @@ export default function App() {
 
       {/* ============ KORPA ============ */}
       {scr === "cart" && (
-        <main style={css("max-width:1100px;margin:0 auto;padding:30px 24px 80px;")}>
-          <h1 style={css("font:800 30px Inter;margin:0 0 26px;")}>Vaša korpa <span style={css("font:500 17px Inter;color:#94a0ae;")}>({cartCount} proizvoda)</span></h1>
+        <main className="z-shell" style={css("max-width:1100px;margin:0 auto;padding:30px 24px 80px;")}>
+          <h1 className="z-h1" style={css("font:800 30px Inter;margin:0 0 26px;")}>Vaša korpa <span style={css("font:500 17px Inter;color:#94a0ae;")}>({cartCount} proizvoda)</span></h1>
           {state.cart.length === 0 ? (
             <div style={css("text-align:center;padding:80px 20px;background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:20px;")}>
               <div style={css("width:80px;height:80px;border-radius:50%;background:#EAF2FC;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;")}><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0E4DA4" strokeWidth="2"><path d="M3 4h2l2.4 12.4a1 1 0 001 .8h9.2a1 1 0 001-.8L21 8H6" /></svg></div>
@@ -742,16 +742,16 @@ export default function App() {
               <button onClick={goPlp} style={css("background:#13315C;color:#fff;border:none;border-radius:12px;padding:13px 26px;font:600 14px Inter;cursor:pointer;")}>Idi na katalog</button>
             </div>
           ) : (
-            <div style={css("display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:start;")}>
+            <div className="z-two-col" style={css("display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:start;")}>
               <div style={css("display:flex;flex-direction:column;gap:14px;")}>
                 {cartRows.map((c) => (
-                  <div key={c.id} style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:16px;display:flex;gap:16px;align-items:center;")}>
+                  <div key={c.id} className="z-cart-row" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:16px;display:flex;gap:16px;align-items:center;")}>
                     <div style={css("width:88px;height:88px;border-radius:12px;background:#F7F9FC;display:flex;align-items:center;justify-content:center;flex:none;padding:8px;")}>
                       {c.hasImg
                         ? <img src={c.img} style={css("max-width:100%;max-height:100%;object-fit:contain;")} />
                         : <div style={css("width:100%;height:100%;border-radius:8px;background:repeating-linear-gradient(135deg,#EEF2F7,#EEF2F7 7px,#F6F8FB 7px,#F6F8FB 14px);")} />}
                     </div>
-                    <div style={css("flex:1;")}>
+                    <div className="z-cart-info" style={css("flex:1;")}>
                       <div style={css("font:600 11px Inter;color:#0E4DA4;margin-bottom:3px;")}>{c.cat}</div>
                       <div style={css("font:600 14.5px Inter;color:#15202B;margin-bottom:4px;line-height:1.3;")}>{c.name}</div>
                       <div style={css("font:500 11.5px Inter;color:#94a0ae;")}>SKU: {c.sku}</div>
@@ -761,7 +761,7 @@ export default function App() {
                       <span style={css("width:34px;text-align:center;font:700 14px Inter;")}>{c.qty}</span>
                       <button onClick={c.inc} className="z-step" style={css("border:none;background:#fff;width:34px;height:34px;font:600 17px Inter;color:#13315C;cursor:pointer;")}>+</button>
                     </div>
-                    <div style={css("text-align:right;flex:none;min-width:130px;")}>
+                    <div className="z-cart-price" style={css("text-align:right;flex:none;min-width:130px;")}>
                       <div style={css("font:800 16px Inter;color:#1769C0;")}>{c.lineStr}</div>
                       {c.showRank && <div style={css("font:500 11.5px Inter;color:#94a0ae;text-decoration:line-through;")}>{c.lineMpStr}</div>}
                     </div>
@@ -769,7 +769,7 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:24px;position:sticky;top:120px;")}>
+              <div className="z-sticky" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:24px;position:sticky;top:120px;")}>
                 <h3 style={css("font:700 18px Inter;margin:0 0 18px;")}>Pregled porudžbine</h3>
                 <div style={css("display:flex;justify-content:space-between;font:500 14px Inter;color:#5B6573;margin-bottom:12px;")}><span>MP vrednost</span><span style={css("text-decoration:line-through;")}>{fmt(mpTotal)}</span></div>
                 {rank.disc > 0 && <div style={css("display:flex;justify-content:space-between;font:600 14px Inter;color:#1769C0;margin-bottom:12px;")}><span>{rank.name} popust</span><span>− {fmt(savings)}</span></div>}
@@ -787,10 +787,10 @@ export default function App() {
 
       {/* ============ CHECKOUT ============ */}
       {scr === "checkout" && (
-        <main style={css("max-width:1100px;margin:0 auto;padding:30px 24px 80px;")}>
-          <h1 style={css("font:800 30px Inter;margin:0 0 6px;")}>Plaćanje</h1>
+        <main className="z-shell" style={css("max-width:1100px;margin:0 auto;padding:30px 24px 80px;")}>
+          <h1 className="z-h1" style={css("font:800 30px Inter;margin:0 0 6px;")}>Plaćanje</h1>
           <div style={css("display:flex;align-items:center;gap:10px;font:500 13px Inter;color:#5B6573;margin-bottom:28px;")}><span style={css("color:#0E4DA4;font-weight:600;")}>1 Korpa</span> › <span style={css("color:#0E4DA4;font-weight:600;")}>2 Podaci</span> › <span style={css("color:#94a0ae;")}>3 Potvrda</span></div>
-          <div style={css("display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:start;")}>
+          <div className="z-two-col" style={css("display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:start;")}>
             <div style={css("display:flex;flex-direction:column;gap:20px;")}>
               <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:24px;")}>
                 <h3 style={css("font:700 17px Inter;margin:0 0 18px;")}>Adresa za dostavu</h3>
@@ -811,7 +811,7 @@ export default function App() {
                 </div>
               </div>
             </div>
-            <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:24px;position:sticky;top:120px;")}>
+            <div className="z-sticky" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:24px;position:sticky;top:120px;")}>
               <h3 style={css("font:700 18px Inter;margin:0 0 18px;")}>Vaša porudžbina</h3>
               <div style={css("display:flex;flex-direction:column;gap:12px;margin-bottom:16px;")}>
                 {cartRows.map((c) => (
@@ -834,11 +834,11 @@ export default function App() {
       {/* ============ OUTLET ============ */}
       {scr === "outlet" && (
         <main style={css("max-width:1280px;margin:0 auto;padding:0 0 80px;")}>
-          <div style={css("background:linear-gradient(120deg,#13315C,#0B1F3A);color:#fff;padding:48px 24px;")}>
+          <div className="z-outlet-hero" style={css("background:linear-gradient(120deg,#13315C,#0B1F3A);color:#fff;padding:48px 24px;")}>
             <div style={css("max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;")}>
               <div>
                 <div style={css("display:inline-flex;align-items:center;gap:8px;background:rgba(245,183,46,0.15);color:#F5B72E;font:700 12px Inter;padding:6px 12px;border-radius:8px;margin-bottom:14px;")}>⚡ ZEUS OUTLET · AUKCIJE</div>
-                <h1 style={css("font:800 38px Inter;margin:0 0 8px;")}>Licitirajte ili kupite odmah</h1>
+                <h1 className="z-h1" style={css("font:800 38px Inter;margin:0 0 8px;")}>Licitirajte ili kupite odmah</h1>
                 <p style={css("font:400 15px Inter;opacity:.8;margin:0;max-width:480px;")}>Provereni proizvodi po izuzetnim cenama. Nove aukcije svakog dana.</p>
               </div>
               <div style={css("background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:20px 28px;text-align:center;")}>
@@ -853,13 +853,13 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div style={css("max-width:1280px;margin:0 auto;padding:28px 24px 0;")}>
+          <div className="z-shell" style={css("max-width:1280px;margin:0 auto;padding:28px 24px 0;")}>
             <div style={css("display:flex;gap:10px;margin-bottom:24px;")}>
               {outletFilters.map((f, i) => (
                 <button key={i} onClick={f.pick} style={{ ...css("border-radius:10px;padding:9px 16px;font:600 13px Inter;cursor:pointer;"), border: "1px solid " + f.border, background: f.bg, color: f.fg }}>{f.label}</button>
               ))}
             </div>
-            <div style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:20px;")}>
+            <div className="z-grid-3 z-carousel" style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:20px;")}>
               {auctions.map((a, i) => (
                 <div key={i} className="z-card-flat" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;")}>
                   <div style={css("position:relative;padding:20px;background:#F7F9FC;")}>
@@ -891,18 +891,18 @@ export default function App() {
       {/* ============ BIZZCLUB ============ */}
       {scr === "bizz" && (
         <main style={css("padding:0 0 80px;")}>
-          <div style={css("background:linear-gradient(135deg,#0E4DA4,#13315C);color:#fff;padding:64px 24px;text-align:center;")}>
+          <div className="z-bizz-hero" style={css("background:linear-gradient(135deg,#0E4DA4,#13315C);color:#fff;padding:64px 24px;text-align:center;")}>
             <div style={css("max-width:760px;margin:0 auto;")}>
               <div style={css("display:inline-block;background:rgba(245,183,46,0.18);color:#F5B72E;font:700 12px Inter;padding:7px 14px;border-radius:8px;margin-bottom:20px;letter-spacing:0.06em;")}>ZEUS MEMBERS CLUB</div>
-              <h1 style={css("font:800 44px Inter;margin:0 0 16px;line-height:1.1;")}>Kupujte pametnije.<br />Uštedite do −40%.</h1>
+              <h1 className="z-bizz-h1" style={css("font:800 44px Inter;margin:0 0 16px;line-height:1.1;")}>Kupujte pametnije.<br />Uštedite do −40%.</h1>
               <p style={css("font:400 17px Inter;opacity:.85;margin:0 0 30px;")}>Učlanjenje je besplatno. Što viši rang u BizzClub strukturi, to veći popust na sve proizvode i brendove na marketplace-u.</p>
               <button onClick={goPlp} className="z-amber" style={css("background:#F5B72E;color:#13315C;border:none;border-radius:12px;padding:15px 32px;font:700 15px Inter;cursor:pointer;")}>Učlanite se besplatno</button>
             </div>
           </div>
-          <div style={css("max-width:1100px;margin:0 auto;padding:56px 24px;")}>
+          <div className="z-shell" style={css("max-width:1100px;margin:0 auto;padding:56px 24px;")}>
             <h2 style={css("font:800 28px Inter;text-align:center;margin:0 0 8px;")}>Rangovi i popusti</h2>
             <p style={css("font:400 15px Inter;color:#5B6573;text-align:center;margin:0 0 36px;")}>Vaš popust raste sa napredovanjem kroz strukturu članstva.</p>
-            <div style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:56px;")}>
+            <div className="z-grid-3" style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:56px;")}>
               {rankCards.map((r, i) => (
                 <div key={i} style={{ ...css("background:#fff;border-radius:18px;padding:26px;position:relative;"), border: "1.5px solid " + r.border }}>
                   {r.maxTag && <span style={css("position:absolute;top:18px;right:18px;background:#F5B72E;color:#13315C;font:700 10px Inter;padding:3px 9px;border-radius:6px;")}>Max popust</span>}
@@ -914,7 +914,7 @@ export default function App() {
               ))}
             </div>
             <h2 style={css("font:800 28px Inter;text-align:center;margin:0 0 36px;")}>Pogodnosti članstva</h2>
-            <div style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:18px;")}>
+            <div className="z-grid-4" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:18px;")}>
               {benefits.map((b, i) => (
                 <div key={i} style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:24px;text-align:center;")}>
                   <div style={css("width:54px;height:54px;border-radius:14px;background:#EAF2FC;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;")}>{b.icon}</div>
@@ -929,12 +929,12 @@ export default function App() {
 
       {/* ============ DESIGN SYSTEM ============ */}
       {scr === "ds" && (
-        <main style={css("max-width:1100px;margin:0 auto;padding:36px 24px 80px;")}>
-          <h1 style={css("font:800 34px Inter;margin:0 0 6px;")}>ZEUS — dizajn sistem</h1>
+        <main className="z-shell" style={css("max-width:1100px;margin:0 auto;padding:36px 24px 80px;")}>
+          <h1 className="z-h1" style={css("font:800 34px Inter;margin:0 0 6px;")}>ZEUS — dizajn sistem</h1>
           <p style={css("font:400 15px Inter;color:#5B6573;margin:0 0 40px;")}>Tokeni i jezgro komponenti. Minimalistički, prozračno, Zepter plava kao prepoznatljiv akcenat.</p>
 
           <h2 style={css("font:700 20px Inter;margin:0 0 16px;")}>Boje</h2>
-          <div style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:44px;")}>
+          <div className="z-grid-4" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:44px;")}>
             {swatches.map((s, i) => (
               <div key={i} style={css("border:1px solid rgba(0,0,0,0.06);border-radius:14px;overflow:hidden;")}>
                 <div style={{ ...css("height:84px;"), background: s.hex }} />
@@ -962,7 +962,7 @@ export default function App() {
           </div>
 
           <h2 style={css("font:700 20px Inter;margin:0 0 16px;")}>Komponente</h2>
-          <div style={css("display:grid;grid-template-columns:1fr 1fr;gap:18px;")}>
+          <div className="z-grid-2" style={css("display:grid;grid-template-columns:1fr 1fr;gap:18px;")}>
             <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:24px;")}>
               <div style={css("font:600 12px Inter;color:#94a0ae;margin-bottom:14px;")}>PRICE BLOCK · GOST</div>
               <div style={css("font:500 11px Inter;color:#5B6573;")}>MP Cena</div>
@@ -991,12 +991,12 @@ export default function App() {
       )}
 
       {/* FOOTER */}
-      <footer style={css("background:#0B1F3A;color:#fff;padding:48px 24px 28px;")}>
+      <footer className="z-shell" style={css("background:#0B1F3A;color:#fff;padding:48px 24px 28px;")}>
         <div style={css("max-width:1280px;margin:0 auto;position:relative;")}>
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Nazad na vrh" style={css("position:absolute;top:-76px;right:0;border:none;background:none;padding:0;cursor:pointer;")}>
             <img src="/arrow-up.svg" alt="Nazad na vrh" style={css("width:56px;height:56px;display:block;")} />
           </button>
-          <div style={css("display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;margin-bottom:36px;")}>
+          <div className="z-footer-grid" style={css("display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;margin-bottom:36px;")}>
             <div>
               <div style={css("margin-bottom:16px;")}><img src="/zeus-logo-white.svg" alt="ZEUS by Zepter" style={css("height:52px;width:auto;display:block;")} /></div>
               <p style={css("font:400 13px Inter;opacity:.6;line-height:1.6;margin:0;max-width:260px;")}>Luksuzni members-club i globalni marketplace. Privilegovane cene za sve članove BizzClub strukture.</p>

@@ -412,16 +412,20 @@ export default function App() {
                   <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
                 </div>
               </div>
-              <div style={css("height:130px;border-radius:8px;background:#EAF6FF;position:relative;overflow:hidden;padding:16px;flex:none;")}>
-                <div style={css("position:absolute;right:0;top:0;bottom:0;width:55%;background:linear-gradient(110deg,transparent,rgba(151,201,240,0.55));clip-path:polygon(28% 0,100% 0,100% 100%,8% 100%);")} />
-                <div style={css("position:relative;z-index:2;max-width:62%;")}>
-                  <p style={css("font:300 20px Poppins,Inter;color:#002D62;margin:0 0 12px;line-height:1.15;")}>Postanite <b style={css("font-weight:700;")}>ZEUS BizzClub</b> partner i ostvarite trajno višestruke pogodnosti!</p>
+              <div style={css("height:130px;border-radius:8px;background:#EEFAFF;position:relative;overflow:hidden;padding:16px 20px;flex:none;display:flex;")}>
+                <svg viewBox="0 0 624 130" preserveAspectRatio="xMaxYMid slice" style={css("position:absolute;inset:0;width:100%;height:100%;")} xmlns="http://www.w3.org/2000/svg">
+                  <path opacity="0.6" d="M288 99.7794L624.476 18.8347L624.476 180.724L288 99.7794Z" fill="#0273BC" fillOpacity="0.5"/>
+                  <path opacity="0.6" d="M367.358 10.899L624.476 -50.9999L624.476 72.7979L367.358 10.899Z" fill="#0071BD" fillOpacity="0.25"/>
+                  <path opacity="0.6" d="M449.889 61.6879L624.476 18.8349L624.476 104.541L449.889 61.6879Z" fill="#0071BD" fillOpacity="0.75"/>
+                </svg>
+                <div style={css("position:relative;z-index:2;max-width:70%;display:flex;flex-direction:column;justify-content:space-between;")}>
+                  <p style={css("font:300 20px Poppins,Inter;color:#002D62;margin:0;line-height:1.15;")}>Postanite <b style={css("font-weight:700;")}>ZEUS BizzClub</b> partner i ostvarite trajno višestruke pogodnosti!</p>
                   <div style={css("display:flex;align-items:center;gap:18px;")}>
                     <button onClick={goBizz} style={css("background:#fff;border:none;border-radius:4px;padding:7px 18px;font:600 14px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.18);")}>Želim da se učlanim</button>
                     <button onClick={goBizz} style={css("background:none;border:none;color:#002D62;font:600 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
                   </div>
                 </div>
-                <div style={css("position:absolute;right:18px;bottom:14px;z-index:2;display:flex;align-items:baseline;gap:5px;")}><span style={css("font:800 17px Inter;color:#0E4DA4;letter-spacing:0.02em;")}>ZEUS</span><span style={css("font:500 9px Inter;color:#5B6573;")}>by Zepter</span></div>
+                <img src="/zeus-logo.svg" alt="ZEUS by Zepter" style={css("position:absolute;right:28px;top:50%;transform:translateY(-50%);height:66px;width:auto;z-index:2;")} />
               </div>
             </div>
             {/* RIGHT */}
@@ -465,7 +469,7 @@ export default function App() {
           {/* CONTENT BAND */}
           <div style={css("display:grid;grid-template-columns:1.62fr 1fr 1fr;gap:16px;margin-bottom:52px;height:420px;")}>
             <div style={css("border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-end;")}>
-              <img src={A("assets/znew/bioptron-oko.jpg")} alt="Bioptron svetlosna terapija" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
+              <img src={A("assets/znew/bioptron-eye.png")} alt="Bioptron svetlosna terapija" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
               <div style={css("position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,0.92) 24%,rgba(255,255,255,0) 60%);")} />
               <div style={css("position:relative;z-index:2;padding:24px;")}>
                 <h3 style={{ ...css("font:700 32px Inter;margin:0 0 8px;color:#000;line-height:1.1;"), whiteSpace: "pre-line" }}>{"Bioptron\nsvetlosna terapija"}</h3>
@@ -474,11 +478,13 @@ export default function App() {
               </div>
             </div>
             <div style={css("display:flex;flex-direction:column;gap:16px;")}>
-              <div style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;background:#EAF6FF;padding:22px;display:flex;flex-direction:column;")}>
-                <h3 style={css("font:700 20px Inter;margin:0 0 8px;color:#002D62;")}>Prečišćena voda</h3>
-                <p style={css("font:400 14px Inter;color:#3d4754;margin:0 0 12px;max-width:180px;line-height:1.4;")}>Najbolji izvor čiste vode za zdravo telo i zdrav život</p>
-                <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:600 13px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;align-self:flex-start;")}>Saznajte više →</button>
-                <div style={css("position:absolute;right:-14px;bottom:-14px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(151,201,240,0.5),transparent 70%);")} />
+              <div style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;background:#fff;padding:22px;display:flex;flex-direction:column;")}>
+                <img src={A("assets/znew/preciscena-voda.png")} alt="Prečišćena voda" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;")} />
+                <div style={css("position:relative;z-index:2;")}>
+                  <h3 style={css("font:700 20px Inter;margin:0 0 8px;color:#002D62;")}>Prečišćena voda</h3>
+                  <p style={css("font:400 14px Inter;color:#3d4754;margin:0 0 12px;max-width:170px;line-height:1.4;")}>Najbolji izvor čiste vode za zdravo telo i zdrav život</p>
+                  <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:600 13px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
+                </div>
               </div>
               <div style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-start;justify-content:flex-end;")}>
                 <img src={A("assets/znew/lepota-flowers.jpg")} alt="Prirodna lepota" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />

@@ -20,6 +20,9 @@ Thumbs.db
 .vscode/
 *.swp
 
+# === Claude (local only; keep launch.json shared) ===
+.claude/settings.local.json
+
 # === Logs ===
 *.log
 npm-debug.log*

@@ -9,6 +9,11 @@ npm install
 npm run dev      # http://localhost:5173
 ```
 
+## Auto-deploy (GitHub → Vercel)
+Repo `igorpesic/ZEUS` je povezan sa Vercel projektom **zeus_market_place**
+(Root Directory: `zeus-marketplace-app`). Svaki `git push` na `main` automatski
+okida produkcioni deploy; push na druge grane / PR daje preview deploy.
+
 ## Deploy na Vercel (tvoj nalog) — jednom
 ```bash
 npm install -g vercel      # ili: npx vercel

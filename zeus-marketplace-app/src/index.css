@@ -56,6 +56,14 @@ body {
 .z-card-flat { transition: box-shadow .18s; }
 .z-card-flat:hover { box-shadow: 0 16px 36px -22px rgba(14,77,164,0.4); }
 
+/* ── MEGA MENU ── */
+.z-mega-card { transition: border-color .15s, box-shadow .15s, transform .15s; }
+.z-mega-card:hover { border-color: #0E4DA4 !important; box-shadow: 0 14px 30px -20px rgba(14,77,164,0.45); transform: translateY(-2px); }
+.z-mega-tab { transition: background .15s, border-color .15s, color .15s; }
+.z-mega-tab:hover { border-color: #0E4DA4 !important; color: #0E4DA4 !important; }
+.z-mega-sub { transition: color .12s; }
+.z-mega-card:hover .z-mega-sub { color: #15202B; }
+
 /* ════════════════════════════════════════════════════════════════════════
    RESPONSIVE — mobile / tablet overrides
    The desktop layout lives in inline style="" strings and is left untouched.
@@ -80,6 +88,9 @@ img, video { max-width: 100%; }
   .z-hd-nav { padding: 8px 16px !important; gap: 10px !important; }
   .z-hd-links { justify-content: flex-start !important; flex-wrap: nowrap !important; overflow-x: auto !important; }
   .z-hd-links > button { flex: none !important; padding: 8px 10px !important; }
+
+  /* ── MEGA MENU → 2-up grid on tablet ── */
+  .z-mega-grid { grid-template-columns: repeat(2, 1fr) !important; }
 
   /* ── HOME hero mosaic → single column, panels get real heights ── */
   .z-hero { grid-template-columns: 1fr !important; height: auto !important; gap: 14px !important; }
@@ -195,6 +206,12 @@ img, video { max-width: 100%; }
   .z-carousel::-webkit-scrollbar { display: none; }
   .z-cat-circle { width: 72px !important; height: 72px !important; }
   .z-footer-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* ── MEGA MENU → tabs on top (horizontal), single-column cards ── */
+  .z-mega-body { flex-direction: column !important; gap: 16px !important; }
+  .z-mega-tabs { width: 100% !important; flex-direction: row !important; }
+  .z-mega-tabs > button { flex: 1 1 0 !important; }
+  .z-mega-grid { grid-template-columns: 1fr !important; }
 
   /* headings scale down so they don't wrap awkwardly */
   .z-h1 { font-size: 24px !important; }

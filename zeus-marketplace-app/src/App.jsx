@@ -74,6 +74,8 @@ export default function App() {
     outletFilter: "all",
     searchQ: "",
     searchFrom: "home",
+    megaOpen: false,
+    megaTab: "shop",
   });
   const patch = (p) => setState((s) => ({ ...s, ...(typeof p === "function" ? p(s) : p) }));
   const searchInputRef = useRef(null);
@@ -127,6 +129,16 @@ export default function App() {
   useEffect(() => {
     if (scr === "search") { const t = setTimeout(() => searchInputRef.current?.focus(), 60); return () => clearTimeout(t); }
   }, [scr]);
+
+  useEffect(() => {
+    if (!state.megaOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setState((s) => ({ ...s, megaOpen: false })); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [state.megaOpen]);
+
+  // Close the mega menu whenever we navigate to another screen.
+  useEffect(() => { setState((s) => (s.megaOpen ? { ...s, megaOpen: false } : s)); }, [scr]);
 
   const screens = SCREENMETA.map((s) => ({
     label: s.label,
@@ -200,6 +212,58 @@ export default function App() {
     { name: "Luksuz\ni stil", img: "assets/categories/Luksuz_stil.png" },
   ];
   const catCircles = CIRCLES.map((c) => ({ name: c.name, img: A(c.img), hasImg: !!c.img, noImg: !c.img, size: c.size || 74, go: () => setScreen("plp") }));
+
+  // ── MEGA MENU data ──────────────────────────────────────────────────────
+  // Zepter Shop reuses the home-category pictograms (assets/categories/*).
+  const SHOP_CATS = [
+    { name: "Bioptron\nhipersvetlosna terapija", img: "assets/categories/Bioptron.png", items: ["Bioptron", "Kolor svetlosna terapija", "Filteri za Bioptron", "Postolja i držači", "Dodatno"] },
+    { name: "Pametne\nnaočare", img: "assets/categories/Pametne_naocare.png", size: 84, items: ["Naočare za odrasle", "Naočare za decu", "Pametna sočiva"] },
+    { name: "Kuvanje na\nzdrav način", img: "assets/categories/Kuvanje.png", items: ["Posuđe", "Noževi", "Vakumiranje i čuvanje hrane", "Mali kuhinjski aparati"] },
+    { name: "Zdrav\nvazduh", img: "assets/categories/Zdrav_vazduh.png", items: ["Prečišćivači vazduha", "Nosivi sterilizatori vazduha", "Filteri za Therapy Air iON"] },
+    { name: "Prečišćena\nvoda", img: "assets/categories/Preciscena_voda.png", items: ["Prečišćivači vode", "Filteri", "Slavina sa tri izvoda"] },
+    { name: "Zdrav\ndom", img: "assets/categories/Zdrav_dom.png", items: ["Quanomed", "Čist dom"] },
+    { name: "Prirodna\nlepota", img: "assets/categories/Prirodna_lepota.png", items: ["Parfemi", "Zepter kozmetika", "Ready for baby", "Masažer"] },
+    { name: "Luksuz\ni stil", img: "assets/categories/Luksuz_stil.png", items: ["Luksuzno stono posuđe", "Torbe i novčanici", "Pokloni"] },
+    { name: "Suplementi", img: "assets/categories/Suplementi.png", size: 58, items: ["Proizvodi"] },
+  ];
+  // Marketplace categories — product-cutout pictograms (assets/categories/*).
+  const MP_CATS = [
+    { name: "Automobili", img: "assets/categories/Automobili.png", size: 66, items: ["Mercedes-Benz", "Volks Wagen", "Audi", "Porsche"] },
+    { name: "Nekretnine", img: "assets/categories/Nekretnine.png", size: 58, items: ["Stanovi", "Kuće", "Hoteli", "Poslovni prostor"] },
+    { name: "Medikal", img: "assets/categories/Medikal.png", size: 62, items: ["MedicBooking", "Zepter Dental"] },
+    { name: "Krstarenja", img: "assets/categories/Krstarenja.png", size: 66, items: ["JoyMe"] },
+    { name: "Nameštaj", img: "assets/categories/Namestaj.png", size: 56, items: ["Komode", "Ormani", "Kreveti", "Stolovi"] },
+    { name: "Mali kućni aparati", img: "assets/categories/Mali_kucni_aparati.png", size: 64, items: ["Mikseri", "Sokovnici", "Friteze"] },
+    { name: "Bela tehnika", img: "assets/categories/Bela_tehnika.png", size: 58, items: ["Frižideri", "Šporeti", "Mašine za sudove"] },
+    { name: "Računari i mobilni", img: "assets/categories/Racunari.png", size: 60, items: ["Desktop računari", "Laptopovi", "Mobilni"] },
+    { name: "TV & Audio", img: "assets/categories/TV_Audio.png", size: 62, items: ["TV", "Sound system", "Muzičke linije", "Projektori"] },
+  ];
+  const megaTabs = [
+    { id: "shop", label: "Zepter Shop", glyph: "shop", cats: SHOP_CATS },
+    { id: "mp", label: "Marketplace", glyph: "mp", cats: MP_CATS },
+  ];
+  const activeMega = megaTabs.find((t) => t.id === state.megaTab) || megaTabs[0];
+  const toggleMega = () => patch((s) => ({ megaOpen: !s.megaOpen }));
+  const closeMega = () => patch({ megaOpen: false });
+  const pickMega = () => { patch({ megaOpen: false }); setScreen("plp"); };
+  const ICON_PATHS = {
+    car: <><path d="M3 13l2-5a2 2 0 012-1.4h10A2 2 0 0119 8l2 5" /><path d="M3 13h18v4a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H6v1a1 1 0 01-1 1H4a1 1 0 01-1-1z" /><circle cx="7" cy="16" r="1" /><circle cx="17" cy="16" r="1" /></>,
+    home: <><path d="M3 11l9-7 9 7" /><path d="M5 10v9a1 1 0 001 1h12a1 1 0 001-1v-9" /><path d="M9 20v-6h6v6" /></>,
+    med: <><path d="M20.8 8.6a4.6 4.6 0 00-7.8-2.6L12 7l-1-1a4.6 4.6 0 00-6.5 6.5l6.5 6.6 6.5-6.6a4.6 4.6 0 001.3-3.9z" /></>,
+    ship: <><path d="M3 16l1.6-5.2A1.5 1.5 0 016 9.7h12a1.5 1.5 0 011.4 1.1L21 16" /><path d="M12 4v6" /><path d="M9 7h6" /><path d="M2.5 16c1.5 1.3 2.5 1.3 4 0 1.5 1.3 2.5 1.3 4 0 1.5 1.3 2.5 1.3 4 0 1.5 1.3 2.5 1.3 4 0" /></>,
+    sofa: <><path d="M4 11V8a2 2 0 012-2h12a2 2 0 012 2v3" /><path d="M3 12a2 2 0 012 2v2h14v-2a2 2 0 014 0" /><path d="M5 16v2M19 16v2" /><path d="M5 14h14" /></>,
+    blender: <><path d="M7 3h9l-1.2 8H8.2z" /><path d="M9 11l-.5 5h7l-.5-5" /><path d="M8 20h8" /><path d="M10 16v4M14 16v4" /></>,
+    fridge: <><rect x="6" y="3" width="12" height="18" rx="2" /><path d="M6 10h12" /><path d="M9 6.5v1.5M9 12.5v3" /></>,
+    laptop: <><rect x="4" y="5" width="16" height="11" rx="1.5" /><path d="M2 20h20" /></>,
+    tv: <><rect x="3" y="6" width="18" height="11" rx="1.5" /><path d="M8 21h8M12 17v4" /></>,
+    supp: <><rect x="8" y="3" width="8" height="6" rx="1.5" /><path d="M9 9h6v9a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /><path d="M9 13h6" /></>,
+    shop: <><path d="M4 4h2l1.2 11.4a1 1 0 001 .9h7.6a1 1 0 001-.8L19 8H6" /><circle cx="9" cy="20" r="1" /><circle cx="16" cy="20" r="1" /></>,
+    mp: <><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></>,
+  };
+  const megaIcon = (key, s = 34, stroke = "#0E4DA4") =>
+    ICON_PATHS[key]
+      ? <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{ICON_PATHS[key]}</svg>
+      : null;
   const catChips = ["Sve"].concat(CATEGORIES).map((c, i) => ({
     name: c,
     bg: i === 0 ? "#EAF2FC" : "#fff",
@@ -363,9 +427,11 @@ export default function App() {
         {/* CATEGORY NAV */}
         <div style={css("background:#fff;border-top:1px solid rgba(0,0,0,0.05);box-shadow:0 1px 4px rgba(0,0,0,0.04);")}>
           <div className="z-hd-nav" style={css("max-width:1232px;margin:0 auto;padding:8px 24px;display:flex;align-items:center;gap:18px;")}>
-            <button onClick={goPlp} className="z-allcat" style={css("display:flex;align-items:center;gap:10px;border:none;background:#002D62;color:#fff;font:600 13.5px Inter;padding:10px 18px;border-radius:6px;cursor:pointer;flex:none;")}>
+            <button onClick={toggleMega} aria-expanded={state.megaOpen} className="z-allcat" style={css("display:flex;align-items:center;gap:10px;border:none;background:#002D62;color:#fff;font:600 13.5px Inter;padding:10px 18px;border-radius:6px;cursor:pointer;flex:none;")}>
               <span className="z-allcat-txt">Sve kategorije</span>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>
+              {state.megaOpen
+                ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+                : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>}
             </button>
             <div className="z-hd-links" style={css("flex:1;display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap;")}>
               <button onClick={goHome} className="z-link" style={css("border:none;background:none;color:#15202B;font:600 14px Inter;padding:8px 14px;cursor:pointer;")}>Početna</button>
@@ -377,7 +443,54 @@ export default function App() {
             </div>
           </div>
         </div>
+
+        {/* ============ MEGA MENU ============ */}
+        {state.megaOpen && (
+          <div className="z-mega" style={css("position:absolute;left:0;right:0;top:100%;background:#fff;border-top:1px solid rgba(0,0,0,0.06);box-shadow:0 22px 44px -18px rgba(11,31,58,0.30);z-index:61;max-height:calc(100vh - 100%);overflow:auto;")}>
+            <div style={css("max-width:1232px;margin:0 auto;padding:26px 24px 34px;")}>
+              <h2 style={css("font:700 20px Inter;margin:0 0 20px;color:#000;")}>Kategorije proizvoda</h2>
+              <div className="z-mega-body" style={css("display:flex;gap:28px;align-items:flex-start;")}>
+                {/* SIDE TABS */}
+                <div className="z-mega-tabs" style={css("flex:none;width:190px;display:flex;flex-direction:column;gap:8px;")}>
+                  {megaTabs.map((t) => {
+                    const on = t.id === state.megaTab;
+                    return (
+                      <button key={t.id} onClick={() => patch({ megaTab: t.id })} className="z-mega-tab"
+                        style={css(`display:flex;align-items:center;gap:11px;border:1px solid ${on ? "#0E4DA4" : "rgba(0,0,0,0.08)"};background:${on ? "#EAF2FC" : "#fff"};color:${on ? "#0E4DA4" : "#5B6573"};font:${on ? 600 : 500} 14px Inter;padding:12px 14px;border-radius:8px;cursor:pointer;text-align:left;`)}>
+                        {megaIcon(t.glyph, 20, on ? "#0E4DA4" : "#5B6573")}
+                        <span style={css("flex:1;")}>{t.label}</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+                      </button>
+                    );
+                  })}
+                </div>
+                {/* CATEGORY GRID */}
+                <div className="z-mega-grid" style={css("flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;")}>
+                  {activeMega.cats.map((c, i) => (
+                    <button key={i} onClick={pickMega} className="z-mega-card" style={css("position:relative;text-align:left;border:1px solid rgba(0,0,0,0.08);border-radius:10px;background:#fff;padding:18px 18px 20px;cursor:pointer;min-height:150px;overflow:hidden;")}>
+                      <div style={css("padding-right:82px;")}>
+                        <div style={{ ...css("font:700 15px Inter;color:#15202B;line-height:1.3;margin-bottom:12px;"), whiteSpace: "pre-line" }}>{c.name.replace(/\n/g, " ")}</div>
+                        <div style={css("display:flex;flex-direction:column;gap:7px;")}>
+                          {c.items.map((it, j) => (
+                            <span key={j} className="z-mega-sub" style={css("font:400 13px Inter;color:#5B6573;line-height:1.25;")}>{it}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={css("position:absolute;top:16px;right:16px;width:72px;height:72px;border-radius:50%;background:#D7ECFB;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none;")}>
+                        {c.img
+                          ? <img src={A(c.img)} alt="" style={{ ...css("object-fit:contain;"), width: (c.size || 56) + "px", height: (c.size || 56) + "px" }} />
+                          : megaIcon(c.icon, 34)}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
+
+      {state.megaOpen && <div onClick={closeMega} className="z-mega-backdrop" style={css("position:fixed;inset:0;background:rgba(11,31,58,0.32);z-index:50;")} />}
 
       {/* ============ HOME ============ */}
       {scr === "home" && (<>

@@ -51,6 +51,8 @@ const PRODUCTS = [
   { id: "edel", name: "EdelWasser Gold sistem za vodu", cat: "Prečišćena voda", brand: "Zepter", sku: "PWC-670-GOLD", mp: 83898, img: "assets/products/edelwasser.png", ph: "EdelWasser Gold", rating: 4.5, reviews: 31, badge: "", promo: 10 },
   { id: "hyper", name: "HyperLight Eyewear Clips pametne naočare", cat: "Pametne naočare", brand: "Zepter", sku: "EC534-CL", mp: 63012, img: "assets/products/hyperlight-clips.png", ph: "pametne naočare", rating: 4.7, reviews: 19, badge: "", promo: 0 },
   { id: "bioptron2", name: "Bioptron PRO 2 svetlosna terapija", cat: "Svetlosna terapija", brand: "Zepter Medical", sku: "EC535", mp: 1357236, img: "", ph: "Bioptron PRO 2", rating: 5.0, reviews: 12, badge: "", promo: 0 },
+  { id: "macbook", name: "MacBook Air M1 256GB Space Gray", cat: "Računari i mobilni", brand: "iSTYLE", sku: "PAG-990", mp: 161190, img: "assets/mp/products/macbook-air.png", rating: 4.8, reviews: 0, badge: "", promo: 0 },
+  { id: "mercedesS", name: "Mercedes-Benz S-Class 320 CDi AMG", cat: "Automobili", brand: "Mercedes-Benz", sku: "PAG-990", mp: 0, img: "assets/mp/products/mercedes-s.png", rating: 5.0, reviews: 0, badge: "", promo: 0, inquire: true, topTag: "Hybrid", priceNote: "Učlanite se i kupite po privilegovanoj ceni" },
 ];
 const SCREENMETA = [
   { id: "home", label: "Početna" }, { id: "plp", label: "Katalog" }, { id: "pdp", label: "Proizvod" },
@@ -324,6 +326,39 @@ export default function App() {
   const openSearch = () => { patch((s) => ({ screen: "search", searchFrom: s.screen })); window.scrollTo(0, 0); };
   const closeSearch = () => setScreen(state.searchFrom || "home");
   const goWish = () => setScreen("plp");
+  const goMarketplace = () => setScreen("mp");
+
+  // ── MARKETPLACE landing data ──────────────────────────────────────────────
+  // Popularne kategorije reuses the marketplace pictograms from the mega menu.
+  const mpCircles = MP_CATS.slice(0, 8).map((c) => ({ name: c.name, img: A(c.img), size: c.size || 64, go: goPlp }));
+  // Izdvajamo iz ponude — drawn from the live catalogue (prices/rank/currency stay live).
+  const mpFeatured = ["bulova", "bosch", "macbook", "mercedesS"].map((id) => dispProduct(byId(id)));
+  // Popularni brendovi — official logo files (assets/mp/brands/*).
+  const MP_BRANDS = [
+    { name: "Bosch", img: "assets/mp/brands/bosch.png" },
+    { name: "Mercedes-Benz", img: "assets/mp/brands/mercedes.png", h: 60 },
+    { name: "Samsung", img: "assets/mp/brands/samsung.png" },
+    { name: "Miele", img: "assets/mp/brands/miele.png", h: 34 },
+    { name: "Whirlpool", img: "assets/mp/brands/whirlpool.png" },
+    { name: "Siemens", img: "assets/mp/brands/siemens.png", w: 125 },
+    { name: "Porsche", img: "assets/mp/brands/porsche.png" },
+    { name: "Candy", img: "assets/mp/brands/candy.png" },
+    { name: "Audi", img: "assets/mp/brands/audi.png" },
+    { name: "gorenje", img: "assets/mp/brands/gorenje.png" },
+  ];
+  // Blog — generated lifestyle imagery; first post carries an author byline.
+  const MP_BLOG = [
+    { title: "Kakvu vodu pijemo?", img: "assets/mp/blog-water.jpg", excerpt: "Konzumiranje kvalitetne vode je od vitalnog značaja za očuvanje zdravlja tela i uma, koji su sve načini da prečistite vodu od štetnih materija…", author: "Prof. dr Vladimir Ilić", role: "Doktor nauka iz oblasti humane lokomocije" },
+    { title: "10 najboljih uređaja za pripremanje prirodnih sokova", img: "assets/mp/blog-juicer.jpg", excerpt: "Sveže ceđeni sokovi su najbolji izvor vitamina i minerala. Izdvojili smo deset uređaja koji će vam pomoći da ih spremite kod kuće…" },
+    { title: "Sam svoj majstor — održavanje prečišćivača vazduha i klima", img: "assets/mp/blog-air.jpg", excerpt: "Redovno održavanje produžava vek uređaja i čuva kvalitet vazduha u vašem domu. Donosimo praktične savete za svaku sezonu…" },
+    { title: "Zdrav način života za bolje sutra", img: "assets/mp/blog-life.jpg", excerpt: "Stara poslovica nas uči da tek kada bude posečeno poslednje drvo i ulovljena poslednja riba, shvatićemo da ne možemo da „jedemo\" novac…" },
+  ];
+  // Hero vertical slider — finished design cards (logo baked in), top→bottom order.
+  const mpCars = [
+    { img: "assets/mp/slider-vw.png", label: "Volkswagen Arteon" },
+    { img: "assets/mp/slider-audi.png", label: "Audi A8" },
+    { img: "assets/mp/slider-porsche.png", label: "Porsche" },
+  ];
 
   const heart = (fill, stroke, w = 22) => (
     <svg width={w} height={w} viewBox="0 0 24 24" fill={fill} stroke={stroke} strokeWidth="1.8">
@@ -351,7 +386,10 @@ export default function App() {
         <button onClick={p.wish} style={css("position:absolute;top:14px;left:14px;z-index:3;border:none;background:none;cursor:pointer;padding:0;")}>
           {heart(p.heartFill, p.heartStroke)}
         </button>
-        {p.promoOn && (
+        {p.topTag && (
+          <span style={css("position:absolute;top:14px;right:14px;z-index:3;background:#5B6573;color:#fff;font:600 11px Inter;padding:4px 11px;border-radius:7px;")}>{p.topTag}</span>
+        )}
+        {p.promoOn && !p.topTag && (
           <span style={css("position:absolute;top:12px;right:14px;z-index:3;")}><PromoHex label={"−" + p.promo + "%"} h={39} /></span>
         )}
         <button onClick={p.open} style={css("border:none;background:none;cursor:pointer;width:100%;padding:0;")}>
@@ -367,15 +405,24 @@ export default function App() {
         <div style={css("font:500 10px Inter;color:#A6AAB0;margin-bottom:6px;")}>SKU: {p.sku}</div>
         <button onClick={p.open} className="z-link" style={css("border:none;background:none;text-align:left;padding:0;cursor:pointer;font:600 15px Inter;color:#15202B;line-height:1.3;margin-bottom:14px;min-height:40px;")}>{p.name}</button>
         <div style={css("margin-top:auto;")}>
-          {p.showRank && (<>
-            <div style={css("display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;")}><span style={css("font:500 13px Inter;color:#5B6573;")}>Vaša cena</span><span style={css("font:800 17px Inter;color:#1769C0;")}>{p.rankStr}</span></div>
-            <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;")}><span style={css("background:#EAF2FC;color:#0E4DA4;font:700 11px Inter;padding:2px 7px;border-radius:6px;")}>{p.discLabel}</span><span style={css("font:500 12px Inter;color:#A6AAB0;text-decoration:line-through;")}>MP {p.mpStr}</span></div>
+          {p.inquire ? (<>
+            <div style={css("display:flex;align-items:center;gap:6px;margin-bottom:4px;")}><span style={css("font:700 12px Inter;color:#1769C0;")}>BizzClub ⓘ</span></div>
+            <div style={css("font:500 11px Inter;color:#82868C;margin-bottom:14px;")}>{p.priceNote}</div>
+            <button onClick={p.open} className="z-sec" style={css("width:100%;background:#fff;color:#13315C;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:11px;font:600 13.5px Inter;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;")}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#13315C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M8 9h8M8 13h8M8 17h5" /></svg>
+              Saznajte više
+            </button>
+          </>) : (<>
+            {p.showRank && (<>
+              <div style={css("display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;")}><span style={css("font:500 13px Inter;color:#5B6573;")}>Vaša cena</span><span style={css("font:800 17px Inter;color:#1769C0;")}>{p.rankStr}</span></div>
+              <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;")}><span style={css("background:#EAF2FC;color:#0E4DA4;font:700 11px Inter;padding:2px 7px;border-radius:6px;")}>{p.discLabel}</span><span style={css("font:500 12px Inter;color:#A6AAB0;text-decoration:line-through;")}>MP {p.mpStr}</span></div>
+            </>)}
+            {p.showGuest && (<>
+              <div style={css("display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;")}><span style={css("font:500 13px Inter;color:#5B6573;")}>MP Cena</span><span style={css("font:700 16px Inter;color:#15202B;")}>{p.mpStr}</span></div>
+              <div style={css("display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:14px;")}><span style={css("font:700 12px Inter;color:#1769C0;")}>BizzClub ⓘ</span><span style={css("font:500 11px Inter;color:#82868C;text-align:right;")}>Učlanite se i kupite do -40%</span></div>
+            </>)}
+            <button onClick={p.add} className="z-cta" style={css("width:100%;background:#13315C;color:#fff;border:none;border-radius:8px;padding:11px;font:600 13.5px Inter;cursor:pointer;")}>Dodajte u korpu</button>
           </>)}
-          {p.showGuest && (<>
-            <div style={css("display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;")}><span style={css("font:500 13px Inter;color:#5B6573;")}>MP Cena</span><span style={css("font:700 16px Inter;color:#15202B;")}>{p.mpStr}</span></div>
-            <div style={css("display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:14px;")}><span style={css("font:700 12px Inter;color:#1769C0;")}>BizzClub ⓘ</span><span style={css("font:500 11px Inter;color:#82868C;text-align:right;")}>Učlanite se i kupite do -40%</span></div>
-          </>)}
-          <button onClick={p.add} className="z-cta" style={css("width:100%;background:#13315C;color:#fff;border:none;border-radius:8px;padding:11px;font:600 13.5px Inter;cursor:pointer;")}>Dodajte u korpu</button>
         </div>
       </div>
     </div>
@@ -438,7 +485,7 @@ export default function App() {
               <button onClick={goPlp} className="z-link" style={css("border:none;background:none;color:#15202B;font:500 14px Inter;padding:8px 14px;cursor:pointer;")}>Promocije</button>
               <button onClick={goPlp} className="z-link" style={css("border:none;background:none;color:#15202B;font:500 14px Inter;padding:8px 14px;cursor:pointer;")}>Zepter Svet</button>
               <button onClick={goOutlet} className="z-link" style={css("border:none;background:none;color:#15202B;font:500 14px Inter;padding:8px 14px;cursor:pointer;")}>Outlet</button>
-              <button onClick={goPlp} className="z-link" style={css("border:none;background:none;color:#15202B;font:500 14px Inter;padding:8px 14px;cursor:pointer;")}>Marketplace</button>
+              <button onClick={goMarketplace} className="z-link" style={css("border:none;background:none;color:#15202B;font:600 14px Inter;padding:8px 14px;cursor:pointer;")}>Marketplace</button>
               <button onClick={goBizz} className="z-link" style={css("border:none;background:none;color:#1769C0;font:600 14px Inter;padding:8px 14px;cursor:pointer;")}>BizzClub</button>
             </div>
           </div>
@@ -666,6 +713,110 @@ export default function App() {
               <img src={A("assets/znew/promo-voda.png")} alt="Čista i zdrava voda" style={css("display:block;width:100%;height:100%;object-fit:cover;")} />
             </div>
             {promoProducts.map((p) => <ProductCard key={p.id} p={p} />)}
+          </div>
+        </main>
+
+        {/* NEWSLETTER */}
+        <div style={css("background:#EAF6FF;padding:36px 24px;margin-top:48px;")}>
+          <div style={css("max-width:760px;margin:0 auto;text-align:center;")}>
+            <h3 style={css("font:500 24px Inter;color:#002D62;margin:0 0 6px;")}>Prijavite se na našu mailing listu!</h3>
+            <p style={css("font:400 14px Inter;color:#5B6573;margin:0 0 18px;")}>Svake nedelje dobijaćete konkretne predloge i uputstva kako da unapredite svoj život.</p>
+            <button className="z-sky" style={css("background:#fff;border:1.5px solid #002D62;border-radius:4px;padding:10px 26px;font:600 14px Inter;color:#002D62;cursor:pointer;")}>Prijavite se</button>
+          </div>
+        </div>
+      </>)}
+
+      {/* ============ MARKETPLACE ============ */}
+      {scr === "mp" && (<>
+        <main className="z-shell" style={css("max-width:1232px;margin:0 auto;padding:24px 24px 0;")}>
+          {/* HERO — luxury car + thumbnail rail */}
+          <div className="z-mp-hero" style={css("position:relative;height:470px;border-radius:10px;overflow:hidden;margin-bottom:30px;background:#0c0e10;")}>
+            <video className="z-mp-hero-video" src={A("assets/mp/hero-car.mp4")} autoPlay loop muted playsInline style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
+            <div className="z-mp-hero-veil" style={css("position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,12,0.86) 20%,rgba(8,10,12,0.32) 52%,rgba(8,10,12,0) 74%);")} />
+            <div className="z-mp-hero-copy" style={css("position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:48px;max-width:58%;color:#fff;")}>
+              <h1 className="z-h1" style={{ ...css("font:700 44px Inter;line-height:1.05;margin:0 0 16px;"), whiteSpace: "pre-line" }}>{"Nova Mercedes-Benz\nS-Klasa"}</h1>
+              <p style={css("font:400 18px Inter;opacity:.9;margin:0 0 22px;")}>Brine o onome što je važno.</p>
+              <button onClick={goPlp} style={css("background:none;border:none;color:#fff;font:600 15px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:4px;align-self:flex-start;")}>Saznajte više →</button>
+            </div>
+            {/* vertical auto-slider overlaid on the video */}
+            <div className="z-mp-slider" style={css("position:absolute;right:16px;top:16px;bottom:16px;width:300px;z-index:2;overflow:hidden;border-radius:10px;")}>
+              <div className="z-mp-slider-track">
+                {[...mpCars, ...mpCars].map((c, i) => (
+                  <button key={i} onClick={goPlp} className="z-mp-slide" style={css("display:block;width:100%;border:none;background:none;padding:0;margin:0 0 16px;cursor:pointer;border-radius:10px;")}>
+                    <img src={A(c.img)} alt={c.label} style={css("display:block;width:100%;height:auto;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.38);")} />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* breadcrumb */}
+          <div style={css("font:500 12.5px Inter;color:#5B6573;margin-bottom:34px;")}>Početna&nbsp;&nbsp;/&nbsp;&nbsp;<span style={css("color:#15202B;font-weight:600;")}>Marketplace</span></div>
+
+          {/* POPULARNE KATEGORIJE */}
+          <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;")}>
+            <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Popularne kategorije</h2>
+            <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+          </div>
+          <div className="z-cats" style={css("display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:40px;")}>
+            {mpCircles.map((c, i) => (
+              <button key={i} onClick={c.go} style={css("border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;padding:4px;")}>
+                <div className="z-scale z-cat-circle" style={css("width:104px;height:104px;border-radius:50%;background:#D7ECFB;display:flex;align-items:center;justify-content:center;overflow:hidden;")}>
+                  <img src={c.img} alt={c.name} style={{ ...css("object-fit:contain;"), width: c.size + "px", height: c.size + "px" }} />
+                </div>
+                <span style={{ ...css("font:500 12.5px Inter;color:#15202B;text-align:center;line-height:1.3;"), whiteSpace: "pre-line" }}>{c.name}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* BIZZCLUB STRIP */}
+          <div style={css("background:#EAF6FF;border-radius:8px;padding:14px 28px;display:flex;align-items:center;justify-content:center;gap:28px;margin-bottom:48px;flex-wrap:wrap;")}>
+            <span className="z-bizz-strip-txt" style={css("font:300 20px Poppins,Inter;color:#002D62;")}>Učlanite se u <b style={css("font-weight:600;")}>ZEUS BizzClub</b> i već danas možete da ostvarite privilegovanu cenu</span>
+            <button onClick={goBizz} className="z-white" style={css("background:none;border:1.5px solid #002D62;border-radius:4px;padding:8px 18px;font:600 14px Inter;color:#002D62;cursor:pointer;flex:none;")}>Želim da se učlanim</button>
+          </div>
+
+          {/* IZDVAJAMO IZ PONUDE */}
+          <div style={css("display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;")}>
+            <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Izdvajamo iz ponude</h2>
+            <button onClick={goPlp} style={css("flex:none;background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+          </div>
+          <div className="z-grid-4 z-carousel" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:52px;")}>
+            {mpFeatured.map((p) => <ProductCard key={p.id} p={p} />)}
+          </div>
+
+          {/* POPULARNI BRENDOVI */}
+          <h2 style={css("font:700 20px Inter;margin:0 0 18px;color:#000;")}>Popularni brendovi</h2>
+          <div className="z-mp-brands" style={css("display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:52px;")}>
+            {MP_BRANDS.map((b, i) => (
+              <button key={i} onClick={goPlp} className="z-scale" style={css("border:1px solid rgba(0,0,0,0.08);background:#fff;border-radius:12px;height:84px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0 20px;")}>
+                <img src={A(b.img)} alt={b.name} style={{ ...css("object-fit:contain;"), maxHeight: (b.h || 40) + "px", maxWidth: b.w ? b.w + "px" : "100%" }} />
+              </button>
+            ))}
+          </div>
+
+          {/* BLOG */}
+          <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;")}>
+            <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Blog</h2>
+            <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+          </div>
+          <div className="z-grid-4 z-carousel" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:8px;")}>
+            {MP_BLOG.map((b, i) => (
+              <button key={i} onClick={goPlp} className="z-card-sm" style={css("text-align:left;border:1px solid rgba(0,0,0,0.06);background:#fff;border-radius:12px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;padding:0;")}>
+                <div style={css("height:160px;position:relative;overflow:hidden;flex:none;")}>
+                  <img src={A(b.img)} alt={b.title} style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
+                </div>
+                <div style={css("padding:16px;display:flex;flex-direction:column;flex:1;")}>
+                  <h3 className="z-link" style={css("font:600 15.5px Inter;color:#15202B;line-height:1.3;margin:0 0 8px;min-height:42px;")}>{b.title}</h3>
+                  <p style={css("font:400 13px Inter;color:#5B6573;line-height:1.5;margin:0 0 12px;")}>{b.excerpt} <span style={css("color:#002D62;font-weight:600;")}>nastavak</span></p>
+                  {b.author && (
+                    <div style={css("display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:6px;")}>
+                      <img src={A("assets/home/doktor.jpg")} alt={b.author} style={css("width:34px;height:34px;border-radius:50%;object-fit:cover;flex:none;")} />
+                      <div><div style={css("font:600 12px Inter;color:#15202B;")}>{b.author}</div><div style={css("font:400 11px Inter;color:#94a0ae;")}>{b.role}</div></div>
+                    </div>
+                  )}
+                </div>
+              </button>
+            ))}
           </div>
         </main>
 

@@ -14,6 +14,13 @@ body {
 @keyframes zspin { to { transform: rotate(360deg); } }
 @keyframes zpulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
 
+/* ── Marketplace hero: vertical auto-slider over the video banner ── */
+@keyframes zMpSlide { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+.z-mp-slider-track { display: block; animation: zMpSlide 20s linear infinite; will-change: transform; }
+.z-mp-slider:hover .z-mp-slider-track { animation-play-state: paused; }
+.z-mp-slide { transition: transform .2s ease; }
+.z-mp-slide:hover { transform: scale(1.02); }
+
 /* ── Hover states ported from the design's style-hover attributes ── */
 .z-op { transition: opacity .15s; }
 .z-op:hover { opacity: .75; }
@@ -136,6 +143,12 @@ img, video { max-width: 100%; }
   /* ── BizzClub home strip: shrink copy so the CTA stays inside the box ── */
   .z-hero-bizz-txt p { font-size: 16px !important; line-height: 1.25 !important; }
   .z-hero-bizz-txt > div { flex-wrap: wrap !important; gap: 10px !important; }
+
+  /* ── Marketplace landing (tablet: keep overlay slider, shrink) ── */
+  .z-mp-hero { height: 380px !important; }
+  .z-mp-hero-copy { padding: 30px !important; max-width: 56% !important; }
+  .z-mp-slider { width: 248px !important; }
+  .z-mp-brands { grid-template-columns: repeat(4, 1fr) !important; }
 }
 
 /* ───────────────────── PHONE (≤ 600px) ───────────────────── */
@@ -222,4 +235,15 @@ img, video { max-width: 100%; }
   .z-cart-row { flex-wrap: wrap !important; }
   .z-cart-info { flex-basis: calc(100% - 104px) !important; }
   .z-cart-price { margin-left: auto !important; min-width: 0 !important; }
+
+  /* Marketplace landing: video banner on top, cars become a strip below */
+  .z-mp-hero { height: auto !important; }
+  .z-mp-hero-video { position: relative !important; height: 210px !important; }
+  .z-mp-hero-veil { height: 210px !important; bottom: auto !important; }
+  .z-mp-hero-copy { height: 210px !important; padding: 18px !important; max-width: 100% !important; bottom: auto !important; }
+  .z-mp-slider { position: static !important; width: auto !important; border-radius: 0 !important; }
+  .z-mp-slider-track { animation: none !important; display: flex !important; gap: 12px; overflow-x: auto; padding: 12px 8px; margin: 0 -8px; }
+  .z-mp-slider-track::-webkit-scrollbar { display: none; }
+  .z-mp-slide { flex: 0 0 76% !important; margin: 0 !important; }
+  .z-mp-brands { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
 }

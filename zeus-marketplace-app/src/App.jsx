@@ -330,7 +330,10 @@ export default function App() {
 
   // ── MARKETPLACE landing data ──────────────────────────────────────────────
   // Popularne kategorije reuses the marketplace pictograms from the mega menu.
-  const mpCircles = MP_CATS.slice(0, 8).map((c) => ({ name: c.name, img: A(c.img), size: c.size || 64, go: goPlp }));
+  // Per-category pictogram scale (% of circle). Some artworks carry more padding,
+  // so they get an extra boost to read as evenly sized as the rest.
+  const CAT_SCALE = { "Automobili": 150, "Nekretnine": 150, "Krstarenja": 150, "Mali kućni aparati": 150 };
+  const mpCircles = MP_CATS.slice(0, 8).map((c) => ({ name: c.name, img: A(c.img), scale: CAT_SCALE[c.name] || 120, go: goPlp }));
   // Izdvajamo iz ponude — drawn from the live catalogue (prices/rank/currency stay live).
   const mpFeatured = ["bulova", "bosch", "macbook", "mercedesS"].map((id) => dispProduct(byId(id)));
   // Popularni brendovi — official logo files (assets/mp/brands/*).
@@ -760,9 +763,9 @@ export default function App() {
           </div>
           <div className="z-cats" style={css("display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:40px;")}>
             {mpCircles.map((c, i) => (
-              <button key={i} onClick={c.go} style={css("border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;padding:4px;")}>
-                <div className="z-scale z-cat-circle" style={css("width:104px;height:104px;border-radius:50%;background:#D7ECFB;display:flex;align-items:center;justify-content:center;overflow:hidden;")}>
-                  <img src={c.img} alt={c.name} style={{ ...css("object-fit:contain;"), width: c.size + "px", height: c.size + "px" }} />
+              <button key={i} onClick={c.go} style={css("border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:14px;padding:4px;")}>
+                <div className="z-scale z-cat-circle" style={css("width:104px;height:104px;border-radius:50%;background:#D7ECFB;display:flex;align-items:center;justify-content:center;")}>
+                  <img src={c.img} alt={c.name} className="z-mp-cat-img" style={css("width:" + c.scale + "%;height:" + c.scale + "%;object-fit:contain;flex:none;")} />
                 </div>
                 <span style={{ ...css("font:500 12.5px Inter;color:#15202B;text-align:center;line-height:1.3;"), whiteSpace: "pre-line" }}>{c.name}</span>
               </button>

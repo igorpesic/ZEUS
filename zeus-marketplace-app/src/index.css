@@ -9,7 +9,7 @@ body {
   -webkit-font-smoothing: antialiased;
   letter-spacing: -0.01em;
 }
-::selection { background: #D3E6FA; }
+::selection { background: #CFE7E4; }
 
 @keyframes zspin { to { transform: rotate(360deg); } }
 @keyframes zpulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
@@ -26,48 +26,48 @@ body {
 .z-op:hover { opacity: .75; }
 
 .z-link { transition: color .15s; }
-.z-link:hover { color: #0E4DA4 !important; }
+.z-link:hover { color: #184A4F !important; }
 
 .z-cta { transition: background .15s; }
-.z-cta:hover { background: #0E4DA4 !important; }
+.z-cta:hover { background: #184A4F !important; }
 
 .z-amber { transition: filter .15s; }
 .z-amber:hover { filter: brightness(0.96); }
 
 .z-sec { transition: background .15s, border-color .15s; }
-.z-sec:hover { background: #EAF2FC !important; }
+.z-sec:hover { background: #E7F1F0 !important; }
 
 .z-allcat { transition: background .15s; }
-.z-allcat:hover { background: #0B2647 !important; }
+.z-allcat:hover { background: #0A2E30 !important; }
 
 .z-step { transition: background .15s; }
-.z-step:hover { background: #EAF2FC !important; }
+.z-step:hover { background: #E7F1F0 !important; }
 
 .z-buynow { transition: background .15s; }
-.z-buynow:hover { background: #FEF7E6 !important; }
+.z-buynow:hover { background: #F5EDD8 !important; }
 
 .z-white { transition: background .15s; }
 .z-white:hover { background: #fff !important; }
 
-.z-sky:hover { background: #D7ECFB !important; }
+.z-sky:hover { background: #D7ECEA !important; }
 
 .z-scale { transition: transform .15s; }
 .z-scale:hover { transform: scale(1.04); }
 
 .z-card { transition: box-shadow .18s, transform .18s; }
-.z-card:hover { box-shadow: 0 18px 40px -22px rgba(14,77,164,0.45); transform: translateY(-3px); }
+.z-card:hover { box-shadow: 0 18px 40px -22px rgba(24,74,79,0.45); transform: translateY(-3px); }
 
 .z-card-sm { transition: box-shadow .18s, transform .18s; }
-.z-card-sm:hover { box-shadow: 0 16px 36px -22px rgba(14,77,164,0.4); transform: translateY(-2px); }
+.z-card-sm:hover { box-shadow: 0 16px 36px -22px rgba(24,74,79,0.4); transform: translateY(-2px); }
 
 .z-card-flat { transition: box-shadow .18s; }
-.z-card-flat:hover { box-shadow: 0 16px 36px -22px rgba(14,77,164,0.4); }
+.z-card-flat:hover { box-shadow: 0 16px 36px -22px rgba(24,74,79,0.4); }
 
 /* ── MEGA MENU ── */
 .z-mega-card { transition: border-color .15s, box-shadow .15s, transform .15s; }
-.z-mega-card:hover { border-color: #0E4DA4 !important; box-shadow: 0 14px 30px -20px rgba(14,77,164,0.45); transform: translateY(-2px); }
+.z-mega-card:hover { border-color: #184A4F !important; box-shadow: 0 14px 30px -20px rgba(24,74,79,0.45); transform: translateY(-2px); }
 .z-mega-tab { transition: background .15s, border-color .15s, color .15s; }
-.z-mega-tab:hover { border-color: #0E4DA4 !important; color: #0E4DA4 !important; }
+.z-mega-tab:hover { border-color: #184A4F !important; color: #184A4F !important; }
 .z-mega-sub { transition: color .12s; }
 .z-mega-card:hover .z-mega-sub { color: #15202B; }
 
@@ -246,4 +246,16 @@ img, video { max-width: 100%; }
   .z-mp-slider-track::-webkit-scrollbar { display: none; }
   .z-mp-slide { flex: 0 0 76% !important; margin: 0 !important; }
   .z-mp-brands { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+}
+
+/* ── Premium motion (Emil Kowalski principi): svrsishodno, kratko, transform/opacity ── */
+:root { --z-ease: cubic-bezier(0.32, 0.72, 0, 1); }
+@keyframes zScreenIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.z-shell, .z-search { animation: zScreenIn .34s var(--z-ease) both; }
+.z-card, .z-card-sm, .z-card-flat, .z-mega-card, .z-scale, .z-cta, .z-amber, .z-sec, .z-buynow, .z-white, .z-allcat, .z-step, .z-sky, .z-op, .z-link { transition-timing-function: var(--z-ease); }
+.z-cta, .z-amber, .z-buynow, .z-white, .z-allcat, .z-sec, .z-step { transition-property: background, border-color, color, box-shadow, transform; transition-duration: .16s; }
+.z-cta:active, .z-amber:active, .z-buynow:active, .z-white:active, .z-allcat:active, .z-sec:active, .z-step:active, .z-card:active, .z-card-sm:active { transform: scale(.975); }
+@media (prefers-reduced-motion: reduce) {
+  .z-shell, .z-search { animation: none; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
 }

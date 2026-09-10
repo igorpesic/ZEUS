@@ -116,8 +116,8 @@ export default function App() {
       showRank: r.disc > 0, showGuest: r.disc === 0,
       discLabel: "−" + r.disc + "%",
       promoOn: p.promo > 0,
-      heartFill: w[p.id] ? "#0E4DA4" : "none",
-      heartStroke: w[p.id] ? "#0E4DA4" : "#15202B",
+      heartFill: w[p.id] ? "#184A4F" : "none",
+      heartStroke: w[p.id] ? "#184A4F" : "#15202B",
       open: () => openPDP(p.id),
       add: () => addToCart(p.id, 1),
       wish: () => toggleWish(p.id),
@@ -144,16 +144,16 @@ export default function App() {
 
   const screens = SCREENMETA.map((s) => ({
     label: s.label,
-    bg: s.id === scr ? "#F5B72E" : "rgba(255,255,255,0.08)",
-    fg: s.id === scr ? "#13315C" : "rgba(255,255,255,0.75)",
+    bg: s.id === scr ? "#B0871F" : "rgba(255,255,255,0.08)",
+    fg: s.id === scr ? "#0F3438" : "rgba(255,255,255,0.75)",
     go: () => setScreen(s.id),
   }));
   const ranks = RANKS.map((r, i) => ({
     name: r.name,
     discTag: r.disc > 0 ? "−" + r.disc + "%" : "",
-    pbg: i === ri ? "#F5B72E" : "rgba(255,255,255,0.06)",
-    pfg: i === ri ? "#13315C" : "rgba(255,255,255,0.8)",
-    pborder: i === ri ? "#F5B72E" : "rgba(255,255,255,0.15)",
+    pbg: i === ri ? "#B0871F" : "rgba(255,255,255,0.06)",
+    pfg: i === ri ? "#0F3438" : "rgba(255,255,255,0.8)",
+    pborder: i === ri ? "#B0871F" : "rgba(255,255,255,0.15)",
     pick: () => setRank(i),
   }));
 
@@ -179,11 +179,11 @@ export default function App() {
     discLabel: r.disc === 0 ? "MP Cena" : "−" + r.disc + "%",
     priceStr: fmt(pdpP.mp * (1 - r.disc / 100)),
     maxTag: r.disc === 40, youTag: i === ri,
-    rowBg: i === ri ? "#F4F8FE" : "#fff",
-    nameColor: i === ri ? "#0E4DA4" : "#15202B",
-    priceColor: i === ri ? "#1769C0" : "#15202B",
+    rowBg: i === ri ? "#EAF4F3" : "#fff",
+    nameColor: i === ri ? "#184A4F" : "#15202B",
+    priceColor: i === ri ? "#1E7A72" : "#15202B",
   }));
-  const pdpThumbs = [0, 1, 2, 3].map((i) => ({ border: i === 0 ? "#0E4DA4" : "rgba(0,0,0,0.1)" }));
+  const pdpThumbs = [0, 1, 2, 3].map((i) => ({ border: i === 0 ? "#184A4F" : "rgba(0,0,0,0.1)" }));
   const accData = [
     { key: "dim", title: "Dimenzije uređaja", rows: [{ k: "Visina", v: "42 cm" }, { k: "Širina", v: "28 cm" }, { k: "Dubina", v: "21 cm" }, { k: "Težina", v: "3,4 kg" }] },
     { key: "tech", title: "Tehnički podaci", rows: [{ k: "Snaga", v: "90 W" }, { k: "Napajanje", v: "220–240 V" }, { k: "Talasna dužina", v: "480–3400 nm" }, { k: "Garancija", v: "24 meseca" }] },
@@ -196,11 +196,14 @@ export default function App() {
     toggle: () => patch((s) => ({ acc: s.acc === a.key ? "" : a.key })),
     rows: a.rows.map((r, i) => ({ ...r, bg: i % 2 ? "#F7F9FC" : "#fff" })),
   }));
-  const similar = PRODUCTS.filter((p) => p.cat === pdpP.cat && p.id !== pdpP.id)
-    .concat(PRODUCTS.filter((p) => p.cat !== pdpP.cat)).slice(0, 4)
+  const isZ = (b) => /zepter/i.test(b || "");
+  const simSameCat = PRODUCTS.filter((p) => p.cat === pdpP.cat && p.id !== pdpP.id);
+  const simRelated = PRODUCTS.filter((p) => p.id !== pdpP.id && p.cat !== pdpP.cat && (p.brand === pdpP.brand || (isZ(p.brand) && isZ(pdpP.brand))));
+  const simRest = PRODUCTS.filter((p) => p.id !== pdpP.id && p.cat !== pdpP.cat && !(p.brand === pdpP.brand || (isZ(p.brand) && isZ(pdpP.brand))));
+  const similar = [...simSameCat, ...simRelated, ...simRest].slice(0, 4)
     .map((p) => {
       const d = dispProduct(p);
-      return { ...d, mainStr: rank.disc > 0 ? d.rankStr : d.mpStr, priceColor: rank.disc > 0 ? "#1769C0" : "#15202B" };
+      return { ...d, mainStr: rank.disc > 0 ? d.rankStr : d.mpStr, priceColor: rank.disc > 0 ? "#1E7A72" : "#15202B" };
     });
 
   const CIRCLES = [
@@ -262,33 +265,33 @@ export default function App() {
     shop: <><path d="M4 4h2l1.2 11.4a1 1 0 001 .9h7.6a1 1 0 001-.8L19 8H6" /><circle cx="9" cy="20" r="1" /><circle cx="16" cy="20" r="1" /></>,
     mp: <><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></>,
   };
-  const megaIcon = (key, s = 34, stroke = "#0E4DA4") =>
+  const megaIcon = (key, s = 34, stroke = "#184A4F") =>
     ICON_PATHS[key]
       ? <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{ICON_PATHS[key]}</svg>
       : null;
   const catChips = ["Sve"].concat(CATEGORIES).map((c, i) => ({
     name: c,
-    bg: i === 0 ? "#EAF2FC" : "#fff",
-    fg: i === 0 ? "#0E4DA4" : "#15202B",
-    border: i === 0 ? "#0E4DA4" : "rgba(0,0,0,0.08)",
+    bg: i === 0 ? "#E7F1F0" : "#fff",
+    fg: i === 0 ? "#184A4F" : "#15202B",
+    border: i === 0 ? "#184A4F" : "rgba(0,0,0,0.08)",
   }));
   const rankCards = RANKS.map((r) => ({
     name: r.name, discBig: "−" + r.disc + "%",
     maxTag: r.disc === 40,
-    border: r.disc === 40 ? "#F5B72E" : "rgba(0,0,0,0.08)",
+    border: r.disc === 40 ? "#B0871F" : "rgba(0,0,0,0.08)",
   }));
   const benefits = [
-    { icon: "🏷️", title: "Do −40% popusta", desc: "Trajne privilegovane cene na sve proizvode i brendove." },
-    { icon: "🚚", title: "Besplatna dostava", desc: "Brza i pouzdana isporuka na vašu adresu." },
-    { icon: "🌍", title: "Globalni affiliate", desc: "Vaš link prepoznaje tržište kupca i njegovu valutu." },
-    { icon: "🎁", title: "Pokloni i akcije", desc: "Ekskluzivne promocije i poklon opcije za članove." },
+    { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0l-7-7A2 2 0 0 1 3 12V4a1 1 0 0 1 1-1h8a2 2 0 0 1 1.41.59l7.18 7.17a2 2 0 0 1 0 2.83Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>', title: "Do −40% popusta", desc: "Trajne privilegovane cene na sve proizvode i brendove." },
+    { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V5H2v12h3"/><path d="M14 8h3.09a2 2 0 0 1 1.41.59L21.41 11.5a2 2 0 0 1 .59 1.41V17h-3"/><path d="M14 17h1"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>', title: "Besplatna dostava", desc: "Brza i pouzdana isporuka na vašu adresu." },
+    { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/></svg>', title: "Globalni affiliate", desc: "Vaš link prepoznaje tržište kupca i njegovu valutu." },
+    { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7"/><path d="M12 8S10.8 3 8 3a2.2 2.2 0 0 0 0 5M12 8s1.2-5 4-5a2.2 2.2 0 0 1 0 5"/></svg>', title: "Pokloni i akcije", desc: "Ekskluzivne promocije i poklon opcije za članove." },
   ];
   const filtersMeta = [{ id: "all", label: "Sve" }, { id: "stock", label: "Na stanju" }, { id: "limited", label: "Ograničena ponuda" }];
   const outletFilters = filtersMeta.map((f) => ({
     label: f.label,
-    bg: state.outletFilter === f.id ? "#13315C" : "#fff",
+    bg: state.outletFilter === f.id ? "#0F3438" : "#fff",
     fg: state.outletFilter === f.id ? "#fff" : "#15202B",
-    border: state.outletFilter === f.id ? "#13315C" : "rgba(0,0,0,0.1)",
+    border: state.outletFilter === f.id ? "#0F3438" : "rgba(0,0,0,0.1)",
     pick: () => patch({ outletFilter: f.id }),
   }));
   const auctionData = [
@@ -302,9 +305,9 @@ export default function App() {
     bidStr: fmt(a.bid), buyStr: fmt(rankPrice(a.buy)), condBg: "#E7F4EC", condFg: "#1F8A5B",
   }));
   const swatches = [
-    { name: "Brand plava", hex: "#0E4DA4" }, { name: "Navy (CTA)", hex: "#13315C" },
-    { name: "Amber", hex: "#F5B72E" }, { name: "BizzClub plava", hex: "#1769C0" },
-    { name: "Sky", hex: "#EAF2FC" }, { name: "Sky 2", hex: "#D3E6FA" },
+    { name: "Brand plava", hex: "#184A4F" }, { name: "Navy (CTA)", hex: "#0F3438" },
+    { name: "Amber", hex: "#B0871F" }, { name: "BizzClub plava", hex: "#1E7A72" },
+    { name: "Sky", hex: "#E7F1F0" }, { name: "Sky 2", hex: "#CFE7E4" },
     { name: "Ink", hex: "#15202B" }, { name: "Pozadina", hex: "#FBFCFE" },
   ];
 
@@ -409,22 +412,22 @@ export default function App() {
         <button onClick={p.open} className="z-link" style={css("border:none;background:none;text-align:left;padding:0;cursor:pointer;font:600 15px Inter;color:#15202B;line-height:1.3;margin-bottom:14px;min-height:40px;")}>{p.name}</button>
         <div style={css("margin-top:auto;")}>
           {p.inquire ? (<>
-            <div style={css("display:flex;align-items:center;gap:6px;margin-bottom:4px;")}><span style={css("font:700 12px Inter;color:#1769C0;")}>BizzClub ⓘ</span></div>
+            <div style={css("display:flex;align-items:center;gap:6px;margin-bottom:4px;")}><span style={css("font:700 12px Inter;color:#1E7A72;")}>BizzClub ⓘ</span></div>
             <div style={css("font:500 11px Inter;color:#82868C;margin-bottom:14px;")}>{p.priceNote}</div>
-            <button onClick={p.open} className="z-sec" style={css("width:100%;background:#fff;color:#13315C;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:11px;font:600 13.5px Inter;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;")}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#13315C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M8 9h8M8 13h8M8 17h5" /></svg>
+            <button onClick={p.open} className="z-sec" style={css("width:100%;background:#fff;color:#0F3438;border:1.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:11px;font:600 13.5px Inter;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;")}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0F3438" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M8 9h8M8 13h8M8 17h5" /></svg>
               Saznajte više
             </button>
           </>) : (<>
             {p.showRank && (<>
-              <div style={css("display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;")}><span style={css("font:500 13px Inter;color:#5B6573;")}>Vaša cena</span><span style={css("font:800 17px Inter;color:#1769C0;")}>{p.rankStr}</span></div>
-              <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;")}><span style={css("background:#EAF2FC;color:#0E4DA4;font:700 11px Inter;padding:2px 7px;border-radius:6px;")}>{p.discLabel}</span><span style={css("font:500 12px Inter;color:#A6AAB0;text-decoration:line-through;")}>MP {p.mpStr}</span></div>
+              <div style={css("display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;")}><span style={css("font:500 13px Inter;color:#5B6573;")}>Vaša cena</span><span style={css("font:800 17px Inter;color:#1E7A72;")}>{p.rankStr}</span></div>
+              <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;")}><span style={css("background:#E7F1F0;color:#184A4F;font:700 11px Inter;padding:2px 7px;border-radius:6px;")}>{p.discLabel}</span><span style={css("font:500 12px Inter;color:#A6AAB0;text-decoration:line-through;")}>MP {p.mpStr}</span></div>
             </>)}
             {p.showGuest && (<>
               <div style={css("display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;")}><span style={css("font:500 13px Inter;color:#5B6573;")}>MP Cena</span><span style={css("font:700 16px Inter;color:#15202B;")}>{p.mpStr}</span></div>
-              <div style={css("display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:14px;")}><span style={css("font:700 12px Inter;color:#1769C0;")}>BizzClub ⓘ</span><span style={css("font:500 11px Inter;color:#82868C;text-align:right;")}>Učlanite se i kupite do -40%</span></div>
+              <div style={css("display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:14px;")}><span style={css("font:700 12px Inter;color:#1E7A72;")}>BizzClub ⓘ</span><span style={css("font:500 11px Inter;color:#82868C;text-align:right;")}>Učlanite se i kupite do -40%</span></div>
             </>)}
-            <button onClick={p.add} className="z-cta" style={css("width:100%;background:#13315C;color:#fff;border:none;border-radius:8px;padding:11px;font:600 13.5px Inter;cursor:pointer;")}>Dodajte u korpu</button>
+            <button onClick={p.add} className="z-cta" style={css("width:100%;background:#0F3438;color:#fff;border:none;border-radius:8px;padding:11px;font:600 13.5px Inter;cursor:pointer;")}>Dodajte u korpu</button>
           </>)}
         </div>
       </div>
@@ -442,25 +445,25 @@ export default function App() {
             <img src="/zeus-logo.svg" alt="ZEUS by Zepter" className="z-hd-logo" style={css("height:60px;width:auto;display:block;")} />
           </button>
           <button className="z-op z-hd-loc" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:7px;flex:none;padding:0;")}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E4DA4" strokeWidth="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#184A4F" strokeWidth="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
             <span style={css("font:600 14px Inter;color:#15202B;")}>{cur.loc}</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5B6573" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
           </button>
           <div className="z-hd-search" style={css("flex:1;display:flex;align-items:center;max-width:520px;border:1.5px solid rgba(0,0,0,0.08);border-radius:14px;overflow:hidden;background:#FBFCFE;")}>
             <input placeholder="Pretražite sve na Zepteru online i u prodavnici" style={css("flex:1;border:none;background:none;outline:none;padding:13px 16px;font:500 14px Inter;color:#15202B;")} />
-            <button onClick={goSearch} className="z-amber" style={css("border:none;cursor:pointer;background:#F5B72E;color:#13315C;font:700 14px Inter;padding:13px 22px;display:flex;align-items:center;gap:8px;")}>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#13315C" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+            <button onClick={goSearch} className="z-amber" style={css("border:none;cursor:pointer;background:#B0871F;color:#0F3438;font:700 14px Inter;padding:13px 22px;display:flex;align-items:center;gap:8px;")}>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0F3438" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
               Pretraga
             </button>
           </div>
-          <div className="z-hd-acct" style={css("display:flex;align-items:center;gap:20px;flex:none;")}>
+          <div className="z-hd-acct" style={css("display:flex;align-items:center;gap:20px;flex:none;margin-left:auto;")}>
             <button onClick={openSearch} aria-label="Pretraga" className="z-op z-hd-searchbtn" style={css("display:none;border:none;background:none;cursor:pointer;align-items:center;padding:0;")}>
               <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#15202B" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
             </button>
             <button onClick={goWish} className="z-op" style={css("position:relative;border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0;")}>
               {heart("none", "#15202B")}
               <span className="z-hd-txt" style={css("text-align:left;font:400 12px Inter;color:#5B6573;line-height:1.25;")}>Vaša<br /><b style={css("font-weight:600;color:#15202B;")}>lista želja</b></span>
-              <span style={css("position:absolute;top:-6px;left:14px;background:#0E4DA4;color:#fff;font:700 9px Inter;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;")}>{wishCount}</span>
+              <span style={css("position:absolute;top:-6px;left:14px;background:#184A4F;color:#fff;font:700 9px Inter;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;")}>{wishCount}</span>
             </button>
             <button className="z-op z-hd-account" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0;")}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15202B" strokeWidth="1.8"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" /></svg>
@@ -469,7 +472,7 @@ export default function App() {
             <button onClick={goCart} className="z-op" style={css("position:relative;border:none;background:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0;")}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#15202B" strokeWidth="1.8" strokeLinecap="round"><path d="M3 4h2l2.4 12.4a1 1 0 001 .8h9.2a1 1 0 001-.8L21 8H6" /><circle cx="9" cy="20" r="1.3" /><circle cx="18" cy="20" r="1.3" /></svg>
               <span className="z-hd-txt" style={css("font:600 13px Inter;color:#15202B;")}>{fmt(rankTotal)}</span>
-              <span style={css("position:absolute;top:-6px;left:16px;background:#F5B72E;color:#13315C;font:700 9px Inter;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;")}>{cartCount}</span>
+              <span style={css("position:absolute;top:-6px;left:16px;background:#B0871F;color:#0F3438;font:700 9px Inter;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;")}>{cartCount}</span>
             </button>
           </div>
         </div>
@@ -477,7 +480,7 @@ export default function App() {
         {/* CATEGORY NAV */}
         <div style={css("background:#fff;border-top:1px solid rgba(0,0,0,0.05);box-shadow:0 1px 4px rgba(0,0,0,0.04);")}>
           <div className="z-hd-nav" style={css("max-width:1232px;margin:0 auto;padding:8px 24px;display:flex;align-items:center;gap:18px;")}>
-            <button onClick={toggleMega} aria-expanded={state.megaOpen} className="z-allcat" style={css("display:flex;align-items:center;gap:10px;border:none;background:#002D62;color:#fff;font:600 13.5px Inter;padding:10px 18px;border-radius:6px;cursor:pointer;flex:none;")}>
+            <button onClick={toggleMega} aria-expanded={state.megaOpen} className="z-allcat" style={css("display:flex;align-items:center;gap:10px;border:none;background:#0C3A3E;color:#fff;font:600 13.5px Inter;padding:10px 18px;border-radius:6px;cursor:pointer;flex:none;")}>
               <span className="z-allcat-txt">Sve kategorije</span>
               {state.megaOpen
                 ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -489,7 +492,7 @@ export default function App() {
               <button onClick={goPlp} className="z-link" style={css("border:none;background:none;color:#15202B;font:500 14px Inter;padding:8px 14px;cursor:pointer;")}>Zepter Svet</button>
               <button onClick={goOutlet} className="z-link" style={css("border:none;background:none;color:#15202B;font:500 14px Inter;padding:8px 14px;cursor:pointer;")}>Outlet</button>
               <button onClick={goMarketplace} className="z-link" style={css("border:none;background:none;color:#15202B;font:600 14px Inter;padding:8px 14px;cursor:pointer;")}>Marketplace</button>
-              <button onClick={goBizz} className="z-link" style={css("border:none;background:none;color:#1769C0;font:600 14px Inter;padding:8px 14px;cursor:pointer;")}>BizzClub</button>
+              <button onClick={goBizz} className="z-link" style={css("border:none;background:none;color:#1E7A72;font:600 14px Inter;padding:8px 14px;cursor:pointer;")}>BizzClub</button>
             </div>
           </div>
         </div>
@@ -506,8 +509,8 @@ export default function App() {
                     const on = t.id === state.megaTab;
                     return (
                       <button key={t.id} onClick={() => patch({ megaTab: t.id })} className="z-mega-tab"
-                        style={css(`display:flex;align-items:center;gap:11px;border:1px solid ${on ? "#0E4DA4" : "rgba(0,0,0,0.08)"};background:${on ? "#EAF2FC" : "#fff"};color:${on ? "#0E4DA4" : "#5B6573"};font:${on ? 600 : 500} 14px Inter;padding:12px 14px;border-radius:8px;cursor:pointer;text-align:left;`)}>
-                        {megaIcon(t.glyph, 20, on ? "#0E4DA4" : "#5B6573")}
+                        style={css(`display:flex;align-items:center;gap:11px;border:1px solid ${on ? "#184A4F" : "rgba(0,0,0,0.08)"};background:${on ? "#E7F1F0" : "#fff"};color:${on ? "#184A4F" : "#5B6573"};font:${on ? 600 : 500} 14px Inter;padding:12px 14px;border-radius:8px;cursor:pointer;text-align:left;`)}>
+                        {megaIcon(t.glyph, 20, on ? "#184A4F" : "#5B6573")}
                         <span style={css("flex:1;")}>{t.label}</span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
                       </button>
@@ -526,7 +529,7 @@ export default function App() {
                           ))}
                         </div>
                       </div>
-                      <div style={css("position:absolute;top:16px;right:16px;width:72px;height:72px;border-radius:50%;background:#D7ECFB;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none;")}>
+                      <div style={css("position:absolute;top:16px;right:16px;width:72px;height:72px;border-radius:50%;background:#D7ECEA;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none;")}>
                         {c.img
                           ? <img src={A(c.img)} alt="" style={{ ...css("object-fit:contain;"), width: (c.size || 56) + "px", height: (c.size || 56) + "px" }} />
                           : megaIcon(c.icon, 34)}
@@ -552,7 +555,7 @@ export default function App() {
               <div style={css("height:200px;border-radius:8px;position:relative;overflow:hidden;flex:none;")}>
                 <img src={A("assets/znew/vacsy.jpg")} alt="VacSy" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
                 <div style={{ ...css("position:absolute;top:16px;right:16px;text-align:right;font:700 13px Inter;color:#15202B;line-height:1.25;"), whiteSpace: "pre-line" }}>{"VacSy\nČuvar tvoje\nhrane!"}</div>
-                <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
+                <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#0C3A3E;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
               </div>
               <div className="z-hero-tall" style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-end;")}>
                 <img src={A("assets/home/hyperlight.png")} alt="Hyperlight Eyewear" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;")} />
@@ -565,7 +568,7 @@ export default function App() {
               </div>
               <div style={css("height:200px;border-radius:8px;position:relative;overflow:hidden;flex:none;")}>
                 <img src={A("assets/znew/perfume.jpg")} alt="Parfem" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
-                <button onClick={goPlp} style={css("position:absolute;bottom:16px;left:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
+                <button onClick={goPlp} style={css("position:absolute;bottom:16px;left:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#0C3A3E;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
               </div>
             </div>
             {/* CENTER */}
@@ -582,24 +585,24 @@ export default function App() {
               <div className="z-hero-duo" style={css("display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;")}>
                 <div style={css("border-radius:8px;position:relative;overflow:hidden;")}>
                   <img src={A("assets/znew/myionz-air.png")} alt="Therapy Air" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right;")} />
-                  <button onClick={goPlp} style={css("position:absolute;bottom:16px;left:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
+                  <button onClick={goPlp} style={css("position:absolute;bottom:16px;left:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#0C3A3E;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
                 </div>
                 <div style={css("border-radius:8px;position:relative;overflow:hidden;")}>
                   <img src={A("assets/znew/pink-lepota.jpg")} alt="Prirodna lepota" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
-                  <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
+                  <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#0C3A3E;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
                 </div>
               </div>
-              <div className="z-hero-bizz" style={css("height:130px;border-radius:8px;background:#EEFAFF;position:relative;overflow:hidden;padding:16px 20px;flex:none;display:flex;")}>
+              <div className="z-hero-bizz" style={css("height:130px;border-radius:8px;background:#EAF4F3;position:relative;overflow:hidden;padding:16px 20px;flex:none;display:flex;")}>
                 <svg viewBox="0 0 624 130" preserveAspectRatio="xMaxYMid slice" style={css("position:absolute;inset:0;width:100%;height:100%;")} xmlns="http://www.w3.org/2000/svg">
-                  <path opacity="0.6" d="M288 99.7794L624.476 18.8347L624.476 180.724L288 99.7794Z" fill="#0273BC" fillOpacity="0.5"/>
-                  <path opacity="0.6" d="M367.358 10.899L624.476 -50.9999L624.476 72.7979L367.358 10.899Z" fill="#0071BD" fillOpacity="0.25"/>
-                  <path opacity="0.6" d="M449.889 61.6879L624.476 18.8349L624.476 104.541L449.889 61.6879Z" fill="#0071BD" fillOpacity="0.75"/>
+                  <path opacity="0.6" d="M288 99.7794L624.476 18.8347L624.476 180.724L288 99.7794Z" fill="#1E7A72" fillOpacity="0.5"/>
+                  <path opacity="0.6" d="M367.358 10.899L624.476 -50.9999L624.476 72.7979L367.358 10.899Z" fill="#1E7A72" fillOpacity="0.25"/>
+                  <path opacity="0.6" d="M449.889 61.6879L624.476 18.8349L624.476 104.541L449.889 61.6879Z" fill="#1E7A72" fillOpacity="0.75"/>
                 </svg>
                 <div className="z-hero-bizz-txt" style={css("position:relative;z-index:2;max-width:70%;display:flex;flex-direction:column;justify-content:space-between;")}>
-                  <p style={css("font:300 20px Poppins,Inter;color:#002D62;margin:0;line-height:1.15;")}>Postanite <b style={css("font-weight:700;")}>ZEUS BizzClub</b> partner i ostvarite trajno višestruke pogodnosti!</p>
+                  <p style={css("font:300 20px Poppins,Inter;color:#0C3A3E;margin:0;line-height:1.15;")}>Postanite <b style={css("font-weight:700;")}>ZEUS BizzClub</b> partner i ostvarite trajno višestruke pogodnosti!</p>
                   <div className="z-bizz-cta-row" style={css("display:flex;align-items:center;gap:18px;")}>
-                    <button onClick={goBizz} style={css("background:#fff;border:none;border-radius:4px;padding:7px 18px;font:600 14px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.18);")}>Želim da se učlanim</button>
-                    <button onClick={goBizz} style={css("background:none;border:none;color:#002D62;font:600 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
+                    <button onClick={goBizz} style={css("background:#fff;border:none;border-radius:4px;padding:7px 18px;font:600 14px Inter;color:#0C3A3E;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.18);")}>Želim da se učlanim</button>
+                    <button onClick={goBizz} style={css("background:none;border:none;color:#0C3A3E;font:600 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
                   </div>
                 </div>
                 <img src="/zeus-logo.svg" alt="ZEUS by Zepter" className="z-hero-bizz-logo" style={css("position:absolute;right:28px;top:50%;transform:translateY(-50%);height:66px;width:auto;z-index:2;")} />
@@ -609,16 +612,16 @@ export default function App() {
             <div style={css("display:flex;flex-direction:column;gap:16px;")}>
               <div style={css("height:160px;border-radius:8px;position:relative;overflow:hidden;flex:none;")}>
                 <img src={A("assets/znew/plates.jpg")} alt="Gurmanski recepti" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
-                <button onClick={goPlp} style={css("position:absolute;bottom:14px;right:14px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
+                <button onClick={goPlp} style={css("position:absolute;bottom:14px;right:14px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#0C3A3E;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
               </div>
               <div style={css("height:200px;border-radius:8px;position:relative;overflow:hidden;flex:none;background:#F4F6F8;")}>
                 <img src={A("assets/znew/posude.jpg")} alt="Posuđe" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
                 <div style={{ ...css("position:absolute;top:16px;left:16px;font:700 13px Inter;color:#15202B;line-height:1.25;"), whiteSpace: "pre-line" }}>{"Jedinstveno\ni superiorno posuđe"}</div>
-                <button onClick={goPlp} style={css("position:absolute;bottom:14px;right:14px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
+                <button onClick={goPlp} style={css("position:absolute;bottom:14px;right:14px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#0C3A3E;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
               </div>
               <div className="z-hero-tall" style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;")}>
                 <img src={A("assets/znew/woman-bag.png")} alt="Luksuz i stil" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 15%;")} />
-                <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#002D62;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
+                <button onClick={goPlp} style={css("position:absolute;bottom:16px;right:16px;background:#fff;border:none;border-radius:4px;padding:6px 16px;font:600 13px Inter;color:#0C3A3E;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2);")}>Kupite odmah</button>
               </div>
             </div>
           </div>
@@ -626,7 +629,7 @@ export default function App() {
           {/* IZDVAJAMO */}
           <div style={css("display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;")}>
             <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Izdvajamo iz ponude</h2>
-            <button onClick={goPlp} style={css("flex:none;background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+            <button onClick={goPlp} style={css("flex:none;background:none;border:none;color:#0C3A3E;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
           </div>
           <div className="z-grid-4 z-carousel" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px;")}>
             {featured.map((p) => <ProductCard key={p.id} p={p} />)}
@@ -651,16 +654,16 @@ export default function App() {
               <div style={css("position:relative;z-index:2;padding:24px;")}>
                 <h3 style={{ ...css("font:700 32px Inter;margin:0 0 8px;color:#000;line-height:1.1;"), whiteSpace: "pre-line" }}>{"Bioptron\nsvetlosna terapija"}</h3>
                 <p style={css("font:400 15px Inter;color:#3d4754;margin:0 0 14px;max-width:230px;")}>Sinergija svetlosti i boja bude vaša čula</p>
-                <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:600 14px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
+                <button onClick={goPlp} style={css("background:none;border:none;color:#0C3A3E;font:600 14px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
               </div>
             </div>
             <div style={css("display:flex;flex-direction:column;gap:16px;")}>
               <div className="z-cb-half" style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;background:#fff;padding:22px;display:flex;flex-direction:column;")}>
                 <img src={A("assets/znew/preciscena-voda.png")} alt="Prečišćena voda" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;")} />
                 <div style={css("position:relative;z-index:2;")}>
-                  <h3 style={css("font:700 20px Inter;margin:0 0 8px;color:#002D62;")}>Prečišćena voda</h3>
+                  <h3 style={css("font:700 20px Inter;margin:0 0 8px;color:#0C3A3E;")}>Prečišćena voda</h3>
                   <p style={css("font:400 14px Inter;color:#3d4754;margin:0 0 12px;max-width:170px;line-height:1.4;")}>Najbolji izvor čiste vode za zdravo telo i zdrav život</p>
-                  <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:600 13px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
+                  <button onClick={goPlp} style={css("background:none;border:none;color:#0C3A3E;font:600 13px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
                 </div>
               </div>
               <div className="z-cb-half" style={css("flex:1;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-start;justify-content:flex-end;")}>
@@ -675,24 +678,24 @@ export default function App() {
               <img src={A("assets/znew/u2.jpg")} alt="Priprema hrane" className="z-cb-cook-img" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
               <div style={css("position:relative;z-index:2;padding:18px;")}>
                 <h3 style={css("font:700 19px Inter;margin:0 0 6px;color:#15202B;max-width:160px;line-height:1.2;")}>Priprema hrane na zdrav način</h3>
-                <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:600 13px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
+                <button onClick={goPlp} style={css("background:none;border:none;color:#0C3A3E;font:600 13px Inter;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;")}>Saznajte više →</button>
               </div>
             </div>
           </div>
 
           {/* KATEGORIJE */}
-          <div style={css("border-top:1px solid #EEFAFF;padding-top:24px;")}>
+          <div style={css("border-top:1px solid #EAF4F3;padding-top:24px;")}>
             <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;")}>
               <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Kategorije proizvoda</h2>
-              <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+              <button onClick={goPlp} style={css("background:none;border:none;color:#0C3A3E;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
             </div>
             <div className="z-cats" style={css("display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:40px;")}>
               {catCircles.map((c, i) => (
                 <button key={i} onClick={c.go} style={css("border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;padding:4px;")}>
-                  <div className="z-scale z-cat-circle" style={css("width:104px;height:104px;border-radius:50%;background:#D7ECFB;display:flex;align-items:center;justify-content:center;overflow:hidden;")}>
+                  <div className="z-scale z-cat-circle" style={css("width:104px;height:104px;border-radius:50%;background:#D7ECEA;display:flex;align-items:center;justify-content:center;overflow:hidden;")}>
                     {c.hasImg
                       ? <img src={c.img} alt={c.name} style={{ ...css("object-fit:contain;"), width: c.size + "px", height: c.size + "px" }} />
-                      : <div style={css("width:56px;height:56px;border-radius:50%;background:repeating-linear-gradient(135deg,#bcd9f2,#bcd9f2 7px,#cfe5f7 7px,#cfe5f7 14px);")} />}
+                      : <div style={css("width:56px;height:56px;border-radius:50%;background:repeating-linear-gradient(135deg,#BFE0DC,#BFE0DC 7px,#CFE7E4 7px,#CFE7E4 14px);")} />}
                   </div>
                   <span style={{ ...css("font:500 12.5px Inter;color:#15202B;text-align:center;line-height:1.3;"), whiteSpace: "pre-line" }}>{c.name}</span>
                 </button>
@@ -701,15 +704,15 @@ export default function App() {
           </div>
 
           {/* BIZZCLUB STRIP */}
-          <div style={css("background:#EAF6FF;border-radius:8px;padding:14px 28px;display:flex;align-items:center;justify-content:center;gap:28px;margin-bottom:48px;flex-wrap:wrap;")}>
-            <span className="z-bizz-strip-txt" style={css("font:300 20px Poppins,Inter;color:#002D62;")}>Učlanite se u <b style={css("font-weight:600;")}>ZEUS BizzClub</b> i već danas možete da ostvarite privilegovanu cenu</span>
-            <button onClick={goBizz} className="z-white" style={css("background:none;border:1.5px solid #002D62;border-radius:4px;padding:8px 18px;font:600 14px Inter;color:#002D62;cursor:pointer;flex:none;")}>Želim da se učlanim</button>
+          <div style={css("background:#EAF4F3;border-radius:8px;padding:14px 28px;display:flex;align-items:center;justify-content:center;gap:28px;margin-bottom:48px;flex-wrap:wrap;")}>
+            <span className="z-bizz-strip-txt" style={css("font:300 20px Poppins,Inter;color:#0C3A3E;")}>Učlanite se u <b style={css("font-weight:600;")}>ZEUS BizzClub</b> i već danas možete da ostvarite privilegovanu cenu</span>
+            <button onClick={goBizz} className="z-white" style={css("background:none;border:1.5px solid #0C3A3E;border-radius:4px;padding:8px 18px;font:600 14px Inter;color:#0C3A3E;cursor:pointer;flex:none;")}>Želim da se učlanim</button>
           </div>
 
           {/* PROMOCIJE */}
           <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;")}>
             <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Promocije</h2>
-            <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+            <button onClick={goPlp} style={css("background:none;border:none;color:#0C3A3E;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
           </div>
           <div className="z-promo-grid z-carousel" style={css("display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;")}>
             <div style={css("border-radius:8px;overflow:hidden;position:relative;")}>
@@ -720,11 +723,11 @@ export default function App() {
         </main>
 
         {/* NEWSLETTER */}
-        <div style={css("background:#EAF6FF;padding:36px 24px;margin-top:48px;")}>
+        <div style={css("background:#EAF4F3;padding:36px 24px;margin-top:48px;")}>
           <div style={css("max-width:760px;margin:0 auto;text-align:center;")}>
-            <h3 style={css("font:500 24px Inter;color:#002D62;margin:0 0 6px;")}>Prijavite se na našu mailing listu!</h3>
+            <h3 style={css("font:500 24px Inter;color:#0C3A3E;margin:0 0 6px;")}>Prijavite se na našu mailing listu!</h3>
             <p style={css("font:400 14px Inter;color:#5B6573;margin:0 0 18px;")}>Svake nedelje dobijaćete konkretne predloge i uputstva kako da unapredite svoj život.</p>
-            <button className="z-sky" style={css("background:#fff;border:1.5px solid #002D62;border-radius:4px;padding:10px 26px;font:600 14px Inter;color:#002D62;cursor:pointer;")}>Prijavite se</button>
+            <button className="z-sky" style={css("background:#fff;border:1.5px solid #0C3A3E;border-radius:4px;padding:10px 26px;font:600 14px Inter;color:#0C3A3E;cursor:pointer;")}>Prijavite se</button>
           </div>
         </div>
       </>)}
@@ -759,12 +762,12 @@ export default function App() {
           {/* POPULARNE KATEGORIJE */}
           <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;")}>
             <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Popularne kategorije</h2>
-            <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+            <button onClick={goPlp} style={css("background:none;border:none;color:#0C3A3E;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
           </div>
           <div className="z-cats" style={css("display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:40px;")}>
             {mpCircles.map((c, i) => (
               <button key={i} onClick={c.go} style={css("border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:14px;padding:4px;")}>
-                <div className="z-scale z-cat-circle" style={css("width:104px;height:104px;border-radius:50%;background:#D7ECFB;display:flex;align-items:center;justify-content:center;")}>
+                <div className="z-scale z-cat-circle" style={css("width:104px;height:104px;border-radius:50%;background:#D7ECEA;display:flex;align-items:center;justify-content:center;")}>
                   <img src={c.img} alt={c.name} className="z-mp-cat-img" style={css("width:" + c.scale + "%;height:" + c.scale + "%;object-fit:contain;flex:none;")} />
                 </div>
                 <span style={{ ...css("font:500 12.5px Inter;color:#15202B;text-align:center;line-height:1.3;"), whiteSpace: "pre-line" }}>{c.name}</span>
@@ -773,15 +776,15 @@ export default function App() {
           </div>
 
           {/* BIZZCLUB STRIP */}
-          <div style={css("background:#EAF6FF;border-radius:8px;padding:14px 28px;display:flex;align-items:center;justify-content:center;gap:28px;margin-bottom:48px;flex-wrap:wrap;")}>
-            <span className="z-bizz-strip-txt" style={css("font:300 20px Poppins,Inter;color:#002D62;")}>Učlanite se u <b style={css("font-weight:600;")}>ZEUS BizzClub</b> i već danas možete da ostvarite privilegovanu cenu</span>
-            <button onClick={goBizz} className="z-white" style={css("background:none;border:1.5px solid #002D62;border-radius:4px;padding:8px 18px;font:600 14px Inter;color:#002D62;cursor:pointer;flex:none;")}>Želim da se učlanim</button>
+          <div style={css("background:#EAF4F3;border-radius:8px;padding:14px 28px;display:flex;align-items:center;justify-content:center;gap:28px;margin-bottom:48px;flex-wrap:wrap;")}>
+            <span className="z-bizz-strip-txt" style={css("font:300 20px Poppins,Inter;color:#0C3A3E;")}>Učlanite se u <b style={css("font-weight:600;")}>ZEUS BizzClub</b> i već danas možete da ostvarite privilegovanu cenu</span>
+            <button onClick={goBizz} className="z-white" style={css("background:none;border:1.5px solid #0C3A3E;border-radius:4px;padding:8px 18px;font:600 14px Inter;color:#0C3A3E;cursor:pointer;flex:none;")}>Želim da se učlanim</button>
           </div>
 
           {/* IZDVAJAMO IZ PONUDE */}
           <div style={css("display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;")}>
             <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Izdvajamo iz ponude</h2>
-            <button onClick={goPlp} style={css("flex:none;background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+            <button onClick={goPlp} style={css("flex:none;background:none;border:none;color:#0C3A3E;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
           </div>
           <div className="z-grid-4 z-carousel" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:52px;")}>
             {mpFeatured.map((p) => <ProductCard key={p.id} p={p} />)}
@@ -800,7 +803,7 @@ export default function App() {
           {/* BLOG */}
           <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;")}>
             <h2 style={css("font:700 20px Inter;margin:0;color:#000;")}>Blog</h2>
-            <button onClick={goPlp} style={css("background:none;border:none;color:#002D62;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
+            <button onClick={goPlp} style={css("background:none;border:none;color:#0C3A3E;font:500 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;")}>Pogledajte sve →</button>
           </div>
           <div className="z-grid-4 z-carousel" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:8px;")}>
             {MP_BLOG.map((b, i) => (
@@ -810,7 +813,7 @@ export default function App() {
                 </div>
                 <div style={css("padding:16px;display:flex;flex-direction:column;flex:1;")}>
                   <h3 className="z-link" style={css("font:600 15.5px Inter;color:#15202B;line-height:1.3;margin:0 0 8px;min-height:42px;")}>{b.title}</h3>
-                  <p style={css("font:400 13px Inter;color:#5B6573;line-height:1.5;margin:0 0 12px;")}>{b.excerpt} <span style={css("color:#002D62;font-weight:600;")}>nastavak</span></p>
+                  <p style={css("font:400 13px Inter;color:#5B6573;line-height:1.5;margin:0 0 12px;")}>{b.excerpt} <span style={css("color:#0C3A3E;font-weight:600;")}>nastavak</span></p>
                   {b.author && (
                     <div style={css("display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:6px;")}>
                       <img src={A("assets/home/doktor.jpg")} alt={b.author} style={css("width:34px;height:34px;border-radius:50%;object-fit:cover;flex:none;")} />
@@ -824,11 +827,11 @@ export default function App() {
         </main>
 
         {/* NEWSLETTER */}
-        <div style={css("background:#EAF6FF;padding:36px 24px;margin-top:48px;")}>
+        <div style={css("background:#EAF4F3;padding:36px 24px;margin-top:48px;")}>
           <div style={css("max-width:760px;margin:0 auto;text-align:center;")}>
-            <h3 style={css("font:500 24px Inter;color:#002D62;margin:0 0 6px;")}>Prijavite se na našu mailing listu!</h3>
+            <h3 style={css("font:500 24px Inter;color:#0C3A3E;margin:0 0 6px;")}>Prijavite se na našu mailing listu!</h3>
             <p style={css("font:400 14px Inter;color:#5B6573;margin:0 0 18px;")}>Svake nedelje dobijaćete konkretne predloge i uputstva kako da unapredite svoj život.</p>
-            <button className="z-sky" style={css("background:#fff;border:1.5px solid #002D62;border-radius:4px;padding:10px 26px;font:600 14px Inter;color:#002D62;cursor:pointer;")}>Prijavite se</button>
+            <button className="z-sky" style={css("background:#fff;border:1.5px solid #0C3A3E;border-radius:4px;padding:10px 26px;font:600 14px Inter;color:#0C3A3E;cursor:pointer;")}>Prijavite se</button>
           </div>
         </div>
       </>)}
@@ -841,7 +844,7 @@ export default function App() {
             <button onClick={closeSearch} aria-label="Nazad" className="z-op" style={css("border:none;background:none;cursor:pointer;display:flex;align-items:center;padding:4px;flex:none;")}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#15202B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="M12 19l-7-7 7-7" /></svg>
             </button>
-            <div style={css("flex:1;display:flex;align-items:center;gap:8px;border:1.5px solid #F5B72E;border-radius:12px;padding:9px 12px;background:#fff;")}>
+            <div style={css("flex:1;display:flex;align-items:center;gap:8px;border:1.5px solid #B0871F;border-radius:12px;padding:9px 12px;background:#fff;")}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6573" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
               <input ref={searchInputRef} value={state.searchQ} onChange={(e) => patch({ searchQ: e.target.value })}
                 placeholder="Pretražite proizvode" enterKeyHint="search"
@@ -869,7 +872,7 @@ export default function App() {
               <div>
                 {["Svetlosna terapija", "Prečišćivači vazduha", "Posuđe", "Pametne naočare"].map((t, i, a) => (
                   <button key={t} onClick={() => patch({ searchQ: t })} className="z-op" style={{ ...css("width:100%;display:flex;align-items:center;gap:11px;border:none;background:none;cursor:pointer;text-align:left;padding:13px 2px;font:500 14px Inter;color:#15202B;"), borderBottom: i < a.length - 1 ? "1px solid rgba(0,0,0,0.05)" : "none" }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E4DA4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17l6-6 4 4 8-8" /><path d="M21 7h-5" /><path d="M21 7v5" /></svg>{t}
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#184A4F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17l6-6 4 4 8-8" /><path d="M21 7h-5" /><path d="M21 7v5" /></svg>{t}
                   </button>
                 ))}
               </div>
@@ -893,9 +896,9 @@ export default function App() {
                     {p.hasImg && <img src={p.img} alt={p.name} style={css("max-width:48px;max-height:48px;object-fit:contain;")} />}
                   </div>
                   <div style={css("flex:1;min-width:0;")}>
-                    <div style={css("font:600 11px Inter;color:#0E4DA4;margin-bottom:3px;")}>{p.cat}</div>
+                    <div style={css("font:600 11px Inter;color:#184A4F;margin-bottom:3px;")}>{p.cat}</div>
                     <div style={css("font:600 14px Inter;color:#15202B;line-height:1.3;margin-bottom:4px;")}>{p.name}</div>
-                    <div style={css("font:700 14px Inter;color:#1769C0;")}>{p.showRank ? p.rankStr : p.mpStr}</div>
+                    <div style={css("font:700 14px Inter;color:#1E7A72;")}>{p.showRank ? p.rankStr : p.mpStr}</div>
                   </div>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C2CAD4" strokeWidth="2" strokeLinecap="round" style={css("flex:none;")}><path d="M9 6l6 6-6 6" /></svg>
                 </button>
@@ -912,7 +915,7 @@ export default function App() {
           <div style={css("display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;margin-bottom:22px;")}>
             {catChips.map((c, i) => (
               <button key={i} style={{ ...css("display:flex;align-items:center;gap:10px;flex:none;border-radius:14px;padding:8px 14px 8px 8px;cursor:pointer;font:600 12.5px Inter;"), border: "1px solid " + c.border, background: c.bg, color: c.fg }}>
-                <span style={css("width:34px;height:34px;border-radius:50%;background:#EAF2FC;display:block;")} />{c.name}
+                <span style={css("width:34px;height:34px;border-radius:50%;background:#E7F1F0;display:block;")} />{c.name}
               </button>
             ))}
           </div>
@@ -928,7 +931,7 @@ export default function App() {
               <div key={p.id} className="z-card" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;")}>
                 <div style={css("position:relative;padding:18px;")}>
                   <div style={css("position:absolute;top:14px;left:14px;display:flex;flex-direction:column;gap:6px;z-index:3;")}>
-                    {p.badge && <span style={css("background:#fff;border:1px solid rgba(0,0,0,0.08);color:#13315C;font:600 10.5px Inter;padding:4px 9px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.05);")}>{p.badge}</span>}
+                    {p.badge && <span style={css("background:#fff;border:1px solid rgba(0,0,0,0.08);color:#0F3438;font:600 10.5px Inter;padding:4px 9px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.05);")}>{p.badge}</span>}
                     {p.promoOn && <PromoHex label={"−" + p.promo + "%"} h={52} />}
                   </div>
                   <button onClick={p.wish} style={css("position:absolute;top:14px;right:14px;z-index:3;border:none;background:rgba(255,255,255,0.9);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);")}>
@@ -943,27 +946,27 @@ export default function App() {
                   </button>
                 </div>
                 <div style={css("padding:0 18px 18px;display:flex;flex-direction:column;flex:1;")}>
-                  <div style={css("font:600 11px Inter;color:#0E4DA4;margin-bottom:5px;")}>{p.cat}</div>
+                  <div style={css("font:600 11px Inter;color:#184A4F;margin-bottom:5px;")}>{p.cat}</div>
                   <button onClick={p.open} className="z-link" style={css("border:none;background:none;text-align:left;padding:0;cursor:pointer;font:600 14px Inter;color:#15202B;line-height:1.3;margin-bottom:5px;min-height:36px;")}>{p.name}</button>
                   <div style={css("font:500 11px Inter;color:#94a0ae;margin-bottom:12px;")}>SKU: {p.sku}</div>
                   <div style={css("margin-top:auto;")}>
                     {p.showRank && (<>
-                      <div style={css("display:flex;align-items:baseline;gap:8px;margin-bottom:2px;")}><span style={css("font:800 19px Inter;color:#1769C0;")}>{p.rankStr}</span><span style={css("background:#EAF2FC;color:#0E4DA4;font:700 11px Inter;padding:2px 7px;border-radius:6px;")}>{p.discLabel}</span></div>
+                      <div style={css("display:flex;align-items:baseline;gap:8px;margin-bottom:2px;")}><span style={css("font:800 19px Inter;color:#1E7A72;")}>{p.rankStr}</span><span style={css("background:#E7F1F0;color:#184A4F;font:700 11px Inter;padding:2px 7px;border-radius:6px;")}>{p.discLabel}</span></div>
                       <div style={css("font:500 12px Inter;color:#94a0ae;text-decoration:line-through;margin-bottom:12px;")}>MP {p.mpStr}</div>
                     </>)}
                     {p.showGuest && (<>
                       <div style={css("font:500 11px Inter;color:#5B6573;margin-bottom:1px;")}>MP Cena</div>
                       <div style={css("font:800 19px Inter;color:#15202B;margin-bottom:7px;")}>{p.mpStr}</div>
-                      <div style={css("display:flex;align-items:center;gap:6px;background:#EAF2FC;border-radius:8px;padding:7px 9px;margin-bottom:12px;")}><span style={css("font:700 11px Inter;color:#1769C0;")}>BizzClub</span><span style={css("font:500 11px Inter;color:#13315C;")}>do −40%</span></div>
+                      <div style={css("display:flex;align-items:center;gap:6px;background:#E7F1F0;border-radius:8px;padding:7px 9px;margin-bottom:12px;")}><span style={css("font:700 11px Inter;color:#1E7A72;")}>BizzClub</span><span style={css("font:500 11px Inter;color:#0F3438;")}>do −40%</span></div>
                     </>)}
-                    <button onClick={p.add} className="z-cta" style={css("width:100%;background:#13315C;color:#fff;border:none;border-radius:11px;padding:12px;font:600 13.5px Inter;cursor:pointer;")}>Dodajte u korpu</button>
+                    <button onClick={p.add} className="z-cta" style={css("width:100%;background:#0F3438;color:#fff;border:none;border-radius:11px;padding:12px;font:600 13.5px Inter;cursor:pointer;")}>Dodajte u korpu</button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
           <div style={css("display:flex;justify-content:center;margin-top:36px;")}>
-            <button className="z-sec" style={css("border:1.5px solid #0E4DA4;background:#fff;color:#0E4DA4;border-radius:12px;padding:13px 30px;font:600 14px Inter;cursor:pointer;")}>Prikaži još proizvoda</button>
+            <button className="z-sec" style={css("border:1.5px solid #184A4F;background:#fff;color:#184A4F;border-radius:12px;padding:13px 30px;font:600 14px Inter;cursor:pointer;")}>Prikaži još proizvoda</button>
           </div>
         </main>
       )}
@@ -991,10 +994,10 @@ export default function App() {
             </div>
             {/* buy card */}
             <div>
-              <div style={css("display:inline-block;background:#EAF2FC;color:#0E4DA4;font:600 12px Inter;padding:5px 11px;border-radius:8px;margin-bottom:14px;")}>{pdp.cat}</div>
+              <div style={css("display:inline-block;background:#E7F1F0;color:#184A4F;font:600 12px Inter;padding:5px 11px;border-radius:8px;margin-bottom:14px;")}>{pdp.cat}</div>
               <h1 className="z-h1" style={css("font:800 30px Inter;margin:0 0 10px;line-height:1.15;color:#15202B;")}>{pdp.name}</h1>
               <div style={css("display:flex;align-items:center;gap:14px;margin-bottom:22px;")}>
-                <div style={css("display:flex;align-items:center;gap:4px;")}><span style={css("color:#F5B72E;font-size:16px;letter-spacing:1px;")}>★★★★★</span><span style={css("font:600 13px Inter;color:#15202B;")}>{pdp.rating}</span></div>
+                <div style={css("display:flex;align-items:center;gap:4px;")}><span style={css("color:#B0871F;font-size:16px;letter-spacing:1px;")}>★★★★★</span><span style={css("font:600 13px Inter;color:#15202B;")}>{pdp.rating}</span></div>
                 <span style={css("font:500 13px Inter;color:#94a0ae;")}>{pdp.reviews} recenzija</span>
                 <span style={css("font:500 13px Inter;color:#94a0ae;")}>SKU: {pdp.sku}</span>
               </div>
@@ -1002,25 +1005,25 @@ export default function App() {
               <div style={css("background:#F7F9FC;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:22px;margin-bottom:20px;")}>
                 {pdp.showRank && (<>
                   <div style={css("font:600 12px Inter;color:#5B6573;margin-bottom:4px;")}>Vaša cena · {rank.name}</div>
-                  <div style={css("display:flex;align-items:baseline;gap:12px;margin-bottom:6px;")}><span style={css("font:800 34px Inter;color:#1769C0;")}>{pdp.rankStr}</span><span style={css("background:#0E4DA4;color:#fff;font:700 13px Inter;padding:4px 10px;border-radius:8px;")}>{pdp.discLabel}</span></div>
+                  <div style={css("display:flex;align-items:baseline;gap:12px;margin-bottom:6px;")}><span style={css("font:800 34px Inter;color:#1E7A72;")}>{pdp.rankStr}</span><span style={css("background:#184A4F;color:#fff;font:700 13px Inter;padding:4px 10px;border-radius:8px;")}>{pdp.discLabel}</span></div>
                   <div style={css("font:500 14px Inter;color:#94a0ae;text-decoration:line-through;")}>MP Cena {pdp.mpStr}</div>
                 </>)}
                 {pdp.showGuest && (<>
                   <div style={css("font:600 12px Inter;color:#5B6573;margin-bottom:4px;")}>MP Cena</div>
                   <div style={css("font:800 34px Inter;color:#15202B;margin-bottom:12px;")}>{pdp.mpStr}</div>
-                  <div style={css("display:flex;align-items:center;gap:10px;background:#EAF2FC;border-radius:12px;padding:12px 14px;")}>
-                    <span style={css("font:800 12px Inter;color:#1769C0;letter-spacing:0.03em;")}>BIZZCLUB</span>
-                    <span style={css("font:500 13px Inter;color:#13315C;")}>Učlanite se i kupite po ceni do <b>−40%</b></span>
+                  <div style={css("display:flex;align-items:center;gap:10px;background:#E7F1F0;border-radius:12px;padding:12px 14px;")}>
+                    <span style={css("font:800 12px Inter;color:#1E7A72;letter-spacing:0.03em;")}>BIZZCLUB</span>
+                    <span style={css("font:500 13px Inter;color:#0F3438;")}>Učlanite se i kupite po ceni do <b>−40%</b></span>
                   </div>
                 </>)}
               </div>
 
               {/* rank table */}
               <div style={css("border:1px solid rgba(0,0,0,0.06);border-radius:14px;overflow:hidden;margin-bottom:22px;")}>
-                <div style={css("background:#13315C;color:#fff;padding:12px 16px;font:700 13px Inter;")}>Cena po rangu članstva</div>
+                <div style={css("background:#0F3438;color:#fff;padding:12px 16px;font:700 13px Inter;")}>Cena po rangu članstva</div>
                 {rankTable.map((row, i) => (
                   <div key={i} style={{ ...css("display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-top:1px solid rgba(0,0,0,0.05);"), background: row.rowBg }}>
-                    <div style={css("display:flex;align-items:center;gap:9px;")}><span style={{ ...css("font:600 13px Inter;"), color: row.nameColor }}>{row.name}</span>{row.maxTag && <span style={css("background:#F5B72E;color:#13315C;font:700 10px Inter;padding:2px 7px;border-radius:6px;")}>Max</span>}{row.youTag && <span style={css("background:#0E4DA4;color:#fff;font:700 10px Inter;padding:2px 7px;border-radius:6px;")}>Vi</span>}</div>
+                    <div style={css("display:flex;align-items:center;gap:9px;")}><span style={{ ...css("font:600 13px Inter;"), color: row.nameColor }}>{row.name}</span>{row.maxTag && <span style={css("background:#B0871F;color:#0F3438;font:700 10px Inter;padding:2px 7px;border-radius:6px;")}>Max</span>}{row.youTag && <span style={css("background:#184A4F;color:#fff;font:700 10px Inter;padding:2px 7px;border-radius:6px;")}>Vi</span>}</div>
                     <div style={css("display:flex;align-items:center;gap:10px;")}><span style={css("font:500 12px Inter;color:#94a0ae;")}>{row.discLabel}</span><span style={{ ...css("font:700 14px Inter;"), color: row.priceColor }}>{row.priceStr}</span></div>
                   </div>
                 ))}
@@ -1028,17 +1031,17 @@ export default function App() {
 
               <div style={css("display:flex;align-items:center;gap:14px;margin-bottom:16px;")}>
                 <div style={css("display:flex;align-items:center;border:1.5px solid rgba(0,0,0,0.1);border-radius:12px;overflow:hidden;")}>
-                  <button onClick={() => patch((s) => ({ qty: Math.max(1, s.qty - 1) }))} className="z-step" style={css("border:none;background:#fff;width:46px;height:46px;font:600 20px Inter;color:#13315C;cursor:pointer;")}>−</button>
+                  <button onClick={() => patch((s) => ({ qty: Math.max(1, s.qty - 1) }))} className="z-step" style={css("border:none;background:#fff;width:46px;height:46px;font:600 20px Inter;color:#0F3438;cursor:pointer;")}>−</button>
                   <span style={css("width:46px;text-align:center;font:700 16px Inter;")}>{state.qty}</span>
-                  <button onClick={() => patch((s) => ({ qty: s.qty + 1 }))} className="z-step" style={css("border:none;background:#fff;width:46px;height:46px;font:600 20px Inter;color:#13315C;cursor:pointer;")}>+</button>
+                  <button onClick={() => patch((s) => ({ qty: s.qty + 1 }))} className="z-step" style={css("border:none;background:#fff;width:46px;height:46px;font:600 20px Inter;color:#0F3438;cursor:pointer;")}>+</button>
                 </div>
-                <button onClick={() => addToCart(state.pdpId, state.qty)} className="z-cta" style={css("flex:1;background:#13315C;color:#fff;border:none;border-radius:12px;height:50px;font:700 15px Inter;cursor:pointer;")}>Dodajte u korpu</button>
+                <button onClick={() => addToCart(state.pdpId, state.qty)} className="z-cta" style={css("flex:1;background:#0F3438;color:#fff;border:none;border-radius:12px;height:50px;font:700 15px Inter;cursor:pointer;")}>Dodajte u korpu</button>
               </div>
               <div style={css("display:flex;gap:12px;margin-bottom:20px;")}>
-                <button onClick={goCart} className="z-amber" style={css("flex:1;background:#F5B72E;color:#13315C;border:none;border-radius:12px;height:46px;font:700 14px Inter;cursor:pointer;")}>Kupite odmah</button>
-                <button className="z-sec" style={css("flex:none;border:1.5px solid rgba(0,0,0,0.1);background:#fff;border-radius:12px;height:46px;padding:0 18px;font:600 14px Inter;color:#13315C;cursor:pointer;display:flex;align-items:center;gap:8px;")}>🎁 Pošaljite kao poklon</button>
+                <button onClick={goCart} className="z-amber" style={css("flex:1;background:#B0871F;color:#0F3438;border:none;border-radius:12px;height:46px;font:700 14px Inter;cursor:pointer;")}>Kupite odmah</button>
+                <button className="z-sec" style={css("flex:none;border:1.5px solid rgba(0,0,0,0.1);background:#fff;border-radius:12px;height:46px;padding:0 18px;font:600 14px Inter;color:#0F3438;cursor:pointer;display:flex;align-items:center;gap:8px;")}>🎁 Pošaljite kao poklon</button>
               </div>
-              <div style={css("display:flex;align-items:center;gap:10px;font:500 13px Inter;color:#5B6573;")}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E4DA4" strokeWidth="2"><path d="M1 3h13v13H1z" /><path d="M14 8h4l3 3v5h-7" /><circle cx="5.5" cy="18.5" r="2" /><circle cx="17.5" cy="18.5" r="2" /></svg>Besplatna isporuka · dostava 2–4 radna dana</div>
+              <div style={css("display:flex;align-items:center;gap:10px;font:500 13px Inter;color:#5B6573;")}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#184A4F" strokeWidth="2"><path d="M1 3h13v13H1z" /><path d="M14 8h4l3 3v5h-7" /><circle cx="5.5" cy="18.5" r="2" /><circle cx="17.5" cy="18.5" r="2" /></svg>Besplatna isporuka · dostava 2–4 radna dana</div>
             </div>
           </div>
 
@@ -1047,7 +1050,7 @@ export default function App() {
             {accordions.map((a, i) => (
               <div key={i} style={css("border-bottom:1px solid rgba(0,0,0,0.08);")}>
                 <button onClick={a.toggle} style={css("width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;padding:20px 0;cursor:pointer;font:700 17px Inter;color:#15202B;text-align:left;")}>
-                  {a.title}<span style={css("font-size:22px;color:#0E4DA4;font-weight:400;")}>{a.sign}</span>
+                  {a.title}<span style={css("font-size:22px;color:#184A4F;font-weight:400;")}>{a.sign}</span>
                 </button>
                 {a.open && (
                   <div style={css("padding:0 0 22px;")}>
@@ -1073,7 +1076,7 @@ export default function App() {
                   </div>
                 </button>
                 <div style={css("padding:0 16px 16px;")}>
-                  <div style={css("font:600 11px Inter;color:#0E4DA4;margin-bottom:4px;")}>{p.cat}</div>
+                  <div style={css("font:600 11px Inter;color:#184A4F;margin-bottom:4px;")}>{p.cat}</div>
                   <div style={css("font:600 13.5px Inter;color:#15202B;line-height:1.3;margin-bottom:8px;min-height:34px;")}>{p.name}</div>
                   <div style={{ ...css("font:800 16px Inter;"), color: p.priceColor }}>{p.mainStr}</div>
                 </div>
@@ -1089,10 +1092,10 @@ export default function App() {
           <h1 className="z-h1" style={css("font:800 30px Inter;margin:0 0 26px;")}>Vaša korpa <span style={css("font:500 17px Inter;color:#94a0ae;")}>({cartCount} proizvoda)</span></h1>
           {state.cart.length === 0 ? (
             <div style={css("text-align:center;padding:80px 20px;background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:20px;")}>
-              <div style={css("width:80px;height:80px;border-radius:50%;background:#EAF2FC;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;")}><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0E4DA4" strokeWidth="2"><path d="M3 4h2l2.4 12.4a1 1 0 001 .8h9.2a1 1 0 001-.8L21 8H6" /></svg></div>
+              <div style={css("width:80px;height:80px;border-radius:50%;background:#E7F1F0;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;")}><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#184A4F" strokeWidth="2"><path d="M3 4h2l2.4 12.4a1 1 0 001 .8h9.2a1 1 0 001-.8L21 8H6" /></svg></div>
               <h3 style={css("font:700 20px Inter;margin:0 0 8px;")}>Korpa je prazna</h3>
               <p style={css("font:400 14px Inter;color:#5B6573;margin:0 0 22px;")}>Dodajte proizvode iz kataloga da nastavite.</p>
-              <button onClick={goPlp} style={css("background:#13315C;color:#fff;border:none;border-radius:12px;padding:13px 26px;font:600 14px Inter;cursor:pointer;")}>Idi na katalog</button>
+              <button onClick={goPlp} style={css("background:#0F3438;color:#fff;border:none;border-radius:12px;padding:13px 26px;font:600 14px Inter;cursor:pointer;")}>Idi na katalog</button>
             </div>
           ) : (
             <div className="z-two-col" style={css("display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:start;")}>
@@ -1105,17 +1108,17 @@ export default function App() {
                         : <div style={css("width:100%;height:100%;border-radius:8px;background:repeating-linear-gradient(135deg,#EEF2F7,#EEF2F7 7px,#F6F8FB 7px,#F6F8FB 14px);")} />}
                     </div>
                     <div className="z-cart-info" style={css("flex:1;")}>
-                      <div style={css("font:600 11px Inter;color:#0E4DA4;margin-bottom:3px;")}>{c.cat}</div>
+                      <div style={css("font:600 11px Inter;color:#184A4F;margin-bottom:3px;")}>{c.cat}</div>
                       <div style={css("font:600 14.5px Inter;color:#15202B;margin-bottom:4px;line-height:1.3;")}>{c.name}</div>
                       <div style={css("font:500 11.5px Inter;color:#94a0ae;")}>SKU: {c.sku}</div>
                     </div>
                     <div style={css("display:flex;align-items:center;border:1.5px solid rgba(0,0,0,0.1);border-radius:10px;overflow:hidden;flex:none;")}>
-                      <button onClick={c.dec} className="z-step" style={css("border:none;background:#fff;width:34px;height:34px;font:600 17px Inter;color:#13315C;cursor:pointer;")}>−</button>
+                      <button onClick={c.dec} className="z-step" style={css("border:none;background:#fff;width:34px;height:34px;font:600 17px Inter;color:#0F3438;cursor:pointer;")}>−</button>
                       <span style={css("width:34px;text-align:center;font:700 14px Inter;")}>{c.qty}</span>
-                      <button onClick={c.inc} className="z-step" style={css("border:none;background:#fff;width:34px;height:34px;font:600 17px Inter;color:#13315C;cursor:pointer;")}>+</button>
+                      <button onClick={c.inc} className="z-step" style={css("border:none;background:#fff;width:34px;height:34px;font:600 17px Inter;color:#0F3438;cursor:pointer;")}>+</button>
                     </div>
                     <div className="z-cart-price" style={css("text-align:right;flex:none;min-width:130px;")}>
-                      <div style={css("font:800 16px Inter;color:#1769C0;")}>{c.lineStr}</div>
+                      <div style={css("font:800 16px Inter;color:#1E7A72;")}>{c.lineStr}</div>
                       {c.showRank && <div style={css("font:500 11.5px Inter;color:#94a0ae;text-decoration:line-through;")}>{c.lineMpStr}</div>}
                     </div>
                     <button onClick={c.remove} className="z-op" style={css("border:none;background:none;cursor:pointer;flex:none;padding:6px;")}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c2424f" strokeWidth="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14" /></svg></button>
@@ -1124,14 +1127,16 @@ export default function App() {
               </div>
               <div className="z-sticky" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:24px;position:sticky;top:120px;")}>
                 <h3 style={css("font:700 18px Inter;margin:0 0 18px;")}>Pregled porudžbine</h3>
-                <div style={css("display:flex;justify-content:space-between;font:500 14px Inter;color:#5B6573;margin-bottom:12px;")}><span>MP vrednost</span><span style={css("text-decoration:line-through;")}>{fmt(mpTotal)}</span></div>
-                {rank.disc > 0 && <div style={css("display:flex;justify-content:space-between;font:600 14px Inter;color:#1769C0;margin-bottom:12px;")}><span>{rank.name} popust</span><span>− {fmt(savings)}</span></div>}
+                {rank.disc > 0
+                  ? <div style={css("display:flex;justify-content:space-between;font:500 14px Inter;color:#5B6573;margin-bottom:12px;")}><span>MP vrednost</span><span style={css("text-decoration:line-through;")}>{fmt(mpTotal)}</span></div>
+                  : <div style={css("display:flex;justify-content:space-between;font:500 14px Inter;color:#5B6573;margin-bottom:12px;")}><span>Vrednost ({state.cart.length} {state.cart.length===1?"artikal":state.cart.length<5?"artikla":"artikala"})</span><span>{fmt(mpTotal)}</span></div>}
+                {rank.disc > 0 && <div style={css("display:flex;justify-content:space-between;font:600 14px Inter;color:#1E7A72;margin-bottom:12px;")}><span>{rank.name} popust</span><span>− {fmt(savings)}</span></div>}
                 <div style={css("display:flex;justify-content:space-between;font:500 14px Inter;color:#5B6573;margin-bottom:16px;")}><span>Isporuka</span><span style={css("color:#1F8A5B;font-weight:600;")}>Besplatno</span></div>
-                <div style={css("border-top:1px solid rgba(0,0,0,0.08);padding-top:16px;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;")}><span style={css("font:700 16px Inter;")}>Ukupno</span><span style={css("font:800 24px Inter;color:#13315C;")}>{fmt(rankTotal)}</span></div>
-                {rank.disc > 0 && <div style={css("background:#EAF2FC;border-radius:10px;padding:10px 12px;font:600 12.5px Inter;color:#0E4DA4;text-align:center;margin-bottom:18px;")}>Uštedeli ste {fmt(savings)} kao {rank.name} 🎉</div>}
-                {rank.disc === 0 && <div style={css("background:#EAF2FC;border-radius:10px;padding:10px 12px;font:600 12.5px Inter;color:#0E4DA4;text-align:center;margin-bottom:18px;")}>Učlanite se u BizzClub i uštedite do 40% na ovu korpu</div>}
-                <button onClick={goCheckout} className="z-cta" style={css("width:100%;background:#13315C;color:#fff;border:none;border-radius:12px;height:52px;font:700 15px Inter;cursor:pointer;margin-bottom:10px;")}>Nastavi na plaćanje →</button>
-                <button onClick={goPlp} style={css("width:100%;background:none;border:none;color:#0E4DA4;font:600 13px Inter;cursor:pointer;")}>Nastavi kupovinu</button>
+                <div style={css("border-top:1px solid rgba(0,0,0,0.08);padding-top:16px;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;")}><span style={css("font:700 16px Inter;")}>Ukupno</span><span style={css("font:800 24px Inter;color:#0F3438;")}>{fmt(rankTotal)}</span></div>
+                {rank.disc > 0 && <div style={css("background:#E7F1F0;border-radius:10px;padding:10px 12px;font:600 12.5px Inter;color:#184A4F;text-align:center;margin-bottom:18px;")}>Uštedeli ste {fmt(savings)} kao {rank.name} 🎉</div>}
+                {rank.disc === 0 && <div style={css("background:#E7F1F0;border-radius:10px;padding:10px 12px;font:600 12.5px Inter;color:#184A4F;text-align:center;margin-bottom:18px;")}>Učlanite se u BizzClub i uštedite do 40% na ovu korpu</div>}
+                <button onClick={goCheckout} className="z-cta" style={css("width:100%;background:#0F3438;color:#fff;border:none;border-radius:12px;height:52px;font:700 15px Inter;cursor:pointer;margin-bottom:10px;")}>Nastavi na plaćanje →</button>
+                <button onClick={goPlp} style={css("width:100%;background:none;border:none;color:#184A4F;font:600 13px Inter;cursor:pointer;")}>Nastavi kupovinu</button>
               </div>
             </div>
           )}
@@ -1142,7 +1147,7 @@ export default function App() {
       {scr === "checkout" && (
         <main className="z-shell" style={css("max-width:1100px;margin:0 auto;padding:30px 24px 80px;")}>
           <h1 className="z-h1" style={css("font:800 30px Inter;margin:0 0 6px;")}>Plaćanje</h1>
-          <div style={css("display:flex;align-items:center;gap:10px;font:500 13px Inter;color:#5B6573;margin-bottom:28px;")}><span style={css("color:#0E4DA4;font-weight:600;")}>1 Korpa</span> › <span style={css("color:#0E4DA4;font-weight:600;")}>2 Podaci</span> › <span style={css("color:#94a0ae;")}>3 Potvrda</span></div>
+          <div style={css("display:flex;align-items:center;gap:10px;font:500 13px Inter;color:#5B6573;margin-bottom:28px;")}><span style={css("color:#184A4F;font-weight:600;")}>1 Korpa</span> › <span style={css("color:#184A4F;font-weight:600;")}>2 Podaci</span> › <span style={css("color:#94a0ae;")}>3 Potvrda</span></div>
           <div className="z-two-col" style={css("display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:start;")}>
             <div style={css("display:flex;flex-direction:column;gap:20px;")}>
               <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:24px;")}>
@@ -1158,7 +1163,7 @@ export default function App() {
               <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:24px;")}>
                 <h3 style={css("font:700 17px Inter;margin:0 0 18px;")}>Način plaćanja</h3>
                 <div style={css("display:flex;flex-direction:column;gap:12px;")}>
-                  <label style={css("display:flex;align-items:center;gap:12px;border:1.5px solid #0E4DA4;background:#F4F8FE;border-radius:12px;padding:14px 16px;cursor:pointer;")}><span style={css("width:18px;height:18px;border-radius:50%;border:5px solid #0E4DA4;flex:none;")} /><span style={css("font:600 14px Inter;color:#15202B;")}>Platnom karticom</span><span style={css("margin-left:auto;font:600 12px Inter;color:#94a0ae;")}>Visa · Mastercard</span></label>
+                  <label style={css("display:flex;align-items:center;gap:12px;border:1.5px solid #184A4F;background:#EAF4F3;border-radius:12px;padding:14px 16px;cursor:pointer;")}><span style={css("width:18px;height:18px;border-radius:50%;border:5px solid #184A4F;flex:none;")} /><span style={css("font:600 14px Inter;color:#15202B;")}>Platnom karticom</span><span style={css("margin-left:auto;font:600 12px Inter;color:#94a0ae;")}>Visa · Mastercard</span></label>
                   <label style={css("display:flex;align-items:center;gap:12px;border:1.5px solid rgba(0,0,0,0.1);border-radius:12px;padding:14px 16px;cursor:pointer;")}><span style={css("width:18px;height:18px;border-radius:50%;border:1.5px solid #94a0ae;flex:none;")} /><span style={css("font:600 14px Inter;color:#15202B;")}>Pouzećem (plaćanje pri preuzimanju)</span></label>
                   <label style={css("display:flex;align-items:center;gap:12px;border:1.5px solid rgba(0,0,0,0.1);border-radius:12px;padding:14px 16px;cursor:pointer;")}><span style={css("width:18px;height:18px;border-radius:50%;border:1.5px solid #94a0ae;flex:none;")} /><span style={css("font:600 14px Inter;color:#15202B;")}>Nalog za prenos (uplatnica)</span></label>
                 </div>
@@ -1172,12 +1177,14 @@ export default function App() {
                 ))}
               </div>
               <div style={css("border-top:1px solid rgba(0,0,0,0.08);padding-top:14px;")}>
-                <div style={css("display:flex;justify-content:space-between;font:500 13px Inter;color:#5B6573;margin-bottom:10px;")}><span>MP vrednost</span><span style={css("text-decoration:line-through;")}>{fmt(mpTotal)}</span></div>
-                {rank.disc > 0 && <div style={css("display:flex;justify-content:space-between;font:600 13px Inter;color:#1769C0;margin-bottom:10px;")}><span>{rank.name} popust</span><span>− {fmt(savings)}</span></div>}
+                {rank.disc > 0
+                  ? <div style={css("display:flex;justify-content:space-between;font:500 13px Inter;color:#5B6573;margin-bottom:10px;")}><span>MP vrednost</span><span style={css("text-decoration:line-through;")}>{fmt(mpTotal)}</span></div>
+                  : <div style={css("display:flex;justify-content:space-between;font:500 13px Inter;color:#5B6573;margin-bottom:10px;")}><span>Vrednost</span><span>{fmt(mpTotal)}</span></div>}
+                {rank.disc > 0 && <div style={css("display:flex;justify-content:space-between;font:600 13px Inter;color:#1E7A72;margin-bottom:10px;")}><span>{rank.name} popust</span><span>− {fmt(savings)}</span></div>}
                 <div style={css("display:flex;justify-content:space-between;font:500 13px Inter;color:#5B6573;margin-bottom:14px;")}><span>Isporuka</span><span style={css("color:#1F8A5B;font-weight:600;")}>Besplatno</span></div>
-                <div style={css("display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(0,0,0,0.08);padding-top:14px;margin-bottom:18px;")}><span style={css("font:700 16px Inter;")}>Ukupno</span><span style={css("font:800 22px Inter;color:#13315C;")}>{fmt(rankTotal)}</span></div>
+                <div style={css("display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(0,0,0,0.08);padding-top:14px;margin-bottom:18px;")}><span style={css("font:700 16px Inter;")}>Ukupno</span><span style={css("font:800 22px Inter;color:#0F3438;")}>{fmt(rankTotal)}</span></div>
               </div>
-              <button className="z-amber" style={css("width:100%;background:#F5B72E;color:#13315C;border:none;border-radius:12px;height:52px;font:700 15px Inter;cursor:pointer;")}>Potvrdi porudžbinu</button>
+              <button className="z-amber" style={css("width:100%;background:#B0871F;color:#0F3438;border:none;border-radius:12px;height:52px;font:700 15px Inter;cursor:pointer;")}>Potvrdi porudžbinu</button>
               <div style={css("text-align:center;font:500 11.5px Inter;color:#94a0ae;margin-top:12px;")}>🔒 Sigurno plaćanje · SSL zaštita</div>
             </div>
           </div>
@@ -1187,10 +1194,10 @@ export default function App() {
       {/* ============ OUTLET ============ */}
       {scr === "outlet" && (
         <main style={css("max-width:1280px;margin:0 auto;padding:0 0 80px;")}>
-          <div className="z-outlet-hero" style={css("background:linear-gradient(120deg,#13315C,#0B1F3A);color:#fff;padding:48px 24px;")}>
+          <div className="z-outlet-hero" style={css("background:linear-gradient(120deg,#0F3438,#0A2E30);color:#fff;padding:48px 24px;")}>
             <div style={css("max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;")}>
               <div>
-                <div style={css("display:inline-flex;align-items:center;gap:8px;background:rgba(245,183,46,0.15);color:#F5B72E;font:700 12px Inter;padding:6px 12px;border-radius:8px;margin-bottom:14px;")}>⚡ ZEUS OUTLET · AUKCIJE</div>
+                <div style={css("display:inline-flex;align-items:center;gap:8px;background:rgba(245,183,46,0.15);color:#B0871F;font:700 12px Inter;padding:6px 12px;border-radius:8px;margin-bottom:14px;")}>⚡ ZEUS OUTLET · AUKCIJE</div>
                 <h1 className="z-h1" style={css("font:800 38px Inter;margin:0 0 8px;")}>Licitirajte ili kupite odmah</h1>
                 <p style={css("font:400 15px Inter;opacity:.8;margin:0;max-width:480px;")}>Provereni proizvodi po izuzetnim cenama. Nove aukcije svakog dana.</p>
               </div>
@@ -1201,7 +1208,7 @@ export default function App() {
                   <div style={css("font:800 30px Inter;")}>:</div>
                   <div><div style={css("font:800 30px Inter;")}>14</div><div style={css("font:500 10px Inter;opacity:.6;")}>MIN</div></div>
                   <div style={css("font:800 30px Inter;")}>:</div>
-                  <div><div style={css("font:800 30px Inter;color:#F5B72E;")}>38</div><div style={css("font:500 10px Inter;opacity:.6;")}>SEK</div></div>
+                  <div><div style={css("font:800 30px Inter;color:#B0871F;")}>38</div><div style={css("font:500 10px Inter;opacity:.6;")}>SEK</div></div>
                 </div>
               </div>
             </div>
@@ -1216,7 +1223,7 @@ export default function App() {
               {auctions.map((a, i) => (
                 <div key={i} className="z-card-flat" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;")}>
                   <div style={css("position:relative;padding:20px;background:#F7F9FC;")}>
-                    <span style={css("position:absolute;top:14px;left:14px;background:#13315C;color:#fff;font:700 11px Inter;padding:5px 10px;border-radius:8px;")}>⏱ {a.timeLeft}</span>
+                    <span style={css("position:absolute;top:14px;left:14px;background:#0F3438;color:#fff;font:700 11px Inter;padding:5px 10px;border-radius:8px;")}>⏱ {a.timeLeft}</span>
                     <span style={{ ...css("position:absolute;top:14px;right:14px;font:600 11px Inter;padding:5px 10px;border-radius:8px;"), background: a.condBg, color: a.condFg }}>{a.condition}</span>
                     <div style={css("height:180px;display:flex;align-items:center;justify-content:center;margin-top:8px;")}>
                       {a.hasImg
@@ -1225,14 +1232,14 @@ export default function App() {
                     </div>
                   </div>
                   <div style={css("padding:18px;display:flex;flex-direction:column;flex:1;")}>
-                    <div style={css("font:600 11px Inter;color:#0E4DA4;margin-bottom:5px;")}>{a.cat}</div>
+                    <div style={css("font:600 11px Inter;color:#184A4F;margin-bottom:5px;")}>{a.cat}</div>
                     <div style={css("font:600 15px Inter;color:#15202B;margin-bottom:14px;line-height:1.3;min-height:40px;")}>{a.name}</div>
                     <div style={css("display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;")}>
-                      <div><div style={css("font:500 11px Inter;color:#5B6573;")}>Trenutna licitacija</div><div style={css("font:800 22px Inter;color:#1769C0;")}>{a.bidStr}</div></div>
+                      <div><div style={css("font:500 11px Inter;color:#5B6573;")}>Trenutna licitacija</div><div style={css("font:800 22px Inter;color:#1E7A72;")}>{a.bidStr}</div></div>
                       <div style={css("text-align:right;")}><div style={css("font:500 11px Inter;color:#5B6573;")}>Ušteda</div><div style={css("font:700 14px Inter;color:#1F8A5B;")}>{a.savePct}</div></div>
                     </div>
-                    <button className="z-cta" style={css("width:100%;background:#13315C;color:#fff;border:none;border-radius:11px;padding:12px;font:700 13.5px Inter;cursor:pointer;margin-bottom:8px;")}>Licitirajte</button>
-                    <button className="z-buynow" style={css("width:100%;background:#fff;border:1.5px solid #F5B72E;color:#13315C;border-radius:11px;padding:11px;font:700 13px Inter;cursor:pointer;")}>Kupite odmah · {a.buyStr}</button>
+                    <button className="z-cta" style={css("width:100%;background:#0F3438;color:#fff;border:none;border-radius:11px;padding:12px;font:700 13.5px Inter;cursor:pointer;margin-bottom:8px;")}>Licitirajte</button>
+                    <button className="z-buynow" style={css("width:100%;background:#fff;border:1.5px solid #B0871F;color:#0F3438;border-radius:11px;padding:11px;font:700 13px Inter;cursor:pointer;")}>Kupite odmah · {a.buyStr}</button>
                   </div>
                 </div>
               ))}
@@ -1244,12 +1251,12 @@ export default function App() {
       {/* ============ BIZZCLUB ============ */}
       {scr === "bizz" && (
         <main style={css("padding:0 0 80px;")}>
-          <div className="z-bizz-hero" style={css("background:linear-gradient(135deg,#0E4DA4,#13315C);color:#fff;padding:64px 24px;text-align:center;")}>
+          <div className="z-bizz-hero" style={css("background:linear-gradient(135deg,#184A4F,#0F3438);color:#fff;padding:64px 24px;text-align:center;")}>
             <div style={css("max-width:760px;margin:0 auto;")}>
-              <div style={css("display:inline-block;background:rgba(245,183,46,0.18);color:#F5B72E;font:700 12px Inter;padding:7px 14px;border-radius:8px;margin-bottom:20px;letter-spacing:0.06em;")}>ZEUS MEMBERS CLUB</div>
+              <div style={css("display:inline-block;background:rgba(245,183,46,0.18);color:#B0871F;font:700 12px Inter;padding:7px 14px;border-radius:8px;margin-bottom:20px;letter-spacing:0.06em;")}>ZEUS MEMBERS CLUB</div>
               <h1 className="z-bizz-h1" style={css("font:800 44px Inter;margin:0 0 16px;line-height:1.1;")}>Kupujte pametnije.<br />Uštedite do −40%.</h1>
               <p style={css("font:400 17px Inter;opacity:.85;margin:0 0 30px;")}>Učlanjenje je besplatno. Što viši rang u BizzClub strukturi, to veći popust na sve proizvode i brendove na marketplace-u.</p>
-              <button onClick={goPlp} className="z-amber" style={css("background:#F5B72E;color:#13315C;border:none;border-radius:12px;padding:15px 32px;font:700 15px Inter;cursor:pointer;")}>Učlanite se besplatno</button>
+              <button onClick={goPlp} className="z-amber" style={css("background:#B0871F;color:#0F3438;border:none;border-radius:12px;padding:15px 32px;font:700 15px Inter;cursor:pointer;")}>Učlanite se besplatno</button>
             </div>
           </div>
           <div className="z-shell" style={css("max-width:1100px;margin:0 auto;padding:56px 24px;")}>
@@ -1258,10 +1265,10 @@ export default function App() {
             <div className="z-grid-3" style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:56px;")}>
               {rankCards.map((r, i) => (
                 <div key={i} style={{ ...css("background:#fff;border-radius:18px;padding:26px;position:relative;"), border: "1.5px solid " + r.border }}>
-                  {r.maxTag && <span style={css("position:absolute;top:18px;right:18px;background:#F5B72E;color:#13315C;font:700 10px Inter;padding:3px 9px;border-radius:6px;")}>Max popust</span>}
-                  <div style={css("font:700 12px Inter;color:#0E4DA4;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:12px;")}>Rang</div>
+                  {r.maxTag && <span style={css("position:absolute;top:18px;right:18px;background:#B0871F;color:#0F3438;font:700 10px Inter;padding:3px 9px;border-radius:6px;")}>Max popust</span>}
+                  <div style={css("font:700 12px Inter;color:#184A4F;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:12px;")}>Rang</div>
                   <div style={css("font:800 19px Inter;color:#15202B;margin-bottom:14px;")}>{r.name}</div>
-                  <div style={css("font:800 44px Inter;color:#1769C0;line-height:1;")}>{r.discBig}</div>
+                  <div style={css("font:800 44px Inter;color:#1E7A72;line-height:1;")}>{r.discBig}</div>
                   <div style={css("font:500 13px Inter;color:#5B6573;margin-top:6px;")}>popusta na sve</div>
                 </div>
               ))}
@@ -1270,7 +1277,7 @@ export default function App() {
             <div className="z-grid-4" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:18px;")}>
               {benefits.map((b, i) => (
                 <div key={i} style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:24px;text-align:center;")}>
-                  <div style={css("width:54px;height:54px;border-radius:14px;background:#EAF2FC;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;")}>{b.icon}</div>
+                  <div style={css("width:54px;height:54px;border-radius:14px;background:#E7F1F0;color:#184A4F;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;")} dangerouslySetInnerHTML={{ __html: b.svg }} />
                   <div style={css("font:700 15px Inter;color:#15202B;margin-bottom:8px;")}>{b.title}</div>
                   <div style={css("font:400 13px Inter;color:#5B6573;line-height:1.45;")}>{b.desc}</div>
                 </div>
@@ -1284,7 +1291,7 @@ export default function App() {
       {scr === "ds" && (
         <main className="z-shell" style={css("max-width:1100px;margin:0 auto;padding:36px 24px 80px;")}>
           <h1 className="z-h1" style={css("font:800 34px Inter;margin:0 0 6px;")}>ZEUS — dizajn sistem</h1>
-          <p style={css("font:400 15px Inter;color:#5B6573;margin:0 0 40px;")}>Tokeni i jezgro komponenti. Minimalistički, prozračno, Zepter plava kao prepoznatljiv akcenat.</p>
+          <p style={css("font:400 15px Inter;color:#5B6573;margin:0 0 40px;")}>Tokeni i jezgro komponenti. Minimalistički, prozračno, brend tirkiz kao prepoznatljiv akcenat.</p>
 
           <h2 style={css("font:700 20px Inter;margin:0 0 16px;")}>Boje</h2>
           <div className="z-grid-4" style={css("display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:44px;")}>
@@ -1307,10 +1314,10 @@ export default function App() {
 
           <h2 style={css("font:700 20px Inter;margin:0 0 16px;")}>Dugmad</h2>
           <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:28px;margin-bottom:44px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;")}>
-            <button className="z-cta" style={css("background:#13315C;color:#fff;border:none;border-radius:12px;padding:13px 22px;font:600 14px Inter;cursor:pointer;")}>Primarno (CTA)</button>
-            <button className="z-amber" style={css("background:#F5B72E;color:#13315C;border:none;border-radius:12px;padding:13px 22px;font:700 14px Inter;cursor:pointer;")}>Amber akcija</button>
-            <button className="z-sec" style={css("background:#fff;color:#0E4DA4;border:1.5px solid #0E4DA4;border-radius:12px;padding:13px 22px;font:600 14px Inter;cursor:pointer;")}>Sekundarno</button>
-            <button style={css("background:none;color:#0E4DA4;border:none;font:600 14px Inter;cursor:pointer;")}>Ghost link →</button>
+            <button className="z-cta" style={css("background:#0F3438;color:#fff;border:none;border-radius:12px;padding:13px 22px;font:600 14px Inter;cursor:pointer;")}>Primarno (CTA)</button>
+            <button className="z-amber" style={css("background:#B0871F;color:#0F3438;border:none;border-radius:12px;padding:13px 22px;font:700 14px Inter;cursor:pointer;")}>Amber akcija</button>
+            <button className="z-sec" style={css("background:#fff;color:#184A4F;border:1.5px solid #184A4F;border-radius:12px;padding:13px 22px;font:600 14px Inter;cursor:pointer;")}>Sekundarno</button>
+            <button style={css("background:none;color:#184A4F;border:none;font:600 14px Inter;cursor:pointer;")}>Ghost link →</button>
             <button disabled style={css("background:#EEF1F5;color:#a9b2bd;border:none;border-radius:12px;padding:13px 22px;font:600 14px Inter;cursor:not-allowed;")}>Onemogućeno</button>
           </div>
 
@@ -1320,31 +1327,31 @@ export default function App() {
               <div style={css("font:600 12px Inter;color:#94a0ae;margin-bottom:14px;")}>PRICE BLOCK · GOST</div>
               <div style={css("font:500 11px Inter;color:#5B6573;")}>MP Cena</div>
               <div style={css("font:800 22px Inter;color:#15202B;margin-bottom:8px;")}>72.890,00 RSD</div>
-              <div style={css("display:flex;align-items:center;gap:6px;background:#EAF2FC;border-radius:8px;padding:8px 10px;")}><span style={css("font:700 11px Inter;color:#1769C0;")}>BizzClub</span><span style={css("font:500 11px Inter;color:#13315C;")}>do −40%</span></div>
+              <div style={css("display:flex;align-items:center;gap:6px;background:#E7F1F0;border-radius:8px;padding:8px 10px;")}><span style={css("font:700 11px Inter;color:#1E7A72;")}>BizzClub</span><span style={css("font:500 11px Inter;color:#0F3438;")}>do −40%</span></div>
             </div>
             <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:24px;")}>
               <div style={css("font:600 12px Inter;color:#94a0ae;margin-bottom:14px;")}>PRICE BLOCK · RANG</div>
-              <div style={css("display:flex;align-items:baseline;gap:8px;")}><span style={css("font:800 22px Inter;color:#1769C0;")}>43.734,00 RSD</span><span style={css("background:#EAF2FC;color:#0E4DA4;font:700 11px Inter;padding:2px 7px;border-radius:6px;")}>−40%</span></div>
+              <div style={css("display:flex;align-items:baseline;gap:8px;")}><span style={css("font:800 22px Inter;color:#1E7A72;")}>43.734,00 RSD</span><span style={css("background:#E7F1F0;color:#184A4F;font:700 11px Inter;padding:2px 7px;border-radius:6px;")}>−40%</span></div>
               <div style={css("font:500 12px Inter;color:#94a0ae;text-decoration:line-through;")}>MP 72.890,00 RSD</div>
             </div>
             <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:24px;display:flex;align-items:center;gap:18px;")}>
               <div style={css("font:600 12px Inter;color:#94a0ae;")}>PROMO HEX</div>
               <PromoHex label="−10%" h={62} />
               <div style={css("font:600 12px Inter;color:#94a0ae;")}>CHIP</div>
-              <span style={css("border:1px solid #0E4DA4;background:#EAF2FC;color:#0E4DA4;font:600 12px Inter;padding:7px 13px;border-radius:999px;")}>Filter</span>
+              <span style={css("border:1px solid #184A4F;background:#E7F1F0;color:#184A4F;font:600 12px Inter;padding:7px 13px;border-radius:999px;")}>Filter</span>
             </div>
             <div style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;")}>
               <div style={css("font:600 12px Inter;color:#94a0ae;")}>RATING</div>
-              <div style={css("color:#F5B72E;font-size:18px;")}>★★★★★ <span style={css("color:#15202B;font:600 13px Inter;")}>4.8</span></div>
+              <div style={css("color:#B0871F;font-size:18px;")}>★★★★★ <span style={css("color:#15202B;font:600 13px Inter;")}>4.8</span></div>
               <div style={css("font:600 12px Inter;color:#94a0ae;")}>STEPPER</div>
-              <div style={css("display:flex;align-items:center;border:1.5px solid rgba(0,0,0,0.1);border-radius:10px;")}><span style={css("width:34px;height:34px;display:flex;align-items:center;justify-content:center;font:600 16px Inter;color:#13315C;")}>−</span><span style={css("width:34px;text-align:center;font:700 14px Inter;")}>1</span><span style={css("width:34px;height:34px;display:flex;align-items:center;justify-content:center;font:600 16px Inter;color:#13315C;")}>+</span></div>
+              <div style={css("display:flex;align-items:center;border:1.5px solid rgba(0,0,0,0.1);border-radius:10px;")}><span style={css("width:34px;height:34px;display:flex;align-items:center;justify-content:center;font:600 16px Inter;color:#0F3438;")}>−</span><span style={css("width:34px;text-align:center;font:700 14px Inter;")}>1</span><span style={css("width:34px;height:34px;display:flex;align-items:center;justify-content:center;font:600 16px Inter;color:#0F3438;")}>+</span></div>
             </div>
           </div>
         </main>
       )}
 
       {/* FOOTER */}
-      <footer className="z-shell" style={{ ...css("background:#0B1F3A;color:#fff;padding:48px 24px 28px;"), display: scr === "search" ? "none" : "block" }}>
+      <footer className="z-shell" style={{ ...css("background:#0A2E30;color:#fff;padding:48px 24px 28px;"), display: scr === "search" ? "none" : "block" }}>
         <div style={css("max-width:1280px;margin:0 auto;position:relative;")}>
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Nazad na vrh" style={css("position:absolute;top:-76px;right:0;border:none;background:none;padding:0;cursor:pointer;")}>
             <img src="/arrow-up.svg" alt="Nazad na vrh" style={css("width:56px;height:56px;display:block;")} />

@@ -543,7 +543,7 @@ export default function App() {
           </div>
           {a.ended
             ? <button disabled style={css("width:100%;background:var(--z-surface-2);color:var(--z-ink-3);border:1px solid var(--z-line);border-radius:10px;padding:12px;font:700 13.5px Inter;cursor:not-allowed;margin-bottom:8px;")}>Aukcija završena</button>
-            : <button onClick={a.open} className="z-cta" style={css("width:100%;background:var(--z-brand);color:#fff;border:none;border-radius:10px;padding:12px;font:700 13.5px Inter;cursor:pointer;margin-bottom:8px;")}>Licitiraj</button>}
+            : <button onClick={a.open} className="z-cta" style={css("width:100%;background:var(--z-deep);color:#fff;border:none;border-radius:10px;padding:12px;font:700 13.5px Inter;cursor:pointer;margin-bottom:8px;")}>Licitiraj</button>}
           <button onClick={a.open} className="z-op" style={css("width:100%;border:none;background:none;cursor:pointer;font:700 12.5px Inter;color:var(--z-gold);text-align:center;")}>Kupi odmah · {a.buyStr}</button>
         </div>
       </div>
@@ -1327,7 +1327,7 @@ export default function App() {
 
         {state.outletView === "list" ? (<>
           {/* 1.1 HERO — istaknuta aukcija */}
-          <div className="z-outlet-hero" style={css("position:relative;background:linear-gradient(135deg,var(--z-deep),var(--z-brand-strong));color:#fff;overflow:hidden;")}>
+          <div className="z-outlet-hero" style={css("position:relative;background:radial-gradient(58% 78% at 76% 46%, #ffffff 0%, rgba(255,255,255,0.75) 30%, rgba(255,255,255,0) 66%), linear-gradient(135deg,var(--z-deep),var(--z-brand-strong));color:#fff;overflow:hidden;")}>
             <div className="z-oh-inner" style={css("max-width:1232px;margin:0 auto;padding:56px 64px 104px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:32px;align-items:center;min-height:440px;")}>
               <div>
                 <div style={css("display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);color:#fff;font:700 11px Inter;letter-spacing:0.06em;padding:6px 12px;border-radius:8px;margin-bottom:16px;")}>⚡ IZDVOJENA AUKCIJA</div>
@@ -1341,7 +1341,7 @@ export default function App() {
                   <span className={heroA.pulse ? "z-cd-pulse" : ""} style={{ ...css("display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;"), color: heroA.ended ? "#fff" : heroA.cdCol }}>⏱ {heroA.ended ? "Aukcija završena" : heroA.cd.str}</span>
                 </div>
                 <div style={css("display:flex;align-items:center;gap:18px;")}>
-                  <button onClick={heroA.open} className="z-cta" style={css("background:var(--z-brand);color:#fff;border:none;border-radius:12px;padding:14px 30px;font:700 15px Inter;cursor:pointer;")}>Licitiraj</button>
+                  <button onClick={heroA.open} className="z-cta" style={css("background:var(--z-deep);color:#fff;border:1px solid rgba(255,255,255,0.24);border-radius:12px;padding:14px 30px;font:700 15px Inter;cursor:pointer;")}>Licitiraj</button>
                   <button onClick={heroA.open} className="z-op" style={css("background:none;border:none;color:#fff;font:700 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0;")}>Više informacija →</button>
                 </div>
               </div>
@@ -1349,8 +1349,8 @@ export default function App() {
                 {heroA.hasImg && <img key={heroA.id} src={heroA.img} alt={heroA.name} className="z-oh-img" style={css("max-height:340px;max-width:100%;object-fit:contain;filter:drop-shadow(0 24px 48px rgba(0,0,0,0.45));")} />}
               </div>
             </div>
-            <button onClick={() => cycleHero(-1)} aria-label="Prethodna aukcija" className="z-op" style={css("position:absolute;left:16px;top:44%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>‹</button>
-            <button onClick={() => cycleHero(1)} aria-label="Sledeća aukcija" className="z-op" style={css("position:absolute;right:16px;top:44%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>›</button>
+            <button onClick={() => cycleHero(-1)} aria-label="Prethodna aukcija" className="z-op" style={css("position:absolute;left:16px;top:50%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--z-line);background:var(--z-surface);color:var(--z-ink);box-shadow:0 2px 10px rgba(0,0,0,0.14);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>‹</button>
+            <button onClick={() => cycleHero(1)} aria-label="Sledeća aukcija" className="z-op" style={css("position:absolute;right:16px;top:50%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--z-line);background:var(--z-surface);color:var(--z-ink);box-shadow:0 2px 10px rgba(0,0,0,0.14);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>›</button>
             <div style={css("position:absolute;bottom:66px;left:0;right:0;display:flex;justify-content:center;gap:7px;z-index:3;")}>
               {heroAuctions.map((_, i) => (<span key={i} style={{ ...css("width:7px;height:7px;border-radius:50%;"), background: i === (state.outletHero % heroAuctions.length) ? "#fff" : "rgba(255,255,255,0.35)" }} />))}
             </div>
@@ -1361,7 +1361,7 @@ export default function App() {
             <div className="z-outlet-search" style={css("position:relative;z-index:4;margin-top:-32px;margin-bottom:44px;background:var(--z-surface);border:1px solid var(--z-line);border-radius:16px;box-shadow:0 20px 44px -26px rgba(12,58,62,0.55);padding:12px;display:flex;align-items:center;gap:10px;")}>
               <button className="z-sec z-outlet-scat" style={css("flex:none;display:flex;align-items:center;gap:8px;background:var(--z-surface-2);border:1px solid var(--z-line);border-radius:10px;padding:12px 15px;font:600 13px Inter;color:var(--z-ink);cursor:pointer;")}>Sve kategorije ▾</button>
               <input placeholder="Pretraži Outlet aukcije…" style={css("flex:1;border:none;background:none;outline:none;padding:12px 8px;font:500 14px Inter;color:var(--z-ink);min-width:0;")} />
-              <button className="z-cta" style={css("flex:none;background:var(--z-brand);color:#fff;border:none;border-radius:10px;padding:13px 24px;font:700 14px Inter;cursor:pointer;")}>Pretraga</button>
+              <button className="z-cta" style={css("flex:none;background:var(--z-deep);color:#fff;border:none;border-radius:10px;padding:13px 24px;font:700 14px Inter;cursor:pointer;")}>Pretraga</button>
             </div>
 
             {/* 1.3 IZDVOJENE AUKCIJE */}
@@ -1445,7 +1445,7 @@ export default function App() {
                     <div><div style={css("font:500 11px Inter;color:var(--z-ink-2);")}>Najviša ponuda</div><div style={css("font:800 22px Inter;color:var(--z-brand-ink);font-variant-numeric:tabular-nums;")}>{outletList[0].bidStr}</div></div>
                     <div><div style={css("font:500 11px Inter;color:var(--z-ink-2);")}>Redovna cena</div><div style={css("font:600 14px Inter;color:var(--z-ink-3);text-decoration:line-through;")}>{outletList[0].buyStr}</div></div>
                     <div><div style={css("font:500 11px Inter;color:var(--z-ink-2);")}>Završava se</div><div className={outletList[0].pulse ? "z-cd-pulse" : ""} style={{ ...css("font:700 14px Inter;font-variant-numeric:tabular-nums;"), color: outletList[0].cdCol }}>{outletList[0].ended ? "Završeno" : outletList[0].cd.str}</div></div>
-                    <span onClick={(e) => { e.stopPropagation(); outletList[0].open(); }} className="z-cta" style={css("margin-left:auto;background:var(--z-brand);color:#fff;border:none;border-radius:10px;padding:12px 24px;font:700 13.5px Inter;cursor:pointer;")}>Licitiraj</span>
+                    <span onClick={(e) => { e.stopPropagation(); outletList[0].open(); }} className="z-cta" style={css("margin-left:auto;background:var(--z-deep);color:#fff;border:none;border-radius:10px;padding:12px 24px;font:700 13.5px Inter;cursor:pointer;")}>Licitiraj</span>
                   </div>
                 </div>
               </button>
@@ -1468,7 +1468,7 @@ export default function App() {
                 <h3 style={css("font:800 26px Inter;color:var(--z-ink);margin:0 0 10px;line-height:1.15;")}>Članovi plaćaju još manje</h3>
                 <p style={css("font:400 14px Inter;color:var(--z-ink-2);margin:0 0 20px;max-width:420px;line-height:1.5;")}>Uz BizzClub članstvo ostvarujete dodatni popust na „Kupi odmah" cene i prioritet na Outlet aukcijama.</p>
                 <div style={css("display:flex;align-items:center;gap:16px;")}>
-                  <button onClick={goBizz} className="z-cta" style={css("background:var(--z-brand);color:#fff;border:none;border-radius:12px;padding:13px 26px;font:700 14px Inter;cursor:pointer;")}>Učlanite se</button>
+                  <button onClick={goBizz} className="z-cta" style={css("background:var(--z-deep);color:#fff;border:none;border-radius:12px;padding:13px 26px;font:700 14px Inter;cursor:pointer;")}>Učlanite se</button>
                   <button onClick={goBizz} className="z-op" style={css("background:none;border:none;color:var(--z-brand);font:700 13px Inter;cursor:pointer;")}>Saznajte više →</button>
                 </div>
               </div>
@@ -1524,7 +1524,7 @@ export default function App() {
                     <div style={css("display:flex;gap:10px;margin-bottom:12px;")}>
                       <input value={state.outletBid} onChange={(e) => patch({ outletBid: e.target.value.replace(/[^0-9]/g, "") })} inputMode="numeric" placeholder="Iznos veći od najviše ponude"
                         style={css("flex:1;border:1.5px solid var(--z-line);background:var(--z-surface);border-radius:12px;padding:13px 14px;font:600 14px Inter;color:var(--z-ink);outline:none;min-width:0;")} />
-                      <button className="z-cta" style={css("flex:none;background:var(--z-brand);color:#fff;border:none;border-radius:12px;padding:0 22px;font:700 14px Inter;cursor:pointer;")}>Pošalji ponudu</button>
+                      <button className="z-cta" style={css("flex:none;background:var(--z-deep);color:#fff;border:none;border-radius:12px;padding:0 22px;font:700 14px Inter;cursor:pointer;")}>Pošalji ponudu</button>
                     </div>
                     <button className="z-buynow" style={css("width:100%;background:var(--z-surface);border:1.5px solid var(--z-gold);color:var(--z-gold);border-radius:12px;height:48px;font:700 14px Inter;cursor:pointer;")}>Ili Kupi odmah · {pdpA.buyStr}</button>
                   </>)}

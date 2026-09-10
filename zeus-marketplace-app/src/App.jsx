@@ -532,7 +532,7 @@ export default function App() {
 
         {/* ============ MEGA MENU ============ */}
         {state.megaOpen && (
-          <div className="z-mega" style={css("position:absolute;left:0;right:0;top:100%;background:var(--z-surface);border-top:1px solid var(--z-line);box-shadow:0 22px 44px -18px rgba(11,31,58,0.30);z-index:61;max-height:calc(100vh - 100%);overflow:auto;")}>
+          <div className="z-mega" style={css("position:absolute;left:0;right:0;top:100%;background:var(--z-surface);border-top:1px solid var(--z-line);z-index:61;height:calc(100vh - 100%);overflow:auto;")}>
             <div style={css("max-width:1232px;margin:0 auto;padding:26px 24px 34px;")}>
               <h2 style={css("font:700 20px Inter;margin:0 0 20px;color:var(--z-ink);")}>Kategorije proizvoda</h2>
               <div className="z-mega-body" style={css("display:flex;gap:28px;align-items:flex-start;")}>

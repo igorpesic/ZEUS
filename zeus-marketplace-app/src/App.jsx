@@ -1373,22 +1373,26 @@ export default function App() {
               {heroAuctions.map((a) => <AuctionCard key={a.id} a={a} />)}
             </div>
 
-            {/* 1.4 KATEGORIJE (bento) */}
-            <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;")}>
-              <h2 style={css("font:800 22px Inter;margin:0;color:var(--z-ink);")}>Kategorije</h2>
-              <button onClick={goPlp} className="z-op" style={css("background:none;border:none;color:var(--z-brand);font:600 14px Inter;cursor:pointer;")}>Pogledaj sve kategorije →</button>
-            </div>
-            <div className="z-outlet-bento" style={css("display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:224px 224px;gap:16px;margin-bottom:56px;")}>
+            {/* 1.4 KATEGORIJE (bento) — veliki levo, Bioptron širok gore, dve pločice dole */}
+            <h2 style={css("font:800 22px Inter;margin:0 0 18px;color:var(--z-ink);")}>Kategorije</h2>
+            <div className="z-outlet-bento" style={css("display:grid;grid-template-columns:1.5fr 1fr 1fr;grid-template-rows:224px 224px;gap:16px;")}>
               {OUTLET_CATS.map((c, i) => {
-                const pos = [{ gridColumn: "1/2", gridRow: "1/3" }, { gridColumn: "2/3", gridRow: "1/2" }, { gridColumn: "3/4", gridRow: "1/2" }, { gridColumn: "2/4", gridRow: "2/3" }][i];
+                const pos = [{ gridColumn: "1/2", gridRow: "1/3" }, { gridColumn: "2/4", gridRow: "1/2" }, { gridColumn: "2/3", gridRow: "2/3" }, { gridColumn: "3/4", gridRow: "2/3" }][i];
                 return (
                   <button key={i} onClick={goPlp} className="z-card-flat z-outlet-tile" style={{ ...css("position:relative;border:none;border-radius:14px;overflow:hidden;cursor:pointer;padding:0;background:var(--z-surface-2);"), ...pos }}>
                     <img src={A(c.img)} alt={c.name} style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
                     <div style={css("position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,18,29,0.72) 6%,rgba(10,18,29,0) 58%);")} />
-                    <span style={{ ...css("position:absolute;left:16px;bottom:14px;color:#fff;font:700 15px Inter;text-align:left;"), fontSize: c.big ? "20px" : "15px" }}>{c.name}</span>
+                    <span style={{ ...css("position:absolute;left:16px;bottom:14px;color:#fff;font:700 15px Inter;text-align:left;"), fontSize: c.big ? "22px" : "15px" }}>{c.name}</span>
                   </button>
                 );
               })}
+            </div>
+            <div style={css("display:flex;justify-content:center;margin:26px 0 56px;")}>
+              <button onClick={goPlp} className="z-sec" style={css("display:flex;align-items:center;gap:10px;border:1.5px solid var(--z-line);background:var(--z-surface);color:var(--z-ink);border-radius:12px;padding:12px 22px;font:600 14px Inter;cursor:pointer;")}>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={css("color:var(--z-brand)")}><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
+                Pogledaj sve kategorije
+                <span style={css("color:var(--z-brand);")}>→</span>
+              </button>
             </div>
 
             {/* 1.5 TIP AUKCIJE + lista */}

@@ -142,6 +142,27 @@ export default function App() {
   // Close the mega menu whenever we navigate to another screen.
   useEffect(() => { setState((s) => (s.megaOpen ? { ...s, megaOpen: false } : s)); }, [scr]);
 
+  // ── Live auction countdowns ────────────────────────────────────────────
+  // Prototype: entering Outlet resets each timer to its designed value, then
+  // ticks it down once per second. The interval only runs while on Outlet.
+  const [, setClock] = useState(0);
+  const outletBase = useRef(0);
+  useEffect(() => {
+    if (scr !== "outlet") return;
+    outletBase.current = Date.now();
+    setClock((n) => n + 1);
+    const t = setInterval(() => setClock((n) => n + 1), 1000);
+    return () => clearInterval(t);
+  }, [scr]);
+  const pad2 = (n) => String(n).padStart(2, "0");
+  const remain = (str) => {
+    const [h, m, s] = str.split(":").map(Number);
+    const total = (h * 3600 + m * 60 + s) * 1000 - (Date.now() - (outletBase.current || Date.now()));
+    const sec = Math.max(0, Math.floor(total / 1000));
+    return { h: pad2(Math.floor(sec / 3600)), m: pad2(Math.floor((sec % 3600) / 60)), s: pad2(sec % 60), str: pad2(Math.floor(sec / 3600)) + ":" + pad2(Math.floor((sec % 3600) / 60)) + ":" + pad2(sec % 60) };
+  };
+  const heroCd = remain("02:14:38");
+
   const screens = SCREENMETA.map((s) => ({
     label: s.label,
     bg: s.id === scr ? "#B0871F" : "rgba(255,255,255,0.08)",
@@ -1204,11 +1225,11 @@ export default function App() {
               <div style={css("background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:20px 28px;text-align:center;")}>
                 <div style={css("font:600 12px Inter;opacity:.7;margin-bottom:8px;")}>Sledeća aukcija se zatvara za</div>
                 <div style={css("display:flex;gap:10px;justify-content:center;")}>
-                  <div><div style={css("font:800 30px Inter;")}>02</div><div style={css("font:500 10px Inter;opacity:.6;")}>SATI</div></div>
+                  <div><div style={css("font:800 30px Inter;")}>{heroCd.h}</div><div style={css("font:500 10px Inter;opacity:.6;")}>SATI</div></div>
                   <div style={css("font:800 30px Inter;")}>:</div>
-                  <div><div style={css("font:800 30px Inter;")}>14</div><div style={css("font:500 10px Inter;opacity:.6;")}>MIN</div></div>
+                  <div><div style={css("font:800 30px Inter;")}>{heroCd.m}</div><div style={css("font:500 10px Inter;opacity:.6;")}>MIN</div></div>
                   <div style={css("font:800 30px Inter;")}>:</div>
-                  <div><div style={css("font:800 30px Inter;color:#B0871F;")}>38</div><div style={css("font:500 10px Inter;opacity:.6;")}>SEK</div></div>
+                  <div><div style={css("font:800 30px Inter;color:#B0871F;")}>{heroCd.s}</div><div style={css("font:500 10px Inter;opacity:.6;")}>SEK</div></div>
                 </div>
               </div>
             </div>
@@ -1223,7 +1244,7 @@ export default function App() {
               {auctions.map((a, i) => (
                 <div key={i} className="z-card-flat" style={css("background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;")}>
                   <div style={css("position:relative;padding:20px;background:#F7F9FC;")}>
-                    <span style={css("position:absolute;top:14px;left:14px;background:#0F3438;color:#fff;font:700 11px Inter;padding:5px 10px;border-radius:8px;")}>⏱ {a.timeLeft}</span>
+                    <span style={css("position:absolute;top:14px;left:14px;background:#0F3438;color:#fff;font:700 11px Inter;padding:5px 10px;border-radius:8px;")}>⏱ {remain(a.timeLeft).str}</span>
                     <span style={{ ...css("position:absolute;top:14px;right:14px;font:600 11px Inter;padding:5px 10px;border-radius:8px;"), background: a.condBg, color: a.condFg }}>{a.condition}</span>
                     <div style={css("height:180px;display:flex;align-items:center;justify-content:center;margin-top:8px;")}>
                       {a.hasImg

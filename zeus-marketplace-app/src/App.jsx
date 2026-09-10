@@ -63,6 +63,34 @@ const SCREENMETA = [
 const CATEGORIES = ["Računari i laptopovi", "Posuđe", "Ručni satovi", "Nameštaj", "Mašine za pranje sudova", "Prečišćivači vazduha", "Televizori"];
 const byId = (id) => PRODUCTS.find((p) => p.id === id);
 
+// ── Outlet (aukcije) ─────────────────────────────────────────────────────────
+// Stanje proizvoda (Outlet tip) — chip + ⓘ tooltip.
+const CONDITIONS = {
+  otpakovano: { label: "Otpakovano", info: "Otvorena kutija — proizvod proveren i potpuno ispravan." },
+  rasprodaja: { label: "Rasprodaja", info: "Poslednji primerci iz redovne ponude." },
+  repariran: { label: "Repariran", info: "Fabrički servisiran i testiran — radi kao nov." },
+};
+// Aukcije. Cene su baza RSD (idu kroz fmt()); timeLeft je "HH:MM:SS" i otkucava
+// realno vreme (reset na ulazak u Outlet). Namerno pokrivena sva UI stanja:
+//  bosch → <5min (danger+puls) + nadmašena ponuda + rezerva nedostignuta;
+//  hyper → <1h (gold); aqeena → istekla (Aukcija završena); ostale > 1h.
+const AUCTIONS = [
+  { id: "bulova", name: "Bulova 98A227 Marine Star", cat: "Ručni satovi", img: "assets/products/bulova.png", cond: "otpakovano", bid: 48900, bidsCount: 14, buy: 72890, stock: 2, timeLeft: "02:14:38", reserveMet: true, featured: true },
+  { id: "hyper", name: "HyperLight Eyewear Clips pametne naočare", cat: "Pametne naočare", img: "assets/products/hyperlight-clips.png", cond: "rasprodaja", bid: 41200, bidsCount: 9, buy: 63012, stock: 5, timeLeft: "00:41:10", reserveMet: true, featured: true },
+  { id: "bosch", name: "Bosch WAT2846SIN Series 6, 8 kg", cat: "Veš mašine", img: "assets/products/bosch-masina.png", cond: "repariran", bid: 79900, bidsCount: 21, buy: 119990, stock: 1, timeLeft: "00:03:42", reserveMet: false, featured: true, mine: { placed: 76500, outbid: true } },
+  { id: "myionz", name: "Nosivi sterilizator vazduha MyionZ PRO", cat: "Prečišćivači vazduha", img: "assets/products/myionz.png", cond: "otpakovano", bid: 13900, bidsCount: 6, buy: 21830, stock: 3, timeLeft: "05:41:02", reserveMet: true },
+  { id: "aqeena", name: "Aqeena PRO prečišćivač vode", cat: "Prečišćena voda", img: "assets/products/aqeena.png", cond: "repariran", bid: 118000, bidsCount: 11, buy: 170156, stock: 2, timeLeft: "00:00:00", reserveMet: true, ended: true },
+  { id: "edel", name: "EdelWasser Gold sistem za vodu", cat: "Prečišćena voda", img: "assets/products/edelwasser.png", cond: "rasprodaja", bid: 60100, bidsCount: 4, buy: 83898, stock: 8, timeLeft: "01:12:30", reserveMet: true },
+];
+const byAuction = (id) => AUCTIONS.find((a) => a.id === id);
+// Bento kategorije (postojeće slike): 1 velika + 3 male.
+const OUTLET_CATS = [
+  { name: "Prečišćena voda", img: "assets/znew/preciscena-voda.png", big: true },
+  { name: "Bioptron terapija", img: "assets/znew/bioptron-eye.png" },
+  { name: "Zdravo kuvanje", img: "assets/znew/plates.jpg" },
+  { name: "Pametne naočare", img: "assets/home/hyperlight.png" },
+];
+
 // ── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [state, setState] = useState({
@@ -74,7 +102,14 @@ export default function App() {
     pdpId: "bioptron",
     qty: 1,
     acc: "dim",
-    outletFilter: "all",
+    outletFilter: "sve",
+    outletView: "list",
+    auctionId: "bulova",
+    outletHero: 0,
+    outletTab: "opis",
+    outletBid: "",
+    outletLoading: false,
+    outletNav: "deals",
     searchQ: "",
     searchFrom: "home",
     megaOpen: false,
@@ -160,9 +195,11 @@ export default function App() {
     const [h, m, s] = str.split(":").map(Number);
     const total = (h * 3600 + m * 60 + s) * 1000 - (Date.now() - (outletBase.current || Date.now()));
     const sec = Math.max(0, Math.floor(total / 1000));
-    return { h: pad2(Math.floor(sec / 3600)), m: pad2(Math.floor((sec % 3600) / 60)), s: pad2(sec % 60), str: pad2(Math.floor(sec / 3600)) + ":" + pad2(Math.floor((sec % 3600) / 60)) + ":" + pad2(sec % 60) };
+    return { sec, h: pad2(Math.floor(sec / 3600)), m: pad2(Math.floor((sec % 3600) / 60)), s: pad2(sec % 60), str: pad2(Math.floor(sec / 3600)) + ":" + pad2(Math.floor((sec % 3600) / 60)) + ":" + pad2(sec % 60) };
   };
-  const heroCd = remain("02:14:38");
+  // Countdown boja po stanju: >1h ink-2 · <1h zlato · <5min danger (puls).
+  const cdColor = (sec) => (sec <= 0 ? "var(--z-ink-3)" : sec < 300 ? "var(--z-danger)" : sec < 3600 ? "var(--z-gold)" : "var(--z-ink-2)");
+  const cdPulse = (sec) => sec > 0 && sec < 300;
 
   const screens = SCREENMETA.map((s) => ({
     label: s.label,
@@ -308,24 +345,34 @@ export default function App() {
     { Icon: Globe, title: "Globalni affiliate", desc: "Vaš link prepoznaje tržište kupca i njegovu valutu." },
     { Icon: Gift, title: "Pokloni i akcije", desc: "Ekskluzivne promocije i poklon opcije za članove." },
   ];
-  const filtersMeta = [{ id: "all", label: "Sve" }, { id: "stock", label: "Na stanju" }, { id: "limited", label: "Ograničena ponuda" }];
-  const outletFilters = filtersMeta.map((f) => ({
-    label: f.label,
-    bg: state.outletFilter === f.id ? "var(--z-deep)" : "var(--z-surface)",
-    fg: state.outletFilter === f.id ? "#fff" : "var(--z-ink)",
-    border: state.outletFilter === f.id ? "var(--z-deep)" : "var(--z-line)",
-    pick: () => patch({ outletFilter: f.id }),
-  }));
-  const auctionData = [
-    { id: "bulova", name: "Bulova 98A227 Marine Star", cat: "Ručni satovi", img: "assets/products/bulova.png", bid: 48900, buy: 72890, condition: "Kao nov", timeLeft: "02:14:38", savePct: "−33%" },
-    { id: "bosch", name: "Bosch WAT2846SIN Series 6", cat: "Veš mašine", img: "assets/products/bosch-masina.png", bid: 79900, buy: 119990, condition: "Polovan A", timeLeft: "05:41:02", savePct: "−33%" },
-    { id: "myionz", name: "Nosivi sterilizator MyionZ PRO", cat: "Prečišćivači vazduha", img: "assets/products/myionz.png", bid: 13900, buy: 21830, condition: "Otpakovano", timeLeft: "00:48:11", savePct: "−36%" },
-  ];
-  const auctions = auctionData.map((a) => ({
-    name: a.name, cat: a.cat, timeLeft: a.timeLeft, condition: a.condition,
-    hasImg: !!a.img, noImg: !a.img, img: A(a.img), ph: a.cat, savePct: a.savePct,
-    bidStr: fmt(a.bid), buyStr: fmt(rankPrice(a.buy)), condBg: "var(--z-brand-050)", condFg: "var(--z-success)",
-  }));
+  // ── Outlet derived ─────────────────────────────────────────────────────────
+  const openAuction = (id) => { patch({ outletView: "auction", auctionId: id, outletTab: "opis", outletBid: "" }); window.scrollTo(0, 0); };
+  const backToOutlet = () => { patch({ outletView: "list" }); window.scrollTo(0, 0); };
+  const pickOutletFilter = (id) => { patch({ outletFilter: id, outletLoading: true }); setTimeout(() => patch({ outletLoading: false }), 420); };
+  const auctionView = (a) => {
+    const cd = remain(a.timeLeft);
+    const ended = !!a.ended || cd.sec <= 0;
+    return {
+      ...a, img: A(a.img), hasImg: !!a.img,
+      condLabel: CONDITIONS[a.cond].label, condInfo: CONDITIONS[a.cond].info,
+      bidStr: fmt(a.bid), buyStr: fmt(a.buy), mineStr: a.mine ? fmt(a.mine.placed) : "",
+      cd, ended, cdCol: ended ? "var(--z-ink-3)" : cdColor(cd.sec), pulse: !ended && cdPulse(cd.sec),
+      open: () => openAuction(a.id), wish: () => toggleWish(a.id),
+      heartFill: state.wishlist[a.id] ? "var(--z-brand)" : "none",
+      heartStroke: state.wishlist[a.id] ? "var(--z-brand)" : "var(--z-ink-3)",
+    };
+  };
+  const auctionsView = AUCTIONS.map(auctionView);
+  const heroAuctions = auctionsView.filter((a) => a.featured);
+  const heroA = heroAuctions[state.outletHero % heroAuctions.length];
+  const cycleHero = (d) => patch((s) => ({ outletHero: (s.outletHero + d + heroAuctions.length) % heroAuctions.length }));
+  const outletFilterMeta = [{ id: "sve", label: "Sve" }, { id: "stanje", label: "Na stanju" }, { id: "vreme", label: "Ograničeno vreme" }];
+  const matchOutletFilter = (a) =>
+    state.outletFilter === "stanje" ? (!a.ended && a.stock > 0)
+      : state.outletFilter === "vreme" ? (!a.ended && a.cd.sec > 0 && a.cd.sec < 3600)
+        : true;
+  const outletList = auctionsView.filter(matchOutletFilter);
+  const pdpA = auctionView(byAuction(state.auctionId) || AUCTIONS[0]);
   const swatches = [
     { name: "Brand tirkiz", hex: "var(--z-brand)" }, { name: "Deep (CTA)", hex: "var(--z-deep)" },
     { name: "Zlato", hex: "var(--z-gold)" }, { name: "Brand ink", hex: "var(--z-brand-ink)" },
@@ -458,6 +505,44 @@ export default function App() {
             <button onClick={p.add} className="z-cta" style={css("width:100%;background:var(--z-deep);color:#fff;border:none;border-radius:8px;padding:11px;font:600 13.5px Inter;cursor:pointer;")}>Dodajte u korpu</button>
           </>)}
         </div>
+      </div>
+    </div>
+  );
+
+  // ── Reusable auction card (Outlet) ──
+  const AuctionCard = ({ a }) => (
+    <div className="z-card" style={css("background:var(--z-surface);border:1px solid var(--z-line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;")}>
+      <div style={css("position:relative;padding:18px;background:var(--z-surface-2);")}>
+        <span style={css("position:absolute;top:14px;left:14px;z-index:2;background:var(--z-surface);border:1px solid var(--z-line);color:var(--z-ink-2);font:600 10.5px Inter;padding:4px 9px;border-radius:7px;")}>još {a.stock} na stanju</span>
+        <button onClick={a.wish} aria-label="Lista želja" style={css("position:absolute;top:12px;right:12px;z-index:2;border:none;background:none;cursor:pointer;padding:2px;")}>{heart(a.heartFill, a.heartStroke, 20)}</button>
+        <button onClick={a.open} style={css("border:none;background:none;cursor:pointer;width:100%;padding:0;")}>
+          <div style={css("height:170px;display:flex;align-items:center;justify-content:center;")}>
+            {a.hasImg && <img src={a.img} alt={a.name} style={css("max-height:170px;max-width:100%;object-fit:contain;")} />}
+          </div>
+        </button>
+      </div>
+      <div style={css("padding:16px 18px 18px;display:flex;flex-direction:column;flex:1;")}>
+        <div style={css("display:flex;align-items:center;gap:8px;margin-bottom:8px;")}>
+          <span title={a.condInfo} style={css("background:var(--z-brand-050);color:var(--z-brand);font:700 10.5px Inter;padding:3px 9px;border-radius:6px;cursor:help;")}>{a.condLabel} ⓘ</span>
+          <span style={css("font:500 11px Inter;color:var(--z-ink-3);")}>{a.cat}</span>
+        </div>
+        <button onClick={a.open} className="z-link" style={css("border:none;background:none;text-align:left;padding:0;cursor:pointer;font:700 15px Inter;color:var(--z-ink);line-height:1.3;margin-bottom:12px;min-height:40px;")}>{a.name}</button>
+        {a.mine && a.mine.outbid && !a.ended && <div style={css("display:inline-block;background:var(--z-brand-050);color:var(--z-danger);font:600 11px Inter;padding:5px 9px;border-radius:7px;margin-bottom:10px;")}>Vaša ponuda je nadmašena</div>}
+        <div style={css("display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px;")}>
+          <div>
+            <div style={css("font:500 11px Inter;color:var(--z-ink-2);margin-bottom:1px;")}>Najviša ponuda</div>
+            <div style={css("font:800 20px Inter;color:var(--z-brand-ink);font-variant-numeric:tabular-nums;")}>{a.bidStr}</div>
+          </div>
+          <div style={css("text-align:right;")}>
+            <div style={css("font:500 11px Inter;color:var(--z-ink-2);margin-bottom:1px;")}>Aukcija se završava</div>
+            <div className={a.pulse ? "z-cd-pulse" : ""} style={{ ...css("font:700 14px Inter;font-variant-numeric:tabular-nums;"), color: a.cdCol }}>{a.ended ? "Završeno" : a.cd.str}</div>
+          </div>
+        </div>
+        {!a.reserveMet && !a.ended && <div style={css("font:500 11px Inter;color:var(--z-ink-3);margin-bottom:10px;")}>Rezervna cena nije dostignuta</div>}
+        {a.ended
+          ? <button disabled style={css("width:100%;background:var(--z-surface-2);color:var(--z-ink-3);border:1px solid var(--z-line);border-radius:10px;padding:12px;font:700 13.5px Inter;cursor:not-allowed;margin-bottom:8px;")}>Aukcija završena</button>
+          : <button onClick={a.open} className="z-cta" style={css("width:100%;background:var(--z-brand);color:#fff;border:none;border-radius:10px;padding:12px;font:700 13.5px Inter;cursor:pointer;margin-bottom:8px;")}>Licitiraj</button>}
+        <button onClick={a.open} className="z-op" style={css("border:none;background:none;cursor:pointer;font:700 12.5px Inter;color:var(--z-gold);text-align:center;")}>Kupi odmah · {a.buyStr}</button>
       </div>
     </div>
   );
@@ -1226,61 +1311,260 @@ export default function App() {
       )}
 
       {/* ============ OUTLET ============ */}
-      {scr === "outlet" && (
-        <main style={css("max-width:1280px;margin:0 auto;padding:0 0 80px;")}>
-          <div className="z-outlet-hero" style={css("background:linear-gradient(120deg,var(--z-deep),var(--z-deep));color:#fff;padding:48px 24px;")}>
-            <div style={css("max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;")}>
+      {scr === "outlet" && (<>
+        {/* SEKUNDARNA OUTLET NAV */}
+        <div className="z-outlet-subnav" style={css("background:var(--z-brand-050);border-bottom:1px solid var(--z-line);")}>
+          <div className="z-shell" style={css("max-width:1280px;margin:0 auto;padding:9px 24px;display:flex;align-items:center;gap:6px;")}>
+            <span style={css("font:800 11px Inter;letter-spacing:0.1em;color:var(--z-brand);margin-right:8px;")}>OUTLET</span>
+            {[{ id: "deals", label: "Dnevne ponude" }, { id: "all", label: "Sve aukcije" }, { id: "what", label: "Šta je Outlet?" }].map((t) => (
+              <button key={t.id} onClick={() => patch({ outletNav: t.id, outletView: "list" })} className="z-op" style={{ ...css("border:none;cursor:pointer;font:600 12.5px Inter;padding:6px 11px;border-radius:8px;"), color: state.outletNav === t.id ? "var(--z-brand)" : "var(--z-ink-2)", background: state.outletNav === t.id ? "var(--z-surface)" : "transparent" }}>{t.label}</button>
+            ))}
+          </div>
+        </div>
+
+        {state.outletView === "list" ? (<>
+          {/* 1.1 HERO — istaknuta aukcija */}
+          <div className="z-outlet-hero" style={css("position:relative;background:linear-gradient(135deg,var(--z-deep),var(--z-brand-strong));color:#fff;overflow:hidden;")}>
+            <div className="z-oh-inner" style={css("max-width:1232px;margin:0 auto;padding:46px 64px 66px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:32px;align-items:center;")}>
               <div>
-                <div style={css("display:inline-flex;align-items:center;gap:8px;background:rgba(245,183,46,0.15);color:var(--z-gold);font:700 12px Inter;padding:6px 12px;border-radius:8px;margin-bottom:14px;")}>⚡ ZEUS OUTLET · AUKCIJE</div>
-                <h1 className="z-h1" style={css("font:800 38px Inter;margin:0 0 8px;")}>Licitirajte ili kupite odmah</h1>
-                <p style={css("font:400 15px Inter;opacity:.8;margin:0;max-width:480px;")}>Provereni proizvodi po izuzetnim cenama. Nove aukcije svakog dana.</p>
+                <div style={css("display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);color:#fff;font:700 11px Inter;letter-spacing:0.06em;padding:6px 12px;border-radius:8px;margin-bottom:16px;")}>⚡ IZDVOJENA AUKCIJA</div>
+                <h1 className="z-h1" style={{ ...css("font:800 40px Inter;line-height:1.08;margin:0 0 10px;") }}>{heroA.name}</h1>
+                <p style={css("font:400 15px Inter;opacity:.82;margin:0 0 18px;max-width:440px;")}>Stanje: {heroA.condLabel}. Licitirajte ili kupite odmah po Outlet ceni — provereno i sa garancijom.</p>
+                <div style={css("display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:24px;font:600 13px Inter;")}>
+                  <span style={css("opacity:.85;")}>Redovna cena&nbsp;<b>{heroA.buyStr}</b></span>
+                  <span style={css("opacity:.35;")}>·</span>
+                  <span style={css("opacity:.85;")}>Na stanju&nbsp;<b>{heroA.stock}</b></span>
+                  <span style={css("opacity:.35;")}>·</span>
+                  <span className={heroA.pulse ? "z-cd-pulse" : ""} style={{ ...css("display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;"), color: heroA.ended ? "#fff" : heroA.cdCol }}>⏱ {heroA.ended ? "Aukcija završena" : heroA.cd.str}</span>
+                </div>
+                <div style={css("display:flex;align-items:center;gap:18px;")}>
+                  <button onClick={heroA.open} className="z-cta" style={css("background:var(--z-brand);color:#fff;border:none;border-radius:12px;padding:14px 30px;font:700 15px Inter;cursor:pointer;")}>Licitiraj</button>
+                  <button onClick={heroA.open} className="z-op" style={css("background:none;border:none;color:#fff;font:700 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0;")}>Više informacija →</button>
+                </div>
               </div>
-              <div style={css("background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:20px 28px;text-align:center;")}>
-                <div style={css("font:600 12px Inter;opacity:.7;margin-bottom:8px;")}>Sledeća aukcija se zatvara za</div>
-                <div style={css("display:flex;gap:10px;justify-content:center;")}>
-                  <div><div style={css("font:800 30px Inter;")}>{heroCd.h}</div><div style={css("font:500 10px Inter;opacity:.6;")}>SATI</div></div>
-                  <div style={css("font:800 30px Inter;")}>:</div>
-                  <div><div style={css("font:800 30px Inter;")}>{heroCd.m}</div><div style={css("font:500 10px Inter;opacity:.6;")}>MIN</div></div>
-                  <div style={css("font:800 30px Inter;")}>:</div>
-                  <div><div style={css("font:800 30px Inter;color:var(--z-gold);")}>{heroCd.s}</div><div style={css("font:500 10px Inter;opacity:.6;")}>SEK</div></div>
+              <div style={css("position:relative;display:flex;align-items:center;justify-content:center;min-height:260px;")}>
+                {heroA.hasImg && <img key={heroA.id} src={heroA.img} alt={heroA.name} className="z-oh-img" style={css("max-height:300px;max-width:100%;object-fit:contain;filter:drop-shadow(0 22px 44px rgba(0,0,0,0.42));")} />}
+              </div>
+            </div>
+            <button onClick={() => cycleHero(-1)} aria-label="Prethodna aukcija" className="z-op" style={css("position:absolute;left:16px;top:44%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>‹</button>
+            <button onClick={() => cycleHero(1)} aria-label="Sledeća aukcija" className="z-op" style={css("position:absolute;right:16px;top:44%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>›</button>
+            <div style={css("position:absolute;bottom:28px;left:0;right:0;display:flex;justify-content:center;gap:7px;")}>
+              {heroAuctions.map((_, i) => (<span key={i} style={{ ...css("width:7px;height:7px;border-radius:50%;"), background: i === (state.outletHero % heroAuctions.length) ? "#fff" : "rgba(255,255,255,0.35)" }} />))}
+            </div>
+          </div>
+
+          <main className="z-shell z-search" style={css("max-width:1232px;margin:0 auto;padding:0 24px 80px;")}>
+            {/* 1.2 TRAKA ZA PRETRAGU (preklapa hero) */}
+            <div className="z-outlet-search" style={css("position:relative;z-index:4;margin-top:-32px;margin-bottom:44px;background:var(--z-surface);border:1px solid var(--z-line);border-radius:16px;box-shadow:0 20px 44px -26px rgba(12,58,62,0.55);padding:12px;display:flex;align-items:center;gap:10px;")}>
+              <button className="z-sec z-outlet-scat" style={css("flex:none;display:flex;align-items:center;gap:8px;background:var(--z-surface-2);border:1px solid var(--z-line);border-radius:10px;padding:12px 15px;font:600 13px Inter;color:var(--z-ink);cursor:pointer;")}>Sve kategorije ▾</button>
+              <input placeholder="Pretraži Outlet aukcije…" style={css("flex:1;border:none;background:none;outline:none;padding:12px 8px;font:500 14px Inter;color:var(--z-ink);min-width:0;")} />
+              <button className="z-cta" style={css("flex:none;background:var(--z-brand);color:#fff;border:none;border-radius:10px;padding:13px 24px;font:700 14px Inter;cursor:pointer;")}>Pretraga</button>
+            </div>
+
+            {/* 1.3 IZDVOJENE AUKCIJE */}
+            <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;")}>
+              <h2 style={css("font:800 22px Inter;margin:0;color:var(--z-ink);")}>Izdvojene aukcije</h2>
+              <button onClick={() => patch({ outletFilter: "sve" })} className="z-op" style={css("background:none;border:none;color:var(--z-brand);font:600 14px Inter;cursor:pointer;")}>Pogledaj sve →</button>
+            </div>
+            <div className="z-grid-3 z-carousel" style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:52px;")}>
+              {heroAuctions.map((a) => <AuctionCard key={a.id} a={a} />)}
+            </div>
+
+            {/* 1.4 KATEGORIJE (bento) */}
+            <div style={css("display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;")}>
+              <h2 style={css("font:800 22px Inter;margin:0;color:var(--z-ink);")}>Kategorije</h2>
+              <button onClick={goPlp} className="z-op" style={css("background:none;border:none;color:var(--z-brand);font:600 14px Inter;cursor:pointer;")}>Pogledaj sve kategorije →</button>
+            </div>
+            <div className="z-outlet-bento" style={css("display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:172px 172px;gap:16px;margin-bottom:56px;")}>
+              {OUTLET_CATS.map((c, i) => {
+                const pos = [{ gridColumn: "1/2", gridRow: "1/3" }, { gridColumn: "2/3", gridRow: "1/2" }, { gridColumn: "3/4", gridRow: "1/2" }, { gridColumn: "2/4", gridRow: "2/3" }][i];
+                return (
+                  <button key={i} onClick={goPlp} className="z-card-flat z-outlet-tile" style={{ ...css("position:relative;border:none;border-radius:14px;overflow:hidden;cursor:pointer;padding:0;"), ...pos }}>
+                    <img src={A(c.img)} alt={c.name} style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
+                    <div style={css("position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,18,29,0.72) 6%,rgba(10,18,29,0) 58%);")} />
+                    <span style={{ ...css("position:absolute;left:16px;bottom:14px;color:#fff;font:700 15px Inter;text-align:left;"), fontSize: c.big ? "20px" : "15px" }}>{c.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* 1.5 TIP AUKCIJE + lista */}
+            <h2 style={css("font:800 22px Inter;margin:0 0 16px;color:var(--z-ink);")}>Sve aukcije</h2>
+            <div style={css("display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;")}>
+              {outletFilterMeta.map((f) => {
+                const on = state.outletFilter === f.id;
+                return (
+                  <button key={f.id} onClick={() => pickOutletFilter(f.id)} className="z-sec" style={{ ...css("border-radius:10px;padding:9px 16px;font:600 13px Inter;cursor:pointer;"), border: on ? "1px solid var(--z-brand)" : "1px solid var(--z-line)", background: on ? "var(--z-brand)" : "var(--z-surface)", color: on ? "#fff" : "var(--z-ink)" }}>{f.label}</button>
+                );
+              })}
+            </div>
+
+            {state.outletLoading ? (
+              <div className="z-grid-3 z-carousel" style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:20px;")}>
+                {[0, 1, 2].map((i) => (
+                  <div key={i} style={css("background:var(--z-surface);border:1px solid var(--z-line);border-radius:16px;overflow:hidden;")}>
+                    <div className="z-skel" style={css("height:206px;")} />
+                    <div style={css("padding:16px 18px 18px;")}>
+                      <div className="z-skel" style={css("height:12px;width:40%;border-radius:6px;margin-bottom:10px;")} />
+                      <div className="z-skel" style={css("height:16px;width:85%;border-radius:6px;margin-bottom:16px;")} />
+                      <div className="z-skel" style={css("height:36px;width:100%;border-radius:10px;")} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : outletList.length === 0 ? (
+              <div style={css("text-align:center;padding:64px 20px;background:var(--z-surface);border:1px solid var(--z-line);border-radius:18px;")}>
+                <div style={css("width:64px;height:64px;border-radius:50%;background:var(--z-brand-050);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;")}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" style={css("color:var(--z-brand);")}><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+                </div>
+                <h3 style={css("font:700 18px Inter;margin:0 0 6px;color:var(--z-ink);")}>Nema aukcija za ovaj filter</h3>
+                <p style={css("font:500 13px Inter;color:var(--z-ink-2);margin:0;")}>Probajte drugi filter ili se vratite kasnije — nove aukcije stižu svakog dana.</p>
+              </div>
+            ) : (<>
+              {/* wide varijanta — prva stavka */}
+              <button onClick={outletList[0].open} className="z-card z-outlet-wide" style={css("width:100%;text-align:left;display:flex;gap:22px;align-items:stretch;background:var(--z-surface);border:1px solid var(--z-line);border-radius:16px;overflow:hidden;cursor:pointer;padding:0;margin-bottom:20px;")}>
+                <div className="z-outlet-wide-img" style={css("flex:none;width:240px;background:var(--z-surface-2);display:flex;align-items:center;justify-content:center;padding:18px;")}>
+                  {outletList[0].hasImg && <img src={outletList[0].img} alt={outletList[0].name} style={css("max-height:180px;max-width:100%;object-fit:contain;")} />}
+                </div>
+                <div style={css("flex:1;padding:20px 22px 20px 0;display:flex;flex-direction:column;justify-content:center;")}>
+                  <div style={css("display:flex;align-items:center;gap:8px;margin-bottom:8px;")}>
+                    <span title={outletList[0].condInfo} style={css("background:var(--z-brand-050);color:var(--z-brand);font:700 10.5px Inter;padding:3px 9px;border-radius:6px;")}>{outletList[0].condLabel} ⓘ</span>
+                    <span style={css("font:500 11px Inter;color:var(--z-ink-3);")}>{outletList[0].cat}</span>
+                    <span style={css("font:600 11px Inter;color:var(--z-ink-3);margin-left:auto;")}>još {outletList[0].stock} na stanju</span>
+                  </div>
+                  <div style={css("font:800 20px Inter;color:var(--z-ink);line-height:1.25;margin-bottom:6px;")}>{outletList[0].name}</div>
+                  <p style={css("font:400 13px Inter;color:var(--z-ink-2);margin:0 0 14px;max-width:520px;")}>Provereno i spremno za isporuku. <span style={css("color:var(--z-brand);font-weight:600;")}>Pročitaj više</span></p>
+                  <div style={css("display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap;")}>
+                    <div><div style={css("font:500 11px Inter;color:var(--z-ink-2);")}>Najviša ponuda</div><div style={css("font:800 22px Inter;color:var(--z-brand-ink);font-variant-numeric:tabular-nums;")}>{outletList[0].bidStr}</div></div>
+                    <div><div style={css("font:500 11px Inter;color:var(--z-ink-2);")}>Redovna cena</div><div style={css("font:600 14px Inter;color:var(--z-ink-3);text-decoration:line-through;")}>{outletList[0].buyStr}</div></div>
+                    <div><div style={css("font:500 11px Inter;color:var(--z-ink-2);")}>Završava se</div><div className={outletList[0].pulse ? "z-cd-pulse" : ""} style={{ ...css("font:700 14px Inter;font-variant-numeric:tabular-nums;"), color: outletList[0].cdCol }}>{outletList[0].ended ? "Završeno" : outletList[0].cd.str}</div></div>
+                    <span onClick={(e) => { e.stopPropagation(); outletList[0].open(); }} className="z-cta" style={css("margin-left:auto;background:var(--z-brand);color:#fff;border:none;border-radius:10px;padding:12px 24px;font:700 13.5px Inter;cursor:pointer;")}>Licitiraj</span>
+                  </div>
+                </div>
+              </button>
+              {/* compact varijanta — ostale stavke */}
+              <div className="z-grid-3 z-carousel" style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:20px;")}>
+                {outletList.slice(1).map((a) => <AuctionCard key={a.id} a={a} />)}
+              </div>
+              <div style={css("display:flex;justify-content:center;margin-top:36px;")}>
+                <button className="z-sec" style={css("border:1.5px solid var(--z-brand);background:var(--z-surface);color:var(--z-brand);border-radius:12px;padding:13px 30px;font:600 14px Inter;cursor:pointer;")}>Učitaj još</button>
+              </div>
+            </>)}
+
+            {/* 1.6 BIZZCLUB band */}
+            <div className="z-outlet-bizz" style={css("margin-top:56px;display:grid;grid-template-columns:0.9fr 1.1fr;gap:0;border:1px solid var(--z-line);border-radius:18px;overflow:hidden;background:var(--z-surface);")}>
+              <div className="z-outlet-bizz-img" style={css("position:relative;min-height:220px;")}>
+                <img src={A("assets/znew/pink-lepota.jpg")} alt="BizzClub" style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
+              </div>
+              <div style={css("padding:34px 36px;display:flex;flex-direction:column;justify-content:center;")}>
+                <span style={css("display:inline-block;background:var(--z-brand-050);color:var(--z-brand);font:800 11px Inter;letter-spacing:0.06em;padding:5px 11px;border-radius:8px;margin-bottom:14px;width:fit-content;")}>BIZZCLUB</span>
+                <h3 style={css("font:800 26px Inter;color:var(--z-ink);margin:0 0 10px;line-height:1.15;")}>Članovi plaćaju još manje</h3>
+                <p style={css("font:400 14px Inter;color:var(--z-ink-2);margin:0 0 20px;max-width:420px;line-height:1.5;")}>Uz BizzClub članstvo ostvarujete dodatni popust na „Kupi odmah" cene i prioritet na Outlet aukcijama.</p>
+                <div style={css("display:flex;align-items:center;gap:16px;")}>
+                  <button onClick={goBizz} className="z-cta" style={css("background:var(--z-brand);color:#fff;border:none;border-radius:12px;padding:13px 26px;font:700 14px Inter;cursor:pointer;")}>Učlanite se</button>
+                  <button onClick={goBizz} className="z-op" style={css("background:none;border:none;color:var(--z-brand);font:700 13px Inter;cursor:pointer;")}>Saznajte više →</button>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="z-shell" style={css("max-width:1280px;margin:0 auto;padding:28px 24px 0;")}>
-            <div style={css("display:flex;gap:10px;margin-bottom:24px;")}>
-              {outletFilters.map((f, i) => (
-                <button key={i} onClick={f.pick} style={{ ...css("border-radius:10px;padding:9px 16px;font:600 13px Inter;cursor:pointer;"), border: "1px solid " + f.border, background: f.bg, color: f.fg }}>{f.label}</button>
-              ))}
+          </main>
+        </>) : (
+          /* ============ OUTLET PDP (aukcija) ============ */
+          <main className="z-shell z-search" style={css("max-width:1232px;margin:0 auto;padding:22px 24px 80px;")}>
+            <div style={css("display:flex;align-items:center;gap:14px;margin-bottom:18px;")}>
+              <button onClick={backToOutlet} className="z-op" style={css("display:flex;align-items:center;gap:6px;border:none;background:none;cursor:pointer;font:600 13px Inter;color:var(--z-brand);padding:0;")}>← Nazad na Outlet</button>
+              <span style={css("font:500 12.5px Inter;color:var(--z-ink-2);")}>Početna&nbsp;/&nbsp;Outlet&nbsp;/&nbsp;{pdpA.cat}&nbsp;/&nbsp;<span style={css("color:var(--z-ink);font-weight:600;")}>{pdpA.name}</span></span>
             </div>
-            <div className="z-grid-3 z-carousel" style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:20px;")}>
-              {auctions.map((a, i) => (
-                <div key={i} className="z-card-flat" style={css("background:var(--z-surface);border:1px solid var(--z-line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;")}>
-                  <div style={css("position:relative;padding:20px;background:var(--z-surface-2);")}>
-                    <span style={css("position:absolute;top:14px;left:14px;background:var(--z-deep);color:#fff;font:700 11px Inter;padding:5px 10px;border-radius:8px;")}>⏱ {remain(a.timeLeft).str}</span>
-                    <span style={{ ...css("position:absolute;top:14px;right:14px;font:600 11px Inter;padding:5px 10px;border-radius:8px;"), background: a.condBg, color: a.condFg }}>{a.condition}</span>
-                    <div style={css("height:180px;display:flex;align-items:center;justify-content:center;margin-top:8px;")}>
-                      {a.hasImg
-                        ? <img src={a.img} style={css("max-height:180px;max-width:100%;object-fit:contain;")} />
-                        : <div style={css("width:100%;height:180px;border-radius:12px;background:repeating-linear-gradient(135deg,var(--z-surface-2),var(--z-surface-2) 9px,var(--z-surface-2) 9px,var(--z-surface-2) 18px);display:flex;align-items:center;justify-content:center;")}><span style={css("font:600 11px ui-monospace,monospace;color:var(--z-ink-3);")}>{a.ph}</span></div>}
-                    </div>
-                  </div>
-                  <div style={css("padding:18px;display:flex;flex-direction:column;flex:1;")}>
-                    <div style={css("font:600 11px Inter;color:var(--z-brand);margin-bottom:5px;")}>{a.cat}</div>
-                    <div style={css("font:600 15px Inter;color:var(--z-ink);margin-bottom:14px;line-height:1.3;min-height:40px;")}>{a.name}</div>
-                    <div style={css("display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;")}>
-                      <div><div style={css("font:500 11px Inter;color:var(--z-ink-2);")}>Trenutna licitacija</div><div style={css("font:800 22px Inter;color:var(--z-brand-ink);")}>{a.bidStr}</div></div>
-                      <div style={css("text-align:right;")}><div style={css("font:500 11px Inter;color:var(--z-ink-2);")}>Ušteda</div><div style={css("font:700 14px Inter;color:var(--z-success);")}>{a.savePct}</div></div>
-                    </div>
-                    <button className="z-cta" style={css("width:100%;background:var(--z-deep);color:#fff;border:none;border-radius:11px;padding:12px;font:700 13.5px Inter;cursor:pointer;margin-bottom:8px;")}>Licitirajte</button>
-                    <button className="z-buynow" style={css("width:100%;background:var(--z-surface);border:1.5px solid var(--z-gold);color:var(--z-gold-ink);border-radius:11px;padding:11px;font:700 13px Inter;cursor:pointer;")}>Kupite odmah · {a.buyStr}</button>
-                  </div>
+            <div className="z-pdp-main" style={css("display:grid;grid-template-columns:1.1fr 1fr;gap:40px;margin-bottom:40px;")}>
+              {/* galerija */}
+              <div style={css("display:flex;gap:16px;")}>
+                <div style={css("display:flex;flex-direction:column;gap:12px;flex:none;")}>
+                  {[0, 1, 2, 3].map((i) => (
+                    <button key={i} style={{ ...css("width:64px;height:64px;border-radius:12px;background:var(--z-surface);cursor:pointer;padding:6px;overflow:hidden;"), border: i === 0 ? "2px solid var(--z-brand)" : "2px solid var(--z-line)" }}>
+                      {pdpA.hasImg && <img src={pdpA.img} alt="" style={css("width:100%;height:100%;object-fit:contain;")} />}
+                    </button>
+                  ))}
                 </div>
-              ))}
+                <div className="z-pdp-stage" style={css("position:relative;flex:1;background:var(--z-surface-2);border:1px solid var(--z-line);border-radius:20px;display:flex;align-items:center;justify-content:center;padding:36px;min-height:420px;")}>
+                  <span style={css("position:absolute;top:18px;left:18px;background:var(--z-brand-050);color:var(--z-brand);font:700 11px Inter;padding:5px 11px;border-radius:8px;")}>{pdpA.condLabel}</span>
+                  {pdpA.hasImg && <img src={pdpA.img} alt={pdpA.name} style={css("max-height:360px;max-width:100%;object-fit:contain;")} />}
+                  <button aria-label="Prethodna" className="z-op" style={css("position:absolute;left:16px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:1px solid var(--z-line);background:var(--z-surface);color:var(--z-ink);font-size:18px;cursor:pointer;")}>‹</button>
+                  <button aria-label="Sledeća" className="z-op" style={css("position:absolute;right:16px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:1px solid var(--z-line);background:var(--z-surface);color:var(--z-ink);font-size:18px;cursor:pointer;")}>›</button>
+                </div>
+              </div>
+              {/* blok ponude */}
+              <div>
+                <div style={css("display:inline-block;background:var(--z-brand-050);color:var(--z-brand);font:600 12px Inter;padding:5px 11px;border-radius:8px;margin-bottom:14px;")}>{pdpA.cat}</div>
+                <h1 className="z-h1" style={css("font:800 30px Inter;margin:0 0 10px;line-height:1.15;color:var(--z-ink);")}>{pdpA.name}</h1>
+                <button onClick={pdpA.wish} className="z-op" style={css("display:flex;align-items:center;gap:9px;border:none;background:none;cursor:pointer;padding:0;margin-bottom:22px;font:500 13px Inter;color:var(--z-ink-2);")}>
+                  {heart(pdpA.heartFill, pdpA.heartStroke, 18)}Dodaj u listu želja · {pdpA.bidsCount + 13} osoba želi ovaj proizvod
+                </button>
+
+                <div style={css("background:var(--z-surface-2);border:1px solid var(--z-line);border-radius:18px;padding:22px;margin-bottom:18px;")}>
+                  <div style={css("display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;")}>
+                    <div>
+                      <div style={css("font:500 12px Inter;color:var(--z-ink-2);margin-bottom:2px;")}>Najviša ponuda · {pdpA.bidsCount} ponuda</div>
+                      <div style={css("font:800 32px Inter;color:var(--z-brand-ink);font-variant-numeric:tabular-nums;")}>{pdpA.bidStr}</div>
+                    </div>
+                    {!pdpA.reserveMet && !pdpA.ended && <span style={css("font:600 11px Inter;color:var(--z-ink-3);text-align:right;max-width:120px;")}>Rezervna cena nije dostignuta</span>}
+                  </div>
+                  {pdpA.mine && pdpA.mine.outbid && !pdpA.ended && (
+                    <div style={css("background:var(--z-surface);border:1px solid var(--z-line);border-radius:10px;padding:9px 12px;font:600 12px Inter;color:var(--z-danger);margin-bottom:14px;")}>Vaša ponuda ({pdpA.mineStr}) je nadmašena</div>
+                  )}
+                  {pdpA.ended ? (
+                    <button disabled style={css("width:100%;background:var(--z-surface);color:var(--z-ink-3);border:1px solid var(--z-line);border-radius:12px;height:50px;font:700 15px Inter;cursor:not-allowed;")}>Aukcija završena</button>
+                  ) : (<>
+                    <div style={css("font:600 12px Inter;color:var(--z-ink-2);margin-bottom:6px;")}>Vaša ponuda</div>
+                    <div style={css("display:flex;gap:10px;margin-bottom:12px;")}>
+                      <input value={state.outletBid} onChange={(e) => patch({ outletBid: e.target.value.replace(/[^0-9]/g, "") })} inputMode="numeric" placeholder="Iznos veći od najviše ponude"
+                        style={css("flex:1;border:1.5px solid var(--z-line);background:var(--z-surface);border-radius:12px;padding:13px 14px;font:600 14px Inter;color:var(--z-ink);outline:none;min-width:0;")} />
+                      <button className="z-cta" style={css("flex:none;background:var(--z-brand);color:#fff;border:none;border-radius:12px;padding:0 22px;font:700 14px Inter;cursor:pointer;")}>Pošalji ponudu</button>
+                    </div>
+                    <button className="z-buynow" style={css("width:100%;background:var(--z-surface);border:1.5px solid var(--z-gold);color:var(--z-gold);border-radius:12px;height:48px;font:700 14px Inter;cursor:pointer;")}>Ili Kupi odmah · {pdpA.buyStr}</button>
+                  </>)}
+                </div>
+
+                {/* info traka */}
+                <div style={css("display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;")}>
+                  <div style={css("background:var(--z-surface);border:1px solid var(--z-line);border-radius:12px;padding:12px 14px;")}><div style={css("font:500 11px Inter;color:var(--z-ink-2);margin-bottom:3px;")}>Na stanju</div><div style={css("font:700 14px Inter;color:var(--z-ink);")}>{pdpA.stock}</div></div>
+                  <div title={pdpA.condInfo} style={css("background:var(--z-surface);border:1px solid var(--z-line);border-radius:12px;padding:12px 14px;cursor:help;")}><div style={css("font:500 11px Inter;color:var(--z-ink-2);margin-bottom:3px;")}>Outlet tip</div><div style={css("font:700 14px Inter;color:var(--z-ink);")}>{pdpA.condLabel} ⓘ</div></div>
+                  <div style={css("background:var(--z-surface);border:1px solid var(--z-line);border-radius:12px;padding:12px 14px;")}><div style={css("font:500 11px Inter;color:var(--z-ink-2);margin-bottom:3px;")}>Aukcija se završava</div><div className={pdpA.pulse ? "z-cd-pulse" : ""} style={{ ...css("font:700 14px Inter;font-variant-numeric:tabular-nums;"), color: pdpA.cdCol }}>{pdpA.ended ? "Završeno" : pdpA.cd.str}</div></div>
+                </div>
+
+                {/* BizzClub band */}
+                <div style={css("display:flex;align-items:center;gap:14px;background:var(--z-brand-050);border-radius:14px;padding:14px 16px;")}>
+                  <div style={css("flex:1;")}><div style={css("font:800 13px Inter;color:var(--z-brand);margin-bottom:2px;")}>Postani BizzClub član</div><div style={css("font:500 12px Inter;color:var(--z-ink-2);")}>Dodatne pogodnosti i popust na Outlet ponude.</div></div>
+                  <button onClick={goBizz} className="z-op" style={css("flex:none;background:none;border:none;color:var(--z-brand);font:700 13px Inter;cursor:pointer;")}>Učlani se →</button>
+                </div>
+              </div>
             </div>
-          </div>
-        </main>
-      )}
+
+            {/* tabovi */}
+            <div style={css("max-width:840px;")}>
+              <div style={css("display:flex;gap:8px;border-bottom:1px solid var(--z-line);margin-bottom:20px;")}>
+                {[{ id: "opis", label: "Opis proizvoda" }, { id: "spec", label: "Specifikacija" }, { id: "dostava", label: "Dostava" }].map((t) => {
+                  const on = state.outletTab === t.id;
+                  return (
+                    <button key={t.id} onClick={() => patch({ outletTab: t.id })} className="z-step" style={{ ...css("border:none;cursor:pointer;font:700 13.5px Inter;padding:11px 18px;border-radius:10px 10px 0 0;"), background: on ? "var(--z-brand-strong)" : "transparent", color: on ? "#fff" : "var(--z-ink-2)" }}>{t.label}</button>
+                  );
+                })}
+              </div>
+              {state.outletTab === "opis" && (
+                <p style={css("font:400 14.5px Inter;color:var(--z-ink-2);line-height:1.65;margin:0;max-width:680px;")}>{pdpA.name} iz ZEUS Outlet ponude — {pdpA.condLabel.toLowerCase()}, provereno i testirano. Idealna prilika da do vrhunskog proizvoda dođete po znatno nižoj ceni kroz aukciju ili opciju „Kupi odmah". Uz svaki Outlet proizvod ide garancija i podrška kao za nove artikle.</p>
+              )}
+              {state.outletTab === "spec" && (
+                <div style={css("max-width:520px;")}>
+                  {[["Kategorija", pdpA.cat], ["Stanje", pdpA.condLabel], ["Na stanju", String(pdpA.stock) + " kom"], ["Broj ponuda", String(pdpA.bidsCount)], ["Garancija", "12 meseci"]].map((r, i) => (
+                    <div key={i} style={{ ...css("display:flex;justify-content:space-between;padding:10px 14px;border-radius:8px;font:500 13.5px Inter;"), background: i % 2 ? "var(--z-surface-2)" : "var(--z-surface)" }}><span style={css("color:var(--z-ink-2);")}>{r[0]}</span><span style={css("color:var(--z-ink);font-weight:600;")}>{r[1]}</span></div>
+                  ))}
+                </div>
+              )}
+              {state.outletTab === "dostava" && (
+                <p style={css("font:400 14.5px Inter;color:var(--z-ink-2);line-height:1.65;margin:0;max-width:680px;")}>Besplatna isporuka na teritoriji Srbije, dostava 2–4 radna dana. Za Outlet artikle važi ista politika povraćaja kao za nove proizvode (14 dana). Plaćanje karticom, pouzećem ili preko naloga za prenos.</p>
+              )}
+            </div>
+          </main>
+        )}
+      </>)}
 
       {/* ============ BIZZCLUB ============ */}
       {scr === "bizz" && (

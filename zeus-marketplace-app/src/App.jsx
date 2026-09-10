@@ -85,7 +85,7 @@ const AUCTIONS = [
 const byAuction = (id) => AUCTIONS.find((a) => a.id === id);
 // Bento kategorije (postojeće slike): 1 velika + 3 male.
 const OUTLET_CATS = [
-  { name: "Prečišćena voda", img: "assets/znew/preciscena-voda.png", big: true },
+  { name: "Prečišćena voda", img: "assets/znew/promo-voda.png", big: true },
   { name: "Bioptron terapija", img: "assets/znew/bioptron-eye.png" },
   { name: "Zdravo kuvanje", img: "assets/znew/plates.jpg" },
   { name: "Pametne naočare", img: "assets/home/hyperlight.png" },
@@ -1379,7 +1379,7 @@ export default function App() {
               {OUTLET_CATS.map((c, i) => {
                 const pos = [{ gridColumn: "1/2", gridRow: "1/3" }, { gridColumn: "2/3", gridRow: "1/2" }, { gridColumn: "3/4", gridRow: "1/2" }, { gridColumn: "2/4", gridRow: "2/3" }][i];
                 return (
-                  <button key={i} onClick={goPlp} className="z-card-flat z-outlet-tile" style={{ ...css("position:relative;border:none;border-radius:14px;overflow:hidden;cursor:pointer;padding:0;"), ...pos }}>
+                  <button key={i} onClick={goPlp} className="z-card-flat z-outlet-tile" style={{ ...css("position:relative;border:none;border-radius:14px;overflow:hidden;cursor:pointer;padding:0;background:var(--z-surface-2);"), ...pos }}>
                     <img src={A(c.img)} alt={c.name} style={css("position:absolute;inset:0;width:100%;height:100%;object-fit:cover;")} />
                     <div style={css("position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,18,29,0.72) 6%,rgba(10,18,29,0) 58%);")} />
                     <span style={{ ...css("position:absolute;left:16px;bottom:14px;color:#fff;font:700 15px Inter;text-align:left;"), fontSize: c.big ? "20px" : "15px" }}>{c.name}</span>

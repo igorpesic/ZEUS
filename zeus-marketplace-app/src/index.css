@@ -2,14 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ════════════════════════════════════════════════════════════════════════
+   DESIGN TOKENI — svetla tema na :root, tamna na html[data-theme="dark"].
+   Podrazumevano SVETLA (i na dark OS-u). Svaka boja ide preko tokena.
+   ════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Neutralci (blaga hladna nota) */
+  --z-bg:        #F4F6F8;
+  --z-surface:   #FFFFFF;
+  --z-surface-2: #FBFCFE;
+  --z-ink:       #15202B;
+  --z-ink-2:     #5B6573;
+  --z-ink-3:     #94A0AE;
+  --z-line:        rgba(15,32,43,0.08);
+  --z-line-strong: rgba(15,32,43,0.14);
+
+  /* Brend — tirkiz (primarni akcenat) */
+  --z-brand:        #184A4F;
+  --z-brand-strong: #0F3438;
+  --z-brand-ink:    #1E7A72;
+  --z-brand-050:    #E7F1F0;
+  --z-deep:         #0C3A3E;
+
+  /* Zlato — nasleđe (sekundarni akcenat) */
+  --z-gold:      #B0871F;
+  --z-gold-ink:  #0F3438;
+  --z-gold-050:  #F5EDD8;
+
+  /* Status (odvojeno od akcenata) */
+  --z-success:   #1F8A5B;
+  --z-danger:    #C2424F;
+  --z-danger-price: #B23A2F;
+
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  --z-bg:        #0A121D;
+  --z-surface:   #101C2B;
+  --z-surface-2: #0D1826;
+  --z-ink:       #E9EEF4;
+  --z-ink-2:     #A6B6C8;
+  --z-ink-3:     #71829A;
+  --z-line:        rgba(255,255,255,0.10);
+  --z-line-strong: rgba(255,255,255,0.16);
+
+  --z-brand:        #3E9B95;
+  --z-brand-strong: #63BDB6;
+  --z-brand-ink:    #63BDB6;
+  --z-brand-050:    #0F2422;
+  --z-deep:         #0A2E30;
+
+  --z-gold:      #D6B25C;
+  --z-gold-ink:  #0F3438;
+  --z-gold-050:  #241E10;
+
+  --z-success:   #7CC49B;
+  --z-danger:    #E58577;
+  --z-danger-price: #E58577;
+
+  color-scheme: dark;
+}
+
 html, body, #root { margin: 0; padding: 0; height: 100%; }
 * { box-sizing: border-box; }
 body {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   letter-spacing: -0.01em;
+  background: var(--z-bg);
+  color: var(--z-ink);
 }
-::selection { background: #CFE7E4; }
+::selection { background: var(--z-brand-050); }
+
+/* ── Light / Dark: logo swap + ikonica prekidača teme ── */
+html[data-theme="dark"] .z-logo-light { display: none !important; }
+html:not([data-theme="dark"]) .z-logo-dark { display: none !important; }
+html[data-theme="dark"] .z-sun { display: none !important; }
+html:not([data-theme="dark"]) .z-moon { display: none !important; }
 
 @keyframes zspin { to { transform: rotate(360deg); } }
 @keyframes zpulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
@@ -26,30 +96,30 @@ body {
 .z-op:hover { opacity: .75; }
 
 .z-link { transition: color .15s; }
-.z-link:hover { color: #184A4F !important; }
+.z-link:hover { color: var(--z-brand) !important; }
 
 .z-cta { transition: background .15s; }
-.z-cta:hover { background: #184A4F !important; }
+.z-cta:hover { background: var(--z-brand) !important; }
 
 .z-amber { transition: filter .15s; }
 .z-amber:hover { filter: brightness(0.96); }
 
 .z-sec { transition: background .15s, border-color .15s; }
-.z-sec:hover { background: #E7F1F0 !important; }
+.z-sec:hover { background: var(--z-brand-050) !important; }
 
 .z-allcat { transition: background .15s; }
-.z-allcat:hover { background: #0A2E30 !important; }
+.z-allcat:hover { background: var(--z-deep) !important; }
 
 .z-step { transition: background .15s; }
-.z-step:hover { background: #E7F1F0 !important; }
+.z-step:hover { background: var(--z-brand-050) !important; }
 
 .z-buynow { transition: background .15s; }
-.z-buynow:hover { background: #F5EDD8 !important; }
+.z-buynow:hover { background: var(--z-gold-050) !important; }
 
 .z-white { transition: background .15s; }
-.z-white:hover { background: #fff !important; }
+.z-white:hover { background: var(--z-surface) !important; }
 
-.z-sky:hover { background: #D7ECEA !important; }
+.z-sky:hover { background: var(--z-brand-050) !important; }
 
 .z-scale { transition: transform .15s; }
 .z-scale:hover { transform: scale(1.04); }
@@ -65,11 +135,11 @@ body {
 
 /* ── MEGA MENU ── */
 .z-mega-card { transition: border-color .15s, box-shadow .15s, transform .15s; }
-.z-mega-card:hover { border-color: #184A4F !important; box-shadow: 0 14px 30px -20px rgba(24,74,79,0.45); transform: translateY(-2px); }
+.z-mega-card:hover { border-color: var(--z-brand) !important; box-shadow: 0 14px 30px -20px rgba(24,74,79,0.45); transform: translateY(-2px); }
 .z-mega-tab { transition: background .15s, border-color .15s, color .15s; }
-.z-mega-tab:hover { border-color: #184A4F !important; color: #184A4F !important; }
+.z-mega-tab:hover { border-color: var(--z-brand) !important; color: var(--z-brand) !important; }
 .z-mega-sub { transition: color .12s; }
-.z-mega-card:hover .z-mega-sub { color: #15202B; }
+.z-mega-card:hover .z-mega-sub { color: var(--z-ink); }
 
 /* ════════════════════════════════════════════════════════════════════════
    RESPONSIVE — mobile / tablet overrides
@@ -115,7 +185,7 @@ img, video { max-width: 100%; }
 
   /* "Priprema hrane": show the whole pots (contain), shifted right onto a
      soft-gray panel so the heading can sit centered on the left */
-  .z-cb-cook { background: #F1F1EF !important; align-items: center !important; }
+  .z-cb-cook { background: var(--z-surface-2) !important; align-items: center !important; }
   .z-cb-cook-img { object-fit: contain !important; object-position: 96% 50% !important; }
 
   /* ── generic grids ── */

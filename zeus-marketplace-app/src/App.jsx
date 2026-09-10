@@ -1327,7 +1327,7 @@ export default function App() {
 
         {state.outletView === "list" ? (<>
           {/* 1.1 HERO — istaknuta aukcija */}
-          <div className="z-outlet-hero" style={css("position:relative;background:radial-gradient(58% 78% at 76% 46%, #ffffff 0%, rgba(255,255,255,0.75) 30%, rgba(255,255,255,0) 66%), linear-gradient(135deg,var(--z-deep),var(--z-brand-strong));color:#fff;overflow:hidden;")}>
+          <div className="z-outlet-hero" style={css("position:relative;background:linear-gradient(90deg,var(--z-deep) 0%,var(--z-deep) 38%,#ffffff 70%,#ffffff 100%);color:#fff;overflow:hidden;")}>
             <div className="z-oh-inner" style={css("max-width:1232px;margin:0 auto;padding:56px 64px 104px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:32px;align-items:center;min-height:440px;")}>
               <div>
                 <div style={css("display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);color:#fff;font:700 11px Inter;letter-spacing:0.06em;padding:6px 12px;border-radius:8px;margin-bottom:16px;")}>⚡ IZDVOJENA AUKCIJA</div>
@@ -1352,7 +1352,7 @@ export default function App() {
             <button onClick={() => cycleHero(-1)} aria-label="Prethodna aukcija" className="z-op" style={css("position:absolute;left:16px;top:50%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--z-line);background:var(--z-surface);color:var(--z-ink);box-shadow:0 2px 10px rgba(0,0,0,0.14);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>‹</button>
             <button onClick={() => cycleHero(1)} aria-label="Sledeća aukcija" className="z-op" style={css("position:absolute;right:16px;top:50%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--z-line);background:var(--z-surface);color:var(--z-ink);box-shadow:0 2px 10px rgba(0,0,0,0.14);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>›</button>
             <div style={css("position:absolute;bottom:66px;left:0;right:0;display:flex;justify-content:center;gap:7px;z-index:3;")}>
-              {heroAuctions.map((_, i) => (<span key={i} style={{ ...css("width:7px;height:7px;border-radius:50%;"), background: i === (state.outletHero % heroAuctions.length) ? "#fff" : "rgba(255,255,255,0.35)" }} />))}
+              {heroAuctions.map((_, i) => (<span key={i} style={{ ...css("width:7px;height:7px;border-radius:50%;"), background: i === (state.outletHero % heroAuctions.length) ? "var(--z-brand)" : "var(--z-ink-3)" }} />))}
             </div>
           </div>
 

@@ -1327,13 +1327,13 @@ export default function App() {
 
         {state.outletView === "list" ? (<>
           {/* 1.1 HERO — istaknuta aukcija */}
-          <div className="z-outlet-hero" style={css("position:relative;background:linear-gradient(90deg,var(--z-deep) 0%,var(--z-deep) 38%,#ffffff 70%,#ffffff 100%);color:#fff;overflow:hidden;")}>
-            <div className="z-oh-inner" style={css("max-width:1232px;margin:0 auto;padding:56px 64px 104px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:32px;align-items:center;min-height:440px;")}>
-              <div>
-                <div style={css("display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);color:#fff;font:700 11px Inter;letter-spacing:0.06em;padding:6px 12px;border-radius:8px;margin-bottom:16px;")}>⚡ IZDVOJENA AUKCIJA</div>
-                <h1 className="z-h1" style={{ ...css("font:800 40px Inter;line-height:1.08;margin:0 0 10px;") }}>{heroA.name}</h1>
-                <p style={css("font:400 15px Inter;opacity:.82;margin:0 0 18px;max-width:440px;")}>Stanje: {heroA.condLabel}. Licitirajte ili kupite odmah po Outlet ceni — provereno i sa garancijom.</p>
-                <div style={css("display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:24px;font:600 13px Inter;")}>
+          <div className="z-outlet-hero" style={css("position:relative;background:linear-gradient(90deg,var(--z-deep) 0%,var(--z-deep) 24%,#ffffff 50%,#ffffff 100%);color:#fff;overflow:hidden;")}>
+            <div className="z-oh-inner" style={css("max-width:1232px;margin:0 auto;padding:40px 64px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;height:480px;")}>
+              <div style={css("text-shadow:0 1px 16px rgba(10,18,29,0.55);position:relative;z-index:2;")}>
+                <div style={css("display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.14);color:#fff;font:700 11px Inter;letter-spacing:0.06em;padding:6px 12px;border-radius:8px;margin-bottom:16px;text-shadow:none;")}>⚡ IZDVOJENA AUKCIJA</div>
+                <h1 className="z-h1" style={css("font:800 36px/1.08 Inter;margin:0 0 10px;max-width:360px;")}>{heroA.name}</h1>
+                <p style={css("font:400 15px Inter;opacity:.92;margin:0 0 18px;max-width:320px;")}>Stanje: {heroA.condLabel}. Licitirajte ili kupite odmah po Outlet ceni — provereno i sa garancijom.</p>
+                <div style={css("display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;margin-bottom:24px;max-width:360px;font:600 13px Inter;")}>
                   <span style={css("opacity:.85;")}>Redovna cena&nbsp;<b>{heroA.buyStr}</b></span>
                   <span style={css("opacity:.35;")}>·</span>
                   <span style={css("opacity:.85;")}>Na stanju&nbsp;<b>{heroA.stock}</b></span>
@@ -1346,12 +1346,12 @@ export default function App() {
                 </div>
               </div>
               <div style={css("position:relative;display:flex;align-items:center;justify-content:center;min-height:260px;")}>
-                {heroA.hasImg && <img key={heroA.id} src={heroA.img} alt={heroA.name} className="z-oh-img" style={css("max-height:340px;max-width:100%;object-fit:contain;filter:drop-shadow(0 24px 48px rgba(0,0,0,0.45));")} />}
+                {heroA.hasImg && <img key={heroA.id} src={heroA.img} alt={heroA.name} className="z-oh-img" style={css("max-height:300px;max-width:100%;object-fit:contain;filter:drop-shadow(0 24px 48px rgba(0,0,0,0.28));")} />}
               </div>
             </div>
             <button onClick={() => cycleHero(-1)} aria-label="Prethodna aukcija" className="z-op" style={css("position:absolute;left:16px;top:50%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--z-line);background:var(--z-surface);color:var(--z-ink);box-shadow:0 2px 10px rgba(0,0,0,0.14);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>‹</button>
             <button onClick={() => cycleHero(1)} aria-label="Sledeća aukcija" className="z-op" style={css("position:absolute;right:16px;top:50%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--z-line);background:var(--z-surface);color:var(--z-ink);box-shadow:0 2px 10px rgba(0,0,0,0.14);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;")}>›</button>
-            <div style={css("position:absolute;bottom:66px;left:0;right:0;display:flex;justify-content:center;gap:7px;z-index:3;")}>
+            <div style={css("position:absolute;bottom:44px;left:0;right:0;display:flex;justify-content:center;gap:7px;z-index:3;")}>
               {heroAuctions.map((_, i) => (<span key={i} style={{ ...css("width:7px;height:7px;border-radius:50%;"), background: i === (state.outletHero % heroAuctions.length) ? "var(--z-brand)" : "var(--z-ink-3)" }} />))}
             </div>
           </div>
@@ -1501,7 +1501,7 @@ export default function App() {
               {/* blok ponude */}
               <div>
                 <div style={css("display:inline-block;background:var(--z-brand-050);color:var(--z-brand);font:600 12px Inter;padding:5px 11px;border-radius:8px;margin-bottom:14px;")}>{pdpA.cat}</div>
-                <h1 className="z-h1" style={css("font:800 30px Inter;margin:0 0 10px;line-height:1.15;color:var(--z-ink);")}>{pdpA.name}</h1>
+                <h1 className="z-h1" style={css("font:800 30px/1.15 Inter;margin:0 0 10px;color:var(--z-ink);")}>{pdpA.name}</h1>
                 <button onClick={pdpA.wish} className="z-op" style={css("display:flex;align-items:center;gap:9px;border:none;background:none;cursor:pointer;padding:0;margin-bottom:22px;font:500 13px Inter;color:var(--z-ink-2);")}>
                   {heart(pdpA.heartFill, pdpA.heartStroke, 18)}Dodaj u listu želja · {pdpA.bidsCount + 13} osoba želi ovaj proizvod
                 </button>
